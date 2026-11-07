@@ -5,6 +5,7 @@ use sqlx::sqlite::SqliteConnectOptions;
 
 #[tokio::main]
 async fn main() -> Result<(), std::io::Error> {
+  #[cfg(feature = "napi")]
   napi_build::setup();
 
   // always start with a fresh database to have latest db schema

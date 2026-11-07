@@ -18,7 +18,7 @@ resolver = "3"
   affine_common = { path = "./packages/common/native" }
   affine_doc_loader = "0.1.11"
   affine_importer = "0.1.4"
-  affine_nbstore = { path = "./packages/frontend/native/nbstore" }
+  affine_nbstore = { path = "./packages/frontend/native/nbstore", default-features = false }
   affine_preview = { version = "0.1.0", default-features = false }
   anyhow = "1"
   assert-json-diff = "2.0"

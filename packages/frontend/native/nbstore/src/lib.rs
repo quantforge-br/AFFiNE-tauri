@@ -1,3 +1,5 @@
+#[cfg(not(any(feature = "napi", feature = "use-as-lib")))]
+compile_error!("enable napi for Node bindings or use-as-lib for the standalone Rust library");
 pub mod blob;
 pub mod blob_sync;
 pub mod doc;
@@ -11,6 +13,7 @@ pub mod storage;
 #[cfg(not(feature = "use-as-lib"))]
 use affine_common::napi_utils::to_napi_error;
 use chrono::NaiveDateTime;
+#[cfg(not(feature = "use-as-lib"))]
 use napi::bindgen_prelude::*;
 #[cfg(not(feature = "use-as-lib"))]
 use napi_derive::napi;
@@ -29,7 +32,10 @@ impl From<error::Error> for napi::Error {
   }
 }
 
+#[cfg(not(feature = "use-as-lib"))]
 pub type Data = Uint8Array;
+#[cfg(feature = "use-as-lib")]
+pub type Data = Vec<u8>;
 
 #[cfg_attr(not(feature = "use-as-lib"), napi(object))]
 pub struct DocUpdate {

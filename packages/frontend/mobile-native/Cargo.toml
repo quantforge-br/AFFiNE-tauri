@@ -18,7 +18,7 @@ use-as-lib = ["affine_nbstore/use-as-lib"]
 
 [dependencies]
 affine_common  = { workspace = true, features = ["hashcash"] }
-affine_nbstore = { workspace = true }
+affine_nbstore = { workspace = true, default-features = false }
 anyhow         = { workspace = true }
 base64-simd    = { workspace = true }
 chrono         = { workspace = true }

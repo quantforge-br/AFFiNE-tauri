@@ -8,19 +8,19 @@ version = "0.0.0"
 crate-type = ["cdylib", "rlib"]
 
 [features]
-default    = []
-napi       = ["affine_common/napi"]
+default    = ["napi"]
+napi       = ["affine_common/napi", "dep:napi", "dep:napi-derive", "dep:napi-build"]
 use-as-lib = []
 
 [dependencies]
-affine_common = { workspace = true, features = ["napi"] }
+affine_common = { workspace = true, optional = true }
 affine_doc_loader = { workspace = true }
 affine_schema = { path = "../schema" }
 bincode = { version = "2.0.1", features = ["serde"] }
 chrono = { workspace = true }
 memory-indexer = { workspace = true }
-napi = { workspace = true }
-napi-derive = { workspace = true }
+napi = { workspace = true, optional = true }
+napi-derive = { workspace = true, optional = true }
 serde = { workspace = true, features = ["derive"] }
 sqlx = { workspace = true, default-features = false, features = [
   "chrono",
@@ -40,7 +40,7 @@ uniffi = { workspace = true }
 [build-dependencies]
 affine_schema = { path = "../schema" }
 dotenvy = { workspace = true }
-napi-build = { workspace = true }
+napi-build = { workspace = true, optional = true }
 sqlx = { workspace = true, default-features = false, features = [
   "chrono",
   "macros",

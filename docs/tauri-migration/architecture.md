@@ -36,7 +36,7 @@ Popups and onboarding/theme-editor windows can be separate explicitly registered
 
 A trusted UI bridge brokers Web Worker requests to Rust. Ordinary Web Workers do not have Tauri IPC access. Shared storage/nbstore workers must survive tab switches, report errors and dispose ports/tasks safely. Preserve the existing StoreManager/CRDT operation semantics; do not replace native SQLite with IndexedDB as a final fallback.
 
-The Rust storage pool uses the existing v2 schema/migrations and native indexer. Source review and standalone Rust tests show reuse is feasible, but use-as-lib still exposes napi Uint8Array and unconditionally enables affine_common/napi. Clean feature isolation and explicit wire DTOs are prerequisites for production integration.
+The Rust storage pool uses the existing v2 schema/migrations and native indexer. The standalone use-as-lib path now uses owned Vec<u8> and optional N-API dependencies, with a dependency audit proving no N-API crates in the standalone/mobile graphs. Linux checks cover 31 library tests, a byte/CRDT SQLite reopen integration test, 33 binding-mode tests, eight mobile tests and the 122-test Electron reference suite after rebuilding its actual binding. See evidence/linux-rust-storage.json. Explicit wire DTOs, host authorization, cold-process restart and production migration tests remain prerequisites for Tauri integration.
 
 Workspace data belongs in a new app-owned location by default. Import from the reference only after consistent backup and validation, including WAL/SHM handling and restart/interruption recovery. Never write to the original profile merely because an app ID matches.
 

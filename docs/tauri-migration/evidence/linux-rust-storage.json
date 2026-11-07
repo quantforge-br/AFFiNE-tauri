@@ -1,0 +1,49 @@
+{
+  "referenceRevision": "ef401b20cb2a5960278a8e7ab2c0e96d8f759aeb",
+  "scope": "Rust storage library feature isolation; not production Tauri storage parity",
+  "platform": "linux",
+  "architecture": "x64",
+  "rust": "1.97.1",
+  "checks": [
+    {
+      "command": "cargo test -p affine_nbstore --no-default-features --features use-as-lib --locked --lib",
+      "passed": 31,
+      "failed": 0
+    },
+    {
+      "command": "cargo test -p affine_nbstore --no-default-features --features use-as-lib --locked --test rust_library",
+      "passed": 1,
+      "failed": 0
+    },
+    {
+      "command": "cargo test -p affine_nbstore --locked --lib",
+      "passed": 33,
+      "failed": 0
+    },
+    {
+      "command": "cargo test -p affine_mobile_native --locked --lib",
+      "passed": 8,
+      "failed": 0
+    },
+    {
+      "command": "cargo check -p affine_native --locked",
+      "passed": true
+    },
+    {
+      "command": "BUILD_TYPE=canary yarn workspace @affine/electron exec vitest run",
+      "passed": 122,
+      "filesPassed": 14,
+      "failed": 0
+    }
+  ],
+  "dependencyAudit": {
+    "standaloneStorage": "No napi/napi-sys/napi-build/napi-derive crates in normal or build dependency graph",
+    "mobileConsumer": "No N-API crates in normal or build dependency graph"
+  },
+  "binaryReopenTest": "All 256 byte values and a UTF-8 CRDT update survive closing and reopening disposable SQLite storage",
+  "limitations": [
+    "Linux evidence only",
+    "Connection reopen, not cold-process restart",
+    "No production Tauri IPC, profile migration, user-data compatibility or recovery acceptance"
+  ]
+}
