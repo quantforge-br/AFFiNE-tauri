@@ -1,0 +1,3050 @@
+{
+  "schemaVersion": 1,
+  "reference": "ef401b20cb2a5960278a8e7ab2c0e96d8f759aeb",
+  "namespaces": [
+    {
+      "process": "main",
+      "kind": "command",
+      "namespace": "debug",
+      "source": "packages/frontend/apps/electron/src/main/handlers.ts",
+      "members": 2
+    },
+    {
+      "process": "main",
+      "kind": "command",
+      "namespace": "ui",
+      "source": "packages/frontend/apps/electron/src/main/ui/handlers.ts",
+      "members": 33
+    },
+    {
+      "process": "main",
+      "kind": "command",
+      "namespace": "clipboard",
+      "source": "packages/frontend/apps/electron/src/main/clipboard/index.ts",
+      "members": 1
+    },
+    {
+      "process": "main",
+      "kind": "command",
+      "namespace": "updater",
+      "source": "packages/frontend/apps/electron/src/main/updater/index.ts",
+      "members": 6
+    },
+    {
+      "process": "main",
+      "kind": "command",
+      "namespace": "configStorage",
+      "source": "packages/frontend/apps/electron/src/main/config-storage/handlers.ts",
+      "members": 2
+    },
+    {
+      "process": "main",
+      "kind": "command",
+      "namespace": "findInPage",
+      "source": "packages/frontend/apps/electron/src/main/find-in-page/handlers.ts",
+      "members": 2
+    },
+    {
+      "process": "main",
+      "kind": "command",
+      "namespace": "import",
+      "source": "packages/frontend/apps/electron/src/main/import/handlers.ts",
+      "members": 4
+    },
+    {
+      "process": "main",
+      "kind": "command",
+      "namespace": "sharedStorage",
+      "source": "packages/frontend/apps/electron/src/main/shared-storage/handlers.ts",
+      "members": 8
+    },
+    {
+      "process": "main",
+      "kind": "command",
+      "namespace": "worker",
+      "source": "packages/frontend/apps/electron/src/main/worker/handlers.ts",
+      "members": 2
+    },
+    {
+      "process": "main",
+      "kind": "command",
+      "namespace": "recording",
+      "source": "packages/frontend/apps/electron/src/main/recording/index.ts",
+      "members": 18
+    },
+    {
+      "process": "main",
+      "kind": "command",
+      "namespace": "popup",
+      "source": "packages/frontend/apps/electron/src/main/windows-manager/popup.ts",
+      "members": 3
+    },
+    {
+      "process": "main",
+      "kind": "command",
+      "namespace": "i18n",
+      "source": "packages/frontend/apps/electron/src/main/handlers.ts",
+      "members": 1
+    },
+    {
+      "process": "main",
+      "kind": "command",
+      "namespace": "byokStorage",
+      "source": "packages/frontend/apps/electron/src/main/byok-storage/handlers.ts",
+      "members": 7
+    },
+    {
+      "process": "main",
+      "kind": "command",
+      "namespace": "auth",
+      "source": "packages/frontend/apps/electron/src/main/auth/handlers.ts",
+      "members": 7
+    },
+    {
+      "process": "main",
+      "kind": "event",
+      "namespace": "applicationMenu",
+      "source": "packages/frontend/apps/electron/src/main/application-menu/index.ts",
+      "members": 3
+    },
+    {
+      "process": "main",
+      "kind": "event",
+      "namespace": "updater",
+      "source": "packages/frontend/apps/electron/src/main/updater/event.ts",
+      "members": 3
+    },
+    {
+      "process": "main",
+      "kind": "event",
+      "namespace": "ui",
+      "source": "packages/frontend/apps/electron/src/main/ui/events.ts",
+      "members": 11
+    },
+    {
+      "process": "main",
+      "kind": "event",
+      "namespace": "sharedStorage",
+      "source": "packages/frontend/apps/electron/src/main/shared-storage/events.ts",
+      "members": 2
+    },
+    {
+      "process": "main",
+      "kind": "event",
+      "namespace": "recording",
+      "source": "packages/frontend/apps/electron/src/main/recording/index.ts",
+      "members": 2
+    },
+    {
+      "process": "main",
+      "kind": "event",
+      "namespace": "popup",
+      "source": "packages/frontend/apps/electron/src/main/windows-manager/popup.ts",
+      "members": 1
+    },
+    {
+      "process": "main",
+      "kind": "event",
+      "namespace": "power",
+      "source": "packages/frontend/apps/electron/src/main/power/index.ts",
+      "members": 1
+    },
+    {
+      "process": "helper",
+      "kind": "command",
+      "namespace": "db",
+      "source": "packages/frontend/apps/electron/src/helper/nbstore/v1/index.ts",
+      "members": 4
+    },
+    {
+      "process": "helper",
+      "kind": "command",
+      "namespace": "nbstore",
+      "source": "packages/frontend/apps/electron/src/helper/nbstore/handlers.ts",
+      "members": 36
+    },
+    {
+      "process": "helper",
+      "kind": "command",
+      "namespace": "diskSync",
+      "source": "packages/frontend/apps/electron/src/helper/disk-sync/index.ts",
+      "members": 5
+    },
+    {
+      "process": "helper",
+      "kind": "command",
+      "namespace": "workspace",
+      "source": "packages/frontend/apps/electron/src/helper/workspace/index.ts",
+      "members": 6
+    },
+    {
+      "process": "helper",
+      "kind": "command",
+      "namespace": "dialog",
+      "source": "packages/frontend/apps/electron/src/helper/dialog/index.ts",
+      "members": 3
+    },
+    {
+      "process": "helper",
+      "kind": "command",
+      "namespace": "preview",
+      "source": "packages/frontend/apps/electron/src/helper/preview/index.ts",
+      "members": 2
+    },
+    {
+      "process": "helper",
+      "kind": "event",
+      "namespace": "db",
+      "source": "packages/frontend/apps/electron/src/helper/nbstore/v1/index.ts",
+      "members": 0
+    },
+    {
+      "process": "helper",
+      "kind": "event",
+      "namespace": "diskSync",
+      "source": "packages/frontend/apps/electron/src/helper/disk-sync/index.ts",
+      "members": 1
+    },
+    {
+      "process": "helper",
+      "kind": "event",
+      "namespace": "workspace",
+      "source": "packages/frontend/apps/electron/src/helper/workspace/index.ts",
+      "members": 0
+    }
+  ],
+  "entries": [
+    {
+      "id": "command:auth:clearSession",
+      "process": "main",
+      "kind": "command",
+      "namespace": "auth",
+      "method": "clearSession",
+      "source": "packages/frontend/apps/electron/src/main/auth/handlers.ts",
+      "line": 211,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:auth:getValidAccessToken",
+      "process": "main",
+      "kind": "command",
+      "namespace": "auth",
+      "method": "getValidAccessToken",
+      "source": "packages/frontend/apps/electron/src/main/auth/handlers.ts",
+      "line": 215,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:auth:signInMagicLink",
+      "process": "main",
+      "kind": "command",
+      "namespace": "auth",
+      "method": "signInMagicLink",
+      "source": "packages/frontend/apps/electron/src/main/auth/handlers.ts",
+      "line": 118,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:auth:signInOauth",
+      "process": "main",
+      "kind": "command",
+      "namespace": "auth",
+      "method": "signInOauth",
+      "source": "packages/frontend/apps/electron/src/main/auth/handlers.ts",
+      "line": 135,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:auth:signInOpenAppSignInCode",
+      "process": "main",
+      "kind": "command",
+      "namespace": "auth",
+      "method": "signInOpenAppSignInCode",
+      "source": "packages/frontend/apps/electron/src/main/auth/handlers.ts",
+      "line": 192,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:auth:signInPassword",
+      "process": "main",
+      "kind": "command",
+      "namespace": "auth",
+      "method": "signInPassword",
+      "source": "packages/frontend/apps/electron/src/main/auth/handlers.ts",
+      "line": 152,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:auth:signOut",
+      "process": "main",
+      "kind": "command",
+      "namespace": "auth",
+      "method": "signOut",
+      "source": "packages/frontend/apps/electron/src/main/auth/handlers.ts",
+      "line": 203,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:byokStorage:clearWorkspaceKeys",
+      "process": "main",
+      "kind": "command",
+      "namespace": "byokStorage",
+      "method": "clearWorkspaceKeys",
+      "source": "packages/frontend/apps/electron/src/main/byok-storage/handlers.ts",
+      "line": 292,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:byokStorage:deleteWorkspaceKey",
+      "process": "main",
+      "kind": "command",
+      "namespace": "byokStorage",
+      "method": "deleteWorkspaceKey",
+      "source": "packages/frontend/apps/electron/src/main/byok-storage/handlers.ts",
+      "line": 265,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:byokStorage:getWorkspaceLeaseProviders",
+      "process": "main",
+      "kind": "command",
+      "namespace": "byokStorage",
+      "method": "getWorkspaceLeaseProviders",
+      "source": "packages/frontend/apps/electron/src/main/byok-storage/handlers.ts",
+      "line": 242,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:byokStorage:isSupported",
+      "process": "main",
+      "kind": "command",
+      "namespace": "byokStorage",
+      "method": "isSupported",
+      "source": "packages/frontend/apps/electron/src/main/byok-storage/handlers.ts",
+      "line": 238,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:byokStorage:listWorkspaceKeys",
+      "process": "main",
+      "kind": "command",
+      "namespace": "byokStorage",
+      "method": "listWorkspaceKeys",
+      "source": "packages/frontend/apps/electron/src/main/byok-storage/handlers.ts",
+      "line": 239,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:byokStorage:reorderWorkspaceKeys",
+      "process": "main",
+      "kind": "command",
+      "namespace": "byokStorage",
+      "method": "reorderWorkspaceKeys",
+      "source": "packages/frontend/apps/electron/src/main/byok-storage/handlers.ts",
+      "line": 272,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:byokStorage:upsertWorkspaceKey",
+      "process": "main",
+      "kind": "command",
+      "namespace": "byokStorage",
+      "method": "upsertWorkspaceKey",
+      "source": "packages/frontend/apps/electron/src/main/byok-storage/handlers.ts",
+      "line": 245,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:clipboard:copyAsPNG",
+      "process": "main",
+      "kind": "command",
+      "namespace": "clipboard",
+      "method": "copyAsPNG",
+      "source": "packages/frontend/apps/electron/src/main/clipboard/index.ts",
+      "line": 6,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:configStorage:get",
+      "process": "main",
+      "kind": "command",
+      "namespace": "configStorage",
+      "method": "get",
+      "source": "packages/frontend/apps/electron/src/main/config-storage/handlers.ts",
+      "line": 8,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:configStorage:set",
+      "process": "main",
+      "kind": "command",
+      "namespace": "configStorage",
+      "method": "set",
+      "source": "packages/frontend/apps/electron/src/main/config-storage/handlers.ts",
+      "line": 9,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:db:getBlob",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "db",
+      "method": "getBlob",
+      "source": "packages/frontend/apps/electron/src/helper/nbstore/v1/index.ts",
+      "line": 32,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:db:getBlobKeys",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "db",
+      "method": "getBlobKeys",
+      "source": "packages/frontend/apps/electron/src/helper/nbstore/v1/index.ts",
+      "line": 41,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:db:getDocAsUpdates",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "db",
+      "method": "getDocAsUpdates",
+      "source": "packages/frontend/apps/electron/src/helper/nbstore/v1/index.ts",
+      "line": 9,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:db:getDocTimestamps",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "db",
+      "method": "getDocTimestamps",
+      "source": "packages/frontend/apps/electron/src/helper/nbstore/v1/index.ts",
+      "line": 23,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:debug:logFilePath",
+      "process": "main",
+      "kind": "command",
+      "namespace": "debug",
+      "method": "logFilePath",
+      "source": "packages/frontend/apps/electron/src/main/handlers.ts",
+      "line": 24,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:debug:revealLogFile",
+      "process": "main",
+      "kind": "command",
+      "namespace": "debug",
+      "method": "revealLogFile",
+      "source": "packages/frontend/apps/electron/src/main/handlers.ts",
+      "line": 21,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:dialog:loadDBFile",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "dialog",
+      "method": "loadDBFile",
+      "source": "packages/frontend/apps/electron/src/helper/dialog/index.ts",
+      "line": 4,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:dialog:saveDBFileAs",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "dialog",
+      "method": "saveDBFileAs",
+      "source": "packages/frontend/apps/electron/src/helper/dialog/index.ts",
+      "line": 7,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:dialog:selectMarkdownSyncFolder",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "dialog",
+      "method": "selectMarkdownSyncFolder",
+      "source": "packages/frontend/apps/electron/src/helper/dialog/index.ts",
+      "line": 10,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:diskSync:acknowledgeSourceUpdate",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "diskSync",
+      "method": "acknowledgeSourceUpdate",
+      "source": "packages/frontend/apps/electron/src/helper/disk-sync/index.ts",
+      "line": 15,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:diskSync:applyLocalUpdate",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "diskSync",
+      "method": "applyLocalUpdate",
+      "source": "packages/frontend/apps/electron/src/helper/disk-sync/index.ts",
+      "line": 14,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:diskSync:prepareSourceDoc",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "diskSync",
+      "method": "prepareSourceDoc",
+      "source": "packages/frontend/apps/electron/src/helper/disk-sync/index.ts",
+      "line": 16,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:diskSync:startSession",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "diskSync",
+      "method": "startSession",
+      "source": "packages/frontend/apps/electron/src/helper/disk-sync/index.ts",
+      "line": 12,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:diskSync:stopSession",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "diskSync",
+      "method": "stopSession",
+      "source": "packages/frontend/apps/electron/src/helper/disk-sync/index.ts",
+      "line": 13,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:findInPage:clear",
+      "process": "main",
+      "kind": "command",
+      "namespace": "findInPage",
+      "method": "clear",
+      "source": "packages/frontend/apps/electron/src/main/find-in-page/handlers.ts",
+      "line": 15,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:findInPage:find",
+      "process": "main",
+      "kind": "command",
+      "namespace": "findInPage",
+      "method": "find",
+      "source": "packages/frontend/apps/electron/src/main/find-in-page/handlers.ts",
+      "line": 4,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:i18n:changeLanguage",
+      "process": "main",
+      "kind": "command",
+      "namespace": "i18n",
+      "method": "changeLanguage",
+      "source": "packages/frontend/apps/electron/src/main/handlers.ts",
+      "line": 30,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:import:cancelImportSession",
+      "process": "main",
+      "kind": "command",
+      "namespace": "import",
+      "method": "cancelImportSession",
+      "source": "packages/frontend/apps/electron/src/main/import/handlers.ts",
+      "line": 25,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:import:createImportSession",
+      "process": "main",
+      "kind": "command",
+      "namespace": "import",
+      "method": "createImportSession",
+      "source": "packages/frontend/apps/electron/src/main/import/handlers.ts",
+      "line": 10,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:import:createImportSessionFromSource",
+      "process": "preload",
+      "kind": "command",
+      "namespace": "import",
+      "method": "createImportSessionFromSource",
+      "source": "packages/frontend/apps/electron/src/preload/electron-api.ts",
+      "line": 323,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:import:disposeImportSession",
+      "process": "main",
+      "kind": "command",
+      "namespace": "import",
+      "method": "disposeImportSession",
+      "source": "packages/frontend/apps/electron/src/main/import/handlers.ts",
+      "line": 32,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:import:nextImportBatch",
+      "process": "main",
+      "kind": "command",
+      "namespace": "import",
+      "method": "nextImportBatch",
+      "source": "packages/frontend/apps/electron/src/main/import/handlers.ts",
+      "line": 21,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:nbstore:clearClocks",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "nbstore",
+      "method": "clearClocks",
+      "source": "packages/frontend/apps/electron/src/helper/nbstore/handlers.ts",
+      "line": 47,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:nbstore:clearDocIndexedClock",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "nbstore",
+      "method": "clearDocIndexedClock",
+      "source": "packages/frontend/apps/electron/src/helper/nbstore/handlers.ts",
+      "line": 32,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:nbstore:connect",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "nbstore",
+      "method": "connect",
+      "source": "packages/frontend/apps/electron/src/helper/nbstore/handlers.ts",
+      "line": 17,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:nbstore:crawlDocData",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "nbstore",
+      "method": "crawlDocData",
+      "source": "packages/frontend/apps/electron/src/helper/nbstore/handlers.ts",
+      "line": 50,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:nbstore:deleteBlob",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "nbstore",
+      "method": "deleteBlob",
+      "source": "packages/frontend/apps/electron/src/helper/nbstore/handlers.ts",
+      "line": 35,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:nbstore:deleteDoc",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "nbstore",
+      "method": "deleteDoc",
+      "source": "packages/frontend/apps/electron/src/helper/nbstore/handlers.ts",
+      "line": 27,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:nbstore:disconnect",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "nbstore",
+      "method": "disconnect",
+      "source": "packages/frontend/apps/electron/src/helper/nbstore/handlers.ts",
+      "line": 24,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:nbstore:getBlob",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "nbstore",
+      "method": "getBlob",
+      "source": "packages/frontend/apps/electron/src/helper/nbstore/handlers.ts",
+      "line": 33,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:nbstore:getBlobUploadedAt",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "nbstore",
+      "method": "getBlobUploadedAt",
+      "source": "packages/frontend/apps/electron/src/helper/nbstore/handlers.ts",
+      "line": 49,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:nbstore:getDoc",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "nbstore",
+      "method": "getDoc",
+      "source": "packages/frontend/apps/electron/src/helper/nbstore/handlers.ts",
+      "line": 26,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:nbstore:getDocClock",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "nbstore",
+      "method": "getDocClock",
+      "source": "packages/frontend/apps/electron/src/helper/nbstore/handlers.ts",
+      "line": 29,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:nbstore:getDocClocks",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "nbstore",
+      "method": "getDocClocks",
+      "source": "packages/frontend/apps/electron/src/helper/nbstore/handlers.ts",
+      "line": 28,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:nbstore:getDocIndexedClock",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "nbstore",
+      "method": "getDocIndexedClock",
+      "source": "packages/frontend/apps/electron/src/helper/nbstore/handlers.ts",
+      "line": 30,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:nbstore:getPeerPulledRemoteClock",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "nbstore",
+      "method": "getPeerPulledRemoteClock",
+      "source": "packages/frontend/apps/electron/src/helper/nbstore/handlers.ts",
+      "line": 42,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:nbstore:getPeerPulledRemoteClocks",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "nbstore",
+      "method": "getPeerPulledRemoteClocks",
+      "source": "packages/frontend/apps/electron/src/helper/nbstore/handlers.ts",
+      "line": 41,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:nbstore:getPeerPushedClock",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "nbstore",
+      "method": "getPeerPushedClock",
+      "source": "packages/frontend/apps/electron/src/helper/nbstore/handlers.ts",
+      "line": 45,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:nbstore:getPeerPushedClocks",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "nbstore",
+      "method": "getPeerPushedClocks",
+      "source": "packages/frontend/apps/electron/src/helper/nbstore/handlers.ts",
+      "line": 44,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:nbstore:getPeerRemoteClock",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "nbstore",
+      "method": "getPeerRemoteClock",
+      "source": "packages/frontend/apps/electron/src/helper/nbstore/handlers.ts",
+      "line": 39,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:nbstore:getPeerRemoteClocks",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "nbstore",
+      "method": "getPeerRemoteClocks",
+      "source": "packages/frontend/apps/electron/src/helper/nbstore/handlers.ts",
+      "line": 38,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:nbstore:indexAggregate",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "nbstore",
+      "method": "indexAggregate",
+      "source": "packages/frontend/apps/electron/src/helper/nbstore/handlers.ts",
+      "line": 55,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:nbstore:indexDelete",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "nbstore",
+      "method": "indexDelete",
+      "source": "packages/frontend/apps/electron/src/helper/nbstore/handlers.ts",
+      "line": 53,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:nbstore:indexDeleteByQuery",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "nbstore",
+      "method": "indexDeleteByQuery",
+      "source": "packages/frontend/apps/electron/src/helper/nbstore/handlers.ts",
+      "line": 56,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:nbstore:indexFlush",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "nbstore",
+      "method": "indexFlush",
+      "source": "packages/frontend/apps/electron/src/helper/nbstore/handlers.ts",
+      "line": 57,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:nbstore:indexSearch",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "nbstore",
+      "method": "indexSearch",
+      "source": "packages/frontend/apps/electron/src/helper/nbstore/handlers.ts",
+      "line": 54,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:nbstore:indexUpsert",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "nbstore",
+      "method": "indexUpsert",
+      "source": "packages/frontend/apps/electron/src/helper/nbstore/handlers.ts",
+      "line": 52,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:nbstore:indexVersion",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "nbstore",
+      "method": "indexVersion",
+      "source": "packages/frontend/apps/electron/src/helper/nbstore/handlers.ts",
+      "line": 58,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:nbstore:listBlobs",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "nbstore",
+      "method": "listBlobs",
+      "source": "packages/frontend/apps/electron/src/helper/nbstore/handlers.ts",
+      "line": 37,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:nbstore:pushUpdate",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "nbstore",
+      "method": "pushUpdate",
+      "source": "packages/frontend/apps/electron/src/helper/nbstore/handlers.ts",
+      "line": 25,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:nbstore:releaseBlobs",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "nbstore",
+      "method": "releaseBlobs",
+      "source": "packages/frontend/apps/electron/src/helper/nbstore/handlers.ts",
+      "line": 36,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:nbstore:setBlob",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "nbstore",
+      "method": "setBlob",
+      "source": "packages/frontend/apps/electron/src/helper/nbstore/handlers.ts",
+      "line": 34,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:nbstore:setBlobUploadedAt",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "nbstore",
+      "method": "setBlobUploadedAt",
+      "source": "packages/frontend/apps/electron/src/helper/nbstore/handlers.ts",
+      "line": 48,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:nbstore:setDocIndexedClock",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "nbstore",
+      "method": "setDocIndexedClock",
+      "source": "packages/frontend/apps/electron/src/helper/nbstore/handlers.ts",
+      "line": 31,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:nbstore:setDocIndexedClocks",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "nbstore",
+      "method": "setDocIndexedClocks",
+      "source": "packages/frontend/apps/electron/src/helper/nbstore/handlers.ts",
+      "line": 51,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:nbstore:setPeerPulledRemoteClock",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "nbstore",
+      "method": "setPeerPulledRemoteClock",
+      "source": "packages/frontend/apps/electron/src/helper/nbstore/handlers.ts",
+      "line": 43,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:nbstore:setPeerPushedClock",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "nbstore",
+      "method": "setPeerPushedClock",
+      "source": "packages/frontend/apps/electron/src/helper/nbstore/handlers.ts",
+      "line": 46,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:nbstore:setPeerRemoteClock",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "nbstore",
+      "method": "setPeerRemoteClock",
+      "source": "packages/frontend/apps/electron/src/helper/nbstore/handlers.ts",
+      "line": 40,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:popup:dismissCurrentNotification",
+      "process": "main",
+      "kind": "command",
+      "namespace": "popup",
+      "method": "dismissCurrentNotification",
+      "source": "packages/frontend/apps/electron/src/main/windows-manager/popup.ts",
+      "line": 265,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:popup:dismissCurrentRecording",
+      "process": "main",
+      "kind": "command",
+      "namespace": "popup",
+      "method": "dismissCurrentRecording",
+      "source": "packages/frontend/apps/electron/src/main/windows-manager/popup.ts",
+      "line": 268,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:popup:getCurrentNotification",
+      "process": "main",
+      "kind": "command",
+      "namespace": "popup",
+      "method": "getCurrentNotification",
+      "source": "packages/frontend/apps/electron/src/main/windows-manager/popup.ts",
+      "line": 258,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:preview:renderMermaidSvg",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "preview",
+      "method": "renderMermaidSvg",
+      "source": "packages/frontend/apps/electron/src/helper/preview/index.ts",
+      "line": 59,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:preview:renderTypstSvg",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "preview",
+      "method": "renderTypstSvg",
+      "source": "packages/frontend/apps/electron/src/helper/preview/index.ts",
+      "line": 64,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:recording:askForMeetingPermission",
+      "process": "main",
+      "kind": "command",
+      "namespace": "recording",
+      "method": "askForMeetingPermission",
+      "source": "packages/frontend/apps/electron/src/main/recording/index.ts",
+      "line": 84,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:recording:checkMeetingPermissions",
+      "process": "main",
+      "kind": "command",
+      "namespace": "recording",
+      "method": "checkMeetingPermissions",
+      "source": "packages/frontend/apps/electron/src/main/recording/index.ts",
+      "line": 81,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:recording:checkRecordingAvailable",
+      "process": "main",
+      "kind": "command",
+      "namespace": "recording",
+      "method": "checkRecordingAvailable",
+      "source": "packages/frontend/apps/electron/src/main/recording/index.ts",
+      "line": 72,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:recording:claimRecordingImport",
+      "process": "main",
+      "kind": "command",
+      "namespace": "recording",
+      "method": "claimRecordingImport",
+      "source": "packages/frontend/apps/electron/src/main/recording/index.ts",
+      "line": 57,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:recording:completeRecordingImport",
+      "process": "main",
+      "kind": "command",
+      "namespace": "recording",
+      "method": "completeRecordingImport",
+      "source": "packages/frontend/apps/electron/src/main/recording/index.ts",
+      "line": 60,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:recording:disableRecordingFeature",
+      "process": "main",
+      "kind": "command",
+      "namespace": "recording",
+      "method": "disableRecordingFeature",
+      "source": "packages/frontend/apps/electron/src/main/recording/index.ts",
+      "line": 78,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:recording:dismissRecordingStatus",
+      "process": "main",
+      "kind": "command",
+      "namespace": "recording",
+      "method": "dismissRecordingStatus",
+      "source": "packages/frontend/apps/electron/src/main/recording/index.ts",
+      "line": 63,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:recording:failRecordingImport",
+      "process": "main",
+      "kind": "command",
+      "namespace": "recording",
+      "method": "failRecordingImport",
+      "source": "packages/frontend/apps/electron/src/main/recording/index.ts",
+      "line": 66,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:recording:getCurrentRecording",
+      "process": "main",
+      "kind": "command",
+      "namespace": "recording",
+      "method": "getCurrentRecording",
+      "source": "packages/frontend/apps/electron/src/main/recording/index.ts",
+      "line": 40,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:recording:getRecording",
+      "process": "main",
+      "kind": "command",
+      "namespace": "recording",
+      "method": "getRecording",
+      "source": "packages/frontend/apps/electron/src/main/recording/index.ts",
+      "line": 37,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:recording:getRecordingImportQueue",
+      "process": "main",
+      "kind": "command",
+      "namespace": "recording",
+      "method": "getRecordingImportQueue",
+      "source": "packages/frontend/apps/electron/src/main/recording/index.ts",
+      "line": 54,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:recording:readRecordingFile",
+      "process": "main",
+      "kind": "command",
+      "namespace": "recording",
+      "method": "readRecordingFile",
+      "source": "packages/frontend/apps/electron/src/main/recording/index.ts",
+      "line": 51,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:recording:removeRecording",
+      "process": "main",
+      "kind": "command",
+      "namespace": "recording",
+      "method": "removeRecording",
+      "source": "packages/frontend/apps/electron/src/main/recording/index.ts",
+      "line": 69,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:recording:setupRecordingFeature",
+      "process": "main",
+      "kind": "command",
+      "namespace": "recording",
+      "method": "setupRecordingFeature",
+      "source": "packages/frontend/apps/electron/src/main/recording/index.ts",
+      "line": 75,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:recording:showRecordingPermissionSetting",
+      "process": "main",
+      "kind": "command",
+      "namespace": "recording",
+      "method": "showRecordingPermissionSetting",
+      "source": "packages/frontend/apps/electron/src/main/recording/index.ts",
+      "line": 87,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:recording:showSavedRecordings",
+      "process": "main",
+      "kind": "command",
+      "namespace": "recording",
+      "method": "showSavedRecordings",
+      "source": "packages/frontend/apps/electron/src/main/recording/index.ts",
+      "line": 101,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:recording:startRecording",
+      "process": "main",
+      "kind": "command",
+      "namespace": "recording",
+      "method": "startRecording",
+      "source": "packages/frontend/apps/electron/src/main/recording/index.ts",
+      "line": 45,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:recording:stopRecording",
+      "process": "main",
+      "kind": "command",
+      "namespace": "recording",
+      "method": "stopRecording",
+      "source": "packages/frontend/apps/electron/src/main/recording/index.ts",
+      "line": 48,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:sharedStorage:clearGlobalCache",
+      "process": "main",
+      "kind": "command",
+      "namespace": "sharedStorage",
+      "method": "clearGlobalCache",
+      "source": "packages/frontend/apps/electron/src/main/shared-storage/handlers.ts",
+      "line": 54,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:sharedStorage:clearGlobalState",
+      "process": "main",
+      "kind": "command",
+      "namespace": "sharedStorage",
+      "method": "clearGlobalState",
+      "source": "packages/frontend/apps/electron/src/main/shared-storage/handlers.ts",
+      "line": 38,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:sharedStorage:delGlobalCache",
+      "process": "main",
+      "kind": "command",
+      "namespace": "sharedStorage",
+      "method": "delGlobalCache",
+      "source": "packages/frontend/apps/electron/src/main/shared-storage/handlers.ts",
+      "line": 49,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:sharedStorage:delGlobalState",
+      "process": "main",
+      "kind": "command",
+      "namespace": "sharedStorage",
+      "method": "delGlobalState",
+      "source": "packages/frontend/apps/electron/src/main/shared-storage/handlers.ts",
+      "line": 33,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:sharedStorage:getAllGlobalCache",
+      "process": "main",
+      "kind": "command",
+      "namespace": "sharedStorage",
+      "method": "getAllGlobalCache",
+      "source": "packages/frontend/apps/electron/src/main/shared-storage/handlers.ts",
+      "line": 24,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:sharedStorage:getAllGlobalState",
+      "process": "main",
+      "kind": "command",
+      "namespace": "sharedStorage",
+      "method": "getAllGlobalState",
+      "source": "packages/frontend/apps/electron/src/main/shared-storage/handlers.ts",
+      "line": 21,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:sharedStorage:setGlobalCache",
+      "process": "main",
+      "kind": "command",
+      "namespace": "sharedStorage",
+      "method": "setGlobalCache",
+      "source": "packages/frontend/apps/electron/src/main/shared-storage/handlers.ts",
+      "line": 44,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:sharedStorage:setGlobalState",
+      "process": "main",
+      "kind": "command",
+      "namespace": "sharedStorage",
+      "method": "setGlobalState",
+      "source": "packages/frontend/apps/electron/src/main/shared-storage/handlers.ts",
+      "line": 28,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:ui:activateView",
+      "process": "main",
+      "kind": "command",
+      "namespace": "ui",
+      "method": "activateView",
+      "source": "packages/frontend/apps/electron/src/main/ui/handlers.ts",
+      "line": 176,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:ui:addTab",
+      "process": "main",
+      "kind": "command",
+      "namespace": "ui",
+      "method": "addTab",
+      "source": "packages/frontend/apps/electron/src/main/ui/handlers.ts",
+      "line": 160,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:ui:captureArea",
+      "process": "main",
+      "kind": "command",
+      "namespace": "ui",
+      "method": "captureArea",
+      "source": "packages/frontend/apps/electron/src/main/ui/handlers.ts",
+      "line": 217,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:ui:closeTab",
+      "process": "main",
+      "kind": "command",
+      "namespace": "ui",
+      "method": "closeTab",
+      "source": "packages/frontend/apps/electron/src/main/ui/handlers.ts",
+      "line": 172,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:ui:ensureTabLoaded",
+      "process": "main",
+      "kind": "command",
+      "namespace": "ui",
+      "method": "ensureTabLoaded",
+      "source": "packages/frontend/apps/electron/src/main/ui/handlers.ts",
+      "line": 169,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:ui:getChallengeResponse",
+      "process": "main",
+      "kind": "command",
+      "namespace": "ui",
+      "method": "getChallengeResponse",
+      "source": "packages/frontend/apps/electron/src/main/ui/handlers.ts",
+      "line": 108,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:ui:getTabsStatus",
+      "process": "main",
+      "kind": "command",
+      "namespace": "ui",
+      "method": "getTabsStatus",
+      "source": "packages/frontend/apps/electron/src/main/ui/handlers.ts",
+      "line": 157,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:ui:getTabViewsMeta",
+      "process": "main",
+      "kind": "command",
+      "namespace": "ui",
+      "method": "getTabViewsMeta",
+      "source": "packages/frontend/apps/electron/src/main/ui/handlers.ts",
+      "line": 151,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:ui:getWorkbenchMeta",
+      "process": "main",
+      "kind": "command",
+      "namespace": "ui",
+      "method": "getWorkbenchMeta",
+      "source": "packages/frontend/apps/electron/src/main/ui/handlers.ts",
+      "line": 136,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:ui:handleCloseApp",
+      "process": "main",
+      "kind": "command",
+      "namespace": "ui",
+      "method": "handleCloseApp",
+      "source": "packages/frontend/apps/electron/src/main/ui/handlers.ts",
+      "line": 94,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:ui:handleHideApp",
+      "process": "main",
+      "kind": "command",
+      "namespace": "ui",
+      "method": "handleHideApp",
+      "source": "packages/frontend/apps/electron/src/main/ui/handlers.ts",
+      "line": 104,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:ui:handleMaximizeApp",
+      "process": "main",
+      "kind": "command",
+      "namespace": "ui",
+      "method": "handleMaximizeApp",
+      "source": "packages/frontend/apps/electron/src/main/ui/handlers.ts",
+      "line": 76,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:ui:handleMinimizeApp",
+      "process": "main",
+      "kind": "command",
+      "namespace": "ui",
+      "method": "handleMinimizeApp",
+      "source": "packages/frontend/apps/electron/src/main/ui/handlers.ts",
+      "line": 65,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:ui:handleOpenMainApp",
+      "process": "main",
+      "kind": "command",
+      "namespace": "ui",
+      "method": "handleOpenMainApp",
+      "source": "packages/frontend/apps/electron/src/main/ui/handlers.ts",
+      "line": 111,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:ui:handleThemeChange",
+      "process": "main",
+      "kind": "command",
+      "namespace": "ui",
+      "method": "handleThemeChange",
+      "source": "packages/frontend/apps/electron/src/main/ui/handlers.ts",
+      "line": 62,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:ui:handleWindowResize",
+      "process": "main",
+      "kind": "command",
+      "namespace": "ui",
+      "method": "handleWindowResize",
+      "source": "packages/frontend/apps/electron/src/main/ui/handlers.ts",
+      "line": 91,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:ui:isActiveTab",
+      "process": "main",
+      "kind": "command",
+      "namespace": "ui",
+      "method": "isActiveTab",
+      "source": "packages/frontend/apps/electron/src/main/ui/handlers.ts",
+      "line": 133,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:ui:isFullScreen",
+      "process": "main",
+      "kind": "command",
+      "namespace": "ui",
+      "method": "isFullScreen",
+      "source": "packages/frontend/apps/electron/src/main/ui/handlers.ts",
+      "line": 58,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:ui:isMaximized",
+      "process": "main",
+      "kind": "command",
+      "namespace": "ui",
+      "method": "isMaximized",
+      "source": "packages/frontend/apps/electron/src/main/ui/handlers.ts",
+      "line": 54,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:ui:moveTab",
+      "process": "main",
+      "kind": "command",
+      "namespace": "ui",
+      "method": "moveTab",
+      "source": "packages/frontend/apps/electron/src/main/ui/handlers.ts",
+      "line": 179,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:ui:onLanguageChange",
+      "process": "main",
+      "kind": "command",
+      "namespace": "ui",
+      "method": "onLanguageChange",
+      "source": "packages/frontend/apps/electron/src/main/ui/handlers.ts",
+      "line": 206,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:ui:openExternal",
+      "process": "main",
+      "kind": "command",
+      "namespace": "ui",
+      "method": "openExternal",
+      "source": "packages/frontend/apps/electron/src/main/ui/handlers.ts",
+      "line": 128,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:ui:openThemeEditor",
+      "process": "main",
+      "kind": "command",
+      "namespace": "ui",
+      "method": "openThemeEditor",
+      "source": "packages/frontend/apps/electron/src/main/ui/handlers.ts",
+      "line": 197,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:ui:pingAppLayoutReady",
+      "process": "main",
+      "kind": "command",
+      "namespace": "ui",
+      "method": "pingAppLayoutReady",
+      "source": "packages/frontend/apps/electron/src/main/ui/handlers.ts",
+      "line": 188,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:ui:restartApp",
+      "process": "main",
+      "kind": "command",
+      "namespace": "ui",
+      "method": "restartApp",
+      "source": "packages/frontend/apps/electron/src/main/ui/handlers.ts",
+      "line": 202,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:ui:showDevTools",
+      "process": "main",
+      "kind": "command",
+      "namespace": "ui",
+      "method": "showDevTools",
+      "source": "packages/frontend/apps/electron/src/main/ui/handlers.ts",
+      "line": 191,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:ui:showTab",
+      "process": "main",
+      "kind": "command",
+      "namespace": "ui",
+      "method": "showTab",
+      "source": "packages/frontend/apps/electron/src/main/ui/handlers.ts",
+      "line": 163,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:ui:showTabContextMenu",
+      "process": "main",
+      "kind": "command",
+      "namespace": "ui",
+      "method": "showTabContextMenu",
+      "source": "packages/frontend/apps/electron/src/main/ui/handlers.ts",
+      "line": 194,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:ui:tabGoTo",
+      "process": "main",
+      "kind": "command",
+      "namespace": "ui",
+      "method": "tabGoTo",
+      "source": "packages/frontend/apps/electron/src/main/ui/handlers.ts",
+      "line": 166,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:ui:toggleRightSidebar",
+      "process": "main",
+      "kind": "command",
+      "namespace": "ui",
+      "method": "toggleRightSidebar",
+      "source": "packages/frontend/apps/electron/src/main/ui/handlers.ts",
+      "line": 182,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:ui:updateActiveViewMeta",
+      "process": "main",
+      "kind": "command",
+      "namespace": "ui",
+      "method": "updateActiveViewMeta",
+      "source": "packages/frontend/apps/electron/src/main/ui/handlers.ts",
+      "line": 154,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:ui:updateWorkbenchMeta",
+      "process": "main",
+      "kind": "command",
+      "namespace": "ui",
+      "method": "updateWorkbenchMeta",
+      "source": "packages/frontend/apps/electron/src/main/ui/handlers.ts",
+      "line": 139,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:ui:updateWorkbenchViewMeta",
+      "process": "main",
+      "kind": "command",
+      "namespace": "ui",
+      "method": "updateWorkbenchViewMeta",
+      "source": "packages/frontend/apps/electron/src/main/ui/handlers.ts",
+      "line": 145,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:updater:checkForUpdates",
+      "process": "main",
+      "kind": "command",
+      "namespace": "updater",
+      "method": "checkForUpdates",
+      "source": "packages/frontend/apps/electron/src/main/updater/index.ts",
+      "line": 33,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:updater:currentVersion",
+      "process": "main",
+      "kind": "command",
+      "namespace": "updater",
+      "method": "currentVersion",
+      "source": "packages/frontend/apps/electron/src/main/updater/index.ts",
+      "line": 15,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:updater:downloadUpdate",
+      "process": "main",
+      "kind": "command",
+      "namespace": "updater",
+      "method": "downloadUpdate",
+      "source": "packages/frontend/apps/electron/src/main/updater/index.ts",
+      "line": 21,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:updater:getConfig",
+      "process": "main",
+      "kind": "command",
+      "namespace": "updater",
+      "method": "getConfig",
+      "source": "packages/frontend/apps/electron/src/main/updater/index.ts",
+      "line": 24,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:updater:quitAndInstall",
+      "process": "main",
+      "kind": "command",
+      "namespace": "updater",
+      "method": "quitAndInstall",
+      "source": "packages/frontend/apps/electron/src/main/updater/index.ts",
+      "line": 18,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:updater:setConfig",
+      "process": "main",
+      "kind": "command",
+      "namespace": "updater",
+      "method": "setConfig",
+      "source": "packages/frontend/apps/electron/src/main/updater/index.ts",
+      "line": 27,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:worker:connectWorker",
+      "process": "main",
+      "kind": "command",
+      "namespace": "worker",
+      "method": "connectWorker",
+      "source": "packages/frontend/apps/electron/src/main/worker/handlers.ts",
+      "line": 5,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:worker:disconnectWorker",
+      "process": "main",
+      "kind": "command",
+      "namespace": "worker",
+      "method": "disconnectWorker",
+      "source": "packages/frontend/apps/electron/src/main/worker/handlers.ts",
+      "line": 16,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:workspace:delete",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "workspace",
+      "method": "delete",
+      "source": "packages/frontend/apps/electron/src/helper/workspace/index.ts",
+      "line": 17,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:workspace:deleteBackupWorkspace",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "workspace",
+      "method": "deleteBackupWorkspace",
+      "source": "packages/frontend/apps/electron/src/helper/workspace/index.ts",
+      "line": 22,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:workspace:getBackupWorkspaces",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "workspace",
+      "method": "getBackupWorkspaces",
+      "source": "packages/frontend/apps/electron/src/helper/workspace/index.ts",
+      "line": 19,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:workspace:listLocalWorkspaceIds",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "workspace",
+      "method": "listLocalWorkspaceIds",
+      "source": "packages/frontend/apps/electron/src/helper/workspace/index.ts",
+      "line": 24,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:workspace:moveToTrash",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "workspace",
+      "method": "moveToTrash",
+      "source": "packages/frontend/apps/electron/src/helper/workspace/index.ts",
+      "line": 18,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "command:workspace:recoverBackupWorkspace",
+      "process": "helper",
+      "kind": "command",
+      "namespace": "workspace",
+      "method": "recoverBackupWorkspace",
+      "source": "packages/frontend/apps/electron/src/helper/workspace/index.ts",
+      "line": 23,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "event:applicationMenu:onNewPageAction",
+      "process": "main",
+      "kind": "event",
+      "namespace": "applicationMenu",
+      "method": "onNewPageAction",
+      "source": "packages/frontend/apps/electron/src/main/application-menu/index.ts",
+      "line": 14,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "event:applicationMenu:onOpenJournal",
+      "process": "main",
+      "kind": "event",
+      "namespace": "applicationMenu",
+      "method": "onOpenJournal",
+      "source": "packages/frontend/apps/electron/src/main/application-menu/index.ts",
+      "line": 29,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "event:applicationMenu:openInSettingModal",
+      "process": "main",
+      "kind": "event",
+      "namespace": "applicationMenu",
+      "method": "openInSettingModal",
+      "source": "packages/frontend/apps/electron/src/main/application-menu/index.ts",
+      "line": 21,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "event:diskSync:onEvent",
+      "process": "helper",
+      "kind": "event",
+      "namespace": "diskSync",
+      "method": "onEvent",
+      "source": "packages/frontend/apps/electron/src/helper/disk-sync/index.ts",
+      "line": 20,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "event:popup:onNotificationChanged",
+      "process": "main",
+      "kind": "event",
+      "namespace": "popup",
+      "method": "onNotificationChanged",
+      "source": "packages/frontend/apps/electron/src/main/windows-manager/popup.ts",
+      "line": 274,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "event:power:power-source",
+      "process": "main",
+      "kind": "event",
+      "namespace": "power",
+      "method": "power-source",
+      "source": "packages/frontend/apps/electron/src/main/power/index.ts",
+      "line": 13,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "event:recording:onRecordingImportQueueChanged",
+      "process": "main",
+      "kind": "event",
+      "namespace": "recording",
+      "method": "onRecordingImportQueueChanged",
+      "source": "packages/frontend/apps/electron/src/main/recording/index.ts",
+      "line": 124,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "event:recording:onRecordingStatusChanged",
+      "process": "main",
+      "kind": "event",
+      "namespace": "recording",
+      "method": "onRecordingStatusChanged",
+      "source": "packages/frontend/apps/electron/src/main/recording/index.ts",
+      "line": 110,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "event:sharedStorage:onGlobalCacheChanged",
+      "process": "main",
+      "kind": "event",
+      "namespace": "sharedStorage",
+      "method": "onGlobalCacheChanged",
+      "source": "packages/frontend/apps/electron/src/main/shared-storage/events.ts",
+      "line": 11,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "event:sharedStorage:onGlobalStateChanged",
+      "process": "main",
+      "kind": "event",
+      "namespace": "sharedStorage",
+      "method": "onGlobalStateChanged",
+      "source": "packages/frontend/apps/electron/src/main/shared-storage/events.ts",
+      "line": 5,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "event:ui:onActiveTabChanged",
+      "process": "main",
+      "kind": "event",
+      "namespace": "ui",
+      "method": "onActiveTabChanged",
+      "source": "packages/frontend/apps/electron/src/main/ui/events.ts",
+      "line": 37,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "event:ui:onAuthenticationRequest",
+      "process": "main",
+      "kind": "event",
+      "namespace": "ui",
+      "method": "onAuthenticationRequest",
+      "source": "packages/frontend/apps/electron/src/main/ui/events.ts",
+      "line": 45,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "event:ui:onCloseView",
+      "process": "main",
+      "kind": "event",
+      "namespace": "ui",
+      "method": "onCloseView",
+      "source": "packages/frontend/apps/electron/src/main/ui/events.ts",
+      "line": 51,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "event:ui:onFullScreen",
+      "process": "main",
+      "kind": "event",
+      "namespace": "ui",
+      "method": "onFullScreen",
+      "source": "packages/frontend/apps/electron/src/main/ui/events.ts",
+      "line": 22,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "event:ui:onMaximized",
+      "process": "main",
+      "kind": "event",
+      "namespace": "ui",
+      "method": "onMaximized",
+      "source": "packages/frontend/apps/electron/src/main/ui/events.ts",
+      "line": 16,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "event:ui:onTabAction",
+      "process": "main",
+      "kind": "event",
+      "namespace": "ui",
+      "method": "onTabAction",
+      "source": "packages/frontend/apps/electron/src/main/ui/events.ts",
+      "line": 29,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "event:ui:onTabGoToRequest",
+      "process": "main",
+      "kind": "event",
+      "namespace": "ui",
+      "method": "onTabGoToRequest",
+      "source": "packages/frontend/apps/electron/src/main/ui/events.ts",
+      "line": 38,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "event:ui:onTabShellViewActiveChange",
+      "process": "main",
+      "kind": "event",
+      "namespace": "ui",
+      "method": "onTabShellViewActiveChange",
+      "source": "packages/frontend/apps/electron/src/main/ui/events.ts",
+      "line": 44,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "event:ui:onTabsStatusChange",
+      "process": "main",
+      "kind": "event",
+      "namespace": "ui",
+      "method": "onTabsStatusChange",
+      "source": "packages/frontend/apps/electron/src/main/ui/events.ts",
+      "line": 36,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "event:ui:onTabViewsMetaChanged",
+      "process": "main",
+      "kind": "event",
+      "namespace": "ui",
+      "method": "onTabViewsMetaChanged",
+      "source": "packages/frontend/apps/electron/src/main/ui/events.ts",
+      "line": 28,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "event:ui:onToggleRightSidebar",
+      "process": "main",
+      "kind": "event",
+      "namespace": "ui",
+      "method": "onToggleRightSidebar",
+      "source": "packages/frontend/apps/electron/src/main/ui/events.ts",
+      "line": 30,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "event:updater:onDownloadProgress",
+      "process": "main",
+      "kind": "event",
+      "namespace": "updater",
+      "method": "onDownloadProgress",
+      "source": "packages/frontend/apps/electron/src/main/updater/event.ts",
+      "line": 30,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "event:updater:onUpdateAvailable",
+      "process": "main",
+      "kind": "event",
+      "namespace": "updater",
+      "method": "onUpdateAvailable",
+      "source": "packages/frontend/apps/electron/src/main/updater/event.ts",
+      "line": 18,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    },
+    {
+      "id": "event:updater:onUpdateReady",
+      "process": "main",
+      "kind": "event",
+      "namespace": "updater",
+      "method": "onUpdateReady",
+      "source": "packages/frontend/apps/electron/src/main/updater/event.ts",
+      "line": 24,
+      "platforms": {
+        "linux": "pending",
+        "windows": "pending",
+        "macos": "pending"
+      },
+      "implementation": null,
+      "verification": []
+    }
+  ]
+}
