@@ -1,0 +1,171 @@
+{
+  "run": "https://github.com/quantforge-br/AFFiNE-tauri/actions/runs/42390321070",
+  "sourceRevision": "43bc6f0b035e48b0dfc57071df785484d1a53492",
+  "scope": "Native Rust storage libraries and required standalone regressions; not editor integration or desktop parity",
+  "conclusion": "failure",
+  "results": [
+    {
+      "artifact": "Linux-X64",
+      "sourceRevision": "43bc6f0b035e48b0dfc57071df785484d1a53492",
+      "toolchain": [
+        "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+        "binary: rustc",
+        "commit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+        "commit-date: 2026-07-14",
+        "host: x86_64-unknown-linux-gnu",
+        "release: 1.97.1",
+        "LLVM version: 22.1.6"
+      ],
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Run real SQLite authority tests",
+          "conclusion": "success"
+        },
+        {
+          "name": "Lint the storage authority",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve standalone storage regressions",
+          "conclusion": "success"
+        }
+      ],
+      "coreTestSummary": [
+        "test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.14s",
+        "test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.28s",
+        "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+      ],
+      "standaloneTestSummary": [
+        "test result: ok. 31 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.11s",
+        "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s",
+        "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+      ]
+    },
+    {
+      "artifact": "Windows-X64",
+      "sourceRevision": "43bc6f0b035e48b0dfc57071df785484d1a53492",
+      "toolchain": [
+        "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+        "binary: rustc",
+        "commit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+        "commit-date: 2026-07-14",
+        "host: x86_64-pc-windows-msvc",
+        "release: 1.97.1",
+        "LLVM version: 22.1.6"
+      ],
+      "conclusion": "failure",
+      "steps": [
+        {
+          "name": "Run real SQLite authority tests",
+          "conclusion": "success"
+        },
+        {
+          "name": "Lint the storage authority",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve standalone storage regressions",
+          "conclusion": "failure"
+        }
+      ],
+      "coreTestSummary": [
+        "test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.74s",
+        "test result: ok. 16 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.27s",
+        "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+      ],
+      "standaloneTestSummary": [
+        "thread 'doc::tests::get_doc_reads_snapshot_and_updates_from_one_view' (5320) panicked at packages\\frontend\\native\\nbstore\\src\\doc.rs:523:33:",
+        "called `Result::unwrap()` on an `Err` value: Os { code: 32, kind: Uncategorized, message: \"The process cannot access the file because it is being used by another process.\" }",
+        "thread 'storage::tests::validate_import_schema_accepts_initial_v2_schema' (6168) panicked at packages\\frontend\\native\\nbstore\\src\\storage.rs:398:30:",
+        "called `Result::unwrap()` on an `Err` value: Os { code: 32, kind: Uncategorized, message: \"The process cannot access the file because it is being used by another process.\" }",
+        "thread 'storage::tests::vacuum_into_exports_a_compacted_database' (8808) panicked at packages\\frontend\\native\\nbstore\\src\\storage.rs:340:30:",
+        "called `Result::unwrap()` on an `Err` value: Os { code: 32, kind: Uncategorized, message: \"The process cannot access the file because it is being used by another process.\" }",
+        "    doc::tests::get_doc_reads_snapshot_and_updates_from_one_view",
+        "    storage::tests::vacuum_into_exports_a_compacted_database",
+        "    storage::tests::validate_import_schema_accepts_initial_v2_schema",
+        "test result: FAILED. 28 passed; 3 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.52s"
+      ]
+    },
+    {
+      "artifact": "macOS-ARM64",
+      "sourceRevision": "43bc6f0b035e48b0dfc57071df785484d1a53492",
+      "toolchain": [
+        "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+        "binary: rustc",
+        "commit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+        "commit-date: 2026-07-14",
+        "host: aarch64-apple-darwin",
+        "release: 1.97.1",
+        "LLVM version: 22.1.6"
+      ],
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Run real SQLite authority tests",
+          "conclusion": "success"
+        },
+        {
+          "name": "Lint the storage authority",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve standalone storage regressions",
+          "conclusion": "success"
+        }
+      ],
+      "coreTestSummary": [
+        "test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.12s",
+        "test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.25s",
+        "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+      ],
+      "standaloneTestSummary": [
+        "test result: ok. 31 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.43s",
+        "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s",
+        "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+      ]
+    }
+  ],
+  "diagnosis": {
+    "observed": "Literal canonical paths now open on Windows and all applicable core tests and strict Clippy pass. The complete Windows job still fails: three standalone tests cannot immediately delete SQLite files (OS error 32).",
+    "causes": [
+      "Temporary validation and VACUUM pools were dropped without awaiting graceful closure. Temporary document/blob readers also returned early on query errors without awaiting closure.",
+      "SQLx 0.8.6 Pool::close has a return-to-pool race: an already-returning connection can be requeued after the idle drain; the final semaphore wait can then return without draining it. A controlled after_release fixture reproduces pool.size() == 1 after close on Linux."
+    ],
+    "reproduction": {
+      "test": "close_waits_for_a_connection_already_being_returned",
+      "before": "Linux controlled return/close sequence: assertion failed, left: 1, right: 0.",
+      "after": "The regression awaits close_pool and asserts pool.size() == 0, with no sleeps or file-deletion retries."
+    },
+    "candidateFix": "Await complete pool drain for regular and temporary pools on both successful and failed operations; keep all immediate deletion assertions and Windows tests.",
+    "status": "Local library and Electron regressions pass; a fresh complete three-platform run is required."
+  },
+  "localValidation": {
+    "platform": "Linux x86_64",
+    "standalone": {
+      "unit": 33,
+      "integration": 2
+    },
+    "core": {
+      "unit": 4,
+      "integrationHarness": 18
+    },
+    "nodeStorageUnit": 35,
+    "mobileUnit": 8,
+    "electron": {
+      "files": 14,
+      "tests": 122,
+      "binding": "Rebuilt affine_native and copied the actual shared library to the ignored Linux Node binding."
+    },
+    "toolingTests": 8,
+    "strictCoreClippy": true,
+    "rustFormatting": true,
+    "noNapiInCoreNormalBuildGraph": true
+  },
+  "limitations": [
+    "The second run is failed; passing core-specific checks do not waive required standalone failures.",
+    "Two Unix-only path/permission integration cases do not run on Windows (16 applicable integration harness cases versus 18 on Linux/macOS).",
+    "This does not establish application restart, migration/backup/recovery, native IPC, cloud, installation or desktop parity.",
+    "Dropped or externally cancelled temporary-operation futures still rely on SQLx drop cleanup; this patch guarantees awaited normal/error completion, not a general cancellation-safe shutdown protocol."
+  ]
+}

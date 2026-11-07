@@ -17,24 +17,28 @@ struct Meta {
 impl SqliteDocStorage {
   pub async fn read_doc_records_readonly(path: &str, doc_id: &str) -> Result<ReadonlyDocRecords> {
     let pool = Self::open_readonly_path(path).await?;
-    let mut tx = pool.begin().await?;
-    let snapshot = sqlx::query_as!(
-      DocRecord,
-      "SELECT doc_id, data as bin, updated_at as timestamp FROM snapshots WHERE doc_id = ?",
-      doc_id
-    )
-    .fetch_optional(&mut *tx)
-    .await?;
-    let updates = sqlx::query_as!(
-      DocUpdate,
-      "SELECT doc_id, created_at as timestamp, data as bin FROM updates WHERE doc_id = ? ORDER BY created_at",
-      doc_id
-    )
-    .fetch_all(&mut *tx)
-    .await?;
-    tx.commit().await?;
-    pool.close().await;
-    Ok(ReadonlyDocRecords { snapshot, updates })
+    let result = async {
+      let mut tx = pool.begin().await?;
+      let snapshot = sqlx::query_as!(
+        DocRecord,
+        "SELECT doc_id, data as bin, updated_at as timestamp FROM snapshots WHERE doc_id = ?",
+        doc_id
+      )
+      .fetch_optional(&mut *tx)
+      .await?;
+      let updates = sqlx::query_as!(
+        DocUpdate,
+        "SELECT doc_id, created_at as timestamp, data as bin FROM updates WHERE doc_id = ? ORDER BY created_at",
+        doc_id
+      )
+      .fetch_all(&mut *tx)
+      .await?;
+      tx.commit().await?;
+      Ok(ReadonlyDocRecords { snapshot, updates })
+    }
+    .await;
+    Self::close_pool(&pool).await;
+    result
   }
 
   pub async fn set_space_id(&self, space_id: String) -> Result<()> {

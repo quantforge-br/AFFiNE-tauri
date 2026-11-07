@@ -61,7 +61,9 @@ impl SqliteDocStorage {
       return Ok(false);
     };
 
-    Ok(validate_required_schema(&pool, &V2_IMPORT_SCHEMA_RULES).await?)
+    let result = validate_required_schema(&pool, &V2_IMPORT_SCHEMA_RULES).await;
+    Self::close_pool(&pool).await;
+    Ok(result?)
   }
 
   pub async fn validate_import_schema(&self) -> Result<bool> {
@@ -73,7 +75,9 @@ impl SqliteDocStorage {
       return Ok(false);
     };
 
-    Ok(validate_import_schema(&pool, &V2_IMPORT_SCHEMA_RULES).await?)
+    let result = validate_import_schema(&pool, &V2_IMPORT_SCHEMA_RULES).await;
+    Self::close_pool(&pool).await;
+    Ok(result?)
   }
 
   pub async fn connect(&self) -> Result<()> {
@@ -157,7 +161,16 @@ impl SqliteDocStorage {
   }
 
   pub async fn close(&self) {
-    self.pool.close().await
+    Self::close_pool(&self.pool).await
+  }
+
+  pub(crate) async fn close_pool(pool: &Pool<Sqlite>) {
+    // SQLx 0.8 can return from close after a concurrent return task requeues a connection.
+    // Once marked closed, no new acquisitions can succeed. Drain those late returns too.
+    while {
+      pool.close().await;
+      pool.size() != 0
+    } {}
   }
 
   pub fn is_closed(&self) -> bool {
@@ -180,7 +193,9 @@ impl SqliteDocStorage {
     }
 
     let pool = self.open_readonly_pool().await?;
-    sqlx::query("VACUUM INTO ?;").bind(path).execute(&pool).await?;
+    let result = sqlx::query("VACUUM INTO ?;").bind(path).execute(&pool).await;
+    Self::close_pool(&pool).await;
+    result?;
 
     Ok(())
   }
@@ -219,6 +234,118 @@ mod tests {
     storage.connect().await.unwrap();
 
     storage
+  }
+
+  #[tokio::test]
+  async fn close_waits_for_a_connection_already_being_returned() {
+    let returning = Arc::new(tokio::sync::Notify::new());
+    let resume = Arc::new(tokio::sync::Notify::new());
+    let pool = SqlitePoolOptions::new()
+      .max_connections(1)
+      .after_release({
+        let returning = returning.clone();
+        let resume = resume.clone();
+        move |_, _| {
+          let returning = returning.clone();
+          let resume = resume.clone();
+          Box::pin(async move {
+            returning.notify_one();
+            resume.notified().await;
+            Ok(true)
+          })
+        }
+      })
+      .connect_lazy_with(SqliteConnectOptions::new().filename(":memory:"));
+    drop(pool.acquire().await.unwrap());
+    returning.notified().await;
+
+    // Mark the pool closed while its return task is past SQLx's is_closed check.
+    let closing = SqliteDocStorage::close_pool(&pool);
+    tokio::pin!(closing);
+    tokio::select! {
+      biased;
+      _ = &mut closing => panic!("close returned while a connection was checked out"),
+      _ = std::future::ready(()) => {}
+    }
+    assert!(pool.is_closed());
+    resume.notify_one();
+    tokio::time::timeout(std::time::Duration::from_secs(5), closing)
+      .await
+      .unwrap();
+    assert_eq!(pool.size(), 0, "close must await every SQLite worker");
+  }
+
+  #[tokio::test]
+  async fn temporary_readonly_operations_release_files_on_success_and_error() {
+    let base = std::env::temp_dir().join(format!("nbstore-readonly-close-{}", Uuid::new_v4()));
+    fs::create_dir(&base).unwrap();
+    let source = base.join("storage.db");
+    let export = base.join("backup.affine");
+    let storage = SqliteDocStorage::new(path_string(&source));
+    storage.connect().await.unwrap();
+    storage.close().await;
+    assert_eq!(storage.pool.size(), 0);
+
+    assert!(storage.validate().await.unwrap());
+    assert_no_open_test_files(&base);
+    assert!(storage.validate_import_schema().await.unwrap());
+    assert_no_open_test_files(&base);
+    assert!(
+      SqliteDocStorage::read_doc_records_readonly(&path_string(&source), "missing")
+        .await
+        .unwrap()
+        .snapshot
+        .is_none()
+    );
+    assert_no_open_test_files(&base);
+    assert!(
+      SqliteDocStorage::read_blob_readonly(&path_string(&source), "missing")
+        .await
+        .unwrap()
+        .is_none()
+    );
+    assert_no_open_test_files(&base);
+    storage.vacuum_into(path_string(&export)).await.unwrap();
+    assert_no_open_test_files(&base);
+    assert!(storage.vacuum_into(path_string(&export)).await.is_err());
+    assert_no_open_test_files(&base);
+
+    // A valid SQLite file with missing tables exercises query-error cleanup.
+    let invalid = base.join("missing-schema.db");
+    fs::File::create(&invalid).unwrap();
+    let invalid_storage = SqliteDocStorage::new(path_string(&invalid));
+    assert!(!invalid_storage.validate().await.unwrap());
+    assert_no_open_test_files(&base);
+    assert!(!invalid_storage.validate_import_schema().await.unwrap());
+    assert_no_open_test_files(&base);
+    assert!(
+      SqliteDocStorage::read_doc_records_readonly(&path_string(&invalid), "doc")
+        .await
+        .is_err()
+    );
+    assert_no_open_test_files(&base);
+    assert!(
+      SqliteDocStorage::read_blob_readonly(&path_string(&invalid), "blob")
+        .await
+        .is_err()
+    );
+    assert_no_open_test_files(&base);
+    invalid_storage.close().await;
+
+    // Windows must allow immediate deletion, with no delayed cleanup/retry exemption.
+    fs::remove_dir_all(&base).unwrap();
+  }
+
+  fn assert_no_open_test_files(base: &Path) {
+    // Unix permits unlinking open files, so deletion alone would miss a lifetime regression.
+    #[cfg(target_os = "linux")]
+    for entry in fs::read_dir("/proc/self/fd").unwrap() {
+      if let Ok(target) = fs::read_link(entry.unwrap().path()) {
+        assert!(!target.starts_with(base), "SQLite descriptor still open: {target:?}");
+      }
+    }
+    #[cfg(not(target_os = "linux"))]
+    let _ = base;
   }
 
   #[tokio::test]
@@ -387,7 +514,7 @@ mod tests {
     };
 
     migrator.run(&setup_pool).await.unwrap();
-    setup_pool.close().await;
+    SqliteDocStorage::close_pool(&setup_pool).await;
 
     let storage = SqliteDocStorage::new(source_path);
 
