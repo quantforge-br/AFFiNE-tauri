@@ -41,6 +41,7 @@ try {
   assert.equal(evidence.failure, undefined);
   assert.equal(evidence.secureContext, true);
   for (const name of [
+    'native-history-roundtrip',
     'fetch-worker-asset',
     'indexeddb-roundtrip',
     'dedicated-native-url',

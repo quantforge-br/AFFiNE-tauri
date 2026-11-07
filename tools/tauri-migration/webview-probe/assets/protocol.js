@@ -126,6 +126,13 @@ async function check(name, action) {
     await check(kind + '-fetched-blob', () => workerCheck(kind, blob));
     URL.revokeObjectURL(blob);
   }
+  await check('native-history-roundtrip', async () => {
+    const previous = location.pathname;
+    history.pushState({ diagnostic: true }, '', '/workspace/protocol/document');
+    const matched = location.pathname === '/workspace/protocol/document';
+    history.replaceState(null, '', previous);
+    return { passed: matched && location.pathname === previous };
+  });
   delete results.workerSource;
   results.done = true;
   render();
