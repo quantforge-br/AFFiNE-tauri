@@ -1,0 +1,754 @@
+{
+  "schemaVersion": 1,
+  "reference": "ef401b20cb2a5960278a8e7ab2c0e96d8f759aeb",
+  "statement": "Proposed mapping from every reference IPC namespace record to a Tauri/Rust boundary. It records design intent only. Nothing here is implemented except where state is diagnostic-partial, and no entry is verified on any platform.",
+  "callerClasses": {
+    "app-window": "Windows created by Rust from the trusted bundle, on the local origin only",
+    "popup-window": "Rust-created popup windows with their own minimal capability set"
+  },
+  "records": [
+    {
+      "key": "main:command:auth",
+      "boundary": "rust-command",
+      "service": "auth",
+      "callers": ["app-window"],
+      "matrix": ["P16", "P17"],
+      "replaces": "Electron main-process token broker, browser sign-in handoff and session persistence",
+      "design": "Rust owns refresh-token storage, serialized refresh and access-token minting. Sign-in opens the system browser through a vetted URL policy and completes through the deep-link handoff. Responses carry no refresh token; getValidAccessToken returns only a short-lived access token to an app window that asked for it.",
+      "constraints": [
+        "Persist in the OS keychain with the reference memory-only fallback; never in WebView storage",
+        "Endpoint origin normalization and no credential attachment to redirects or arbitrary URLs"
+      ],
+      "blockedBy": [
+        "Authorized cloud test endpoint is not available, so only transport and unit behavior can be tested until one is provided"
+      ],
+      "members": 7,
+      "state": "proposed",
+      "platforms": {
+        "linux": "required",
+        "windows": "required",
+        "macos": "required"
+      }
+    },
+    {
+      "key": "main:command:byokStorage",
+      "boundary": "rust-command",
+      "service": "secrets",
+      "callers": ["app-window"],
+      "matrix": ["P19"],
+      "replaces": "Electron safeStorage-backed workspace BYOK key store",
+      "design": "Rust encrypts provider credentials at rest with an OS-keychain-held key, enforces workspace isolation and ordering, and exposes metadata operations. isSupported reports real keychain availability; no stub success.",
+      "constraints": [
+        "Raw secrets never travel in events and are returned only where the reference returns them",
+        "Copying Electron safeStorage ciphertext is not an interoperable migration; import needs an explicit user-driven re-entry or a documented decryption path per OS"
+      ],
+      "members": 7,
+      "state": "proposed",
+      "platforms": {
+        "linux": "required",
+        "windows": "required",
+        "macos": "required"
+      }
+    },
+    {
+      "key": "main:command:clipboard",
+      "boundary": "rust-command+raw-ipc",
+      "service": "clipboard",
+      "callers": ["app-window"],
+      "matrix": ["P22"],
+      "replaces": "Electron clipboard.writeImage for PNG",
+      "design": "PNG bytes arrive as a raw IPC body bounded by a documented limit and are written through the Tauri clipboard facility or a vetted OS adapter. Round-trip format fidelity is a gate.",
+      "constraints": [
+        "Verify the written clipboard format per OS by reading it back with a native tool"
+      ],
+      "members": 1,
+      "state": "proposed",
+      "platforms": {
+        "linux": "required",
+        "windows": "required",
+        "macos": "required"
+      }
+    },
+    {
+      "key": "main:command:configStorage",
+      "boundary": "rust-command",
+      "service": "settings",
+      "callers": ["app-window"],
+      "matrix": ["P20"],
+      "replaces": "Electron config.json store",
+      "design": "Revisioned Rust store with atomic writes; hydrated before the frontend module graph is imported so the reference synchronous reads stay valid.",
+      "constraints": [
+        "Schema validation on set; unknown keys rejected rather than silently stored"
+      ],
+      "members": 2,
+      "state": "proposed",
+      "platforms": {
+        "linux": "required",
+        "windows": "required",
+        "macos": "required"
+      }
+    },
+    {
+      "key": "main:command:debug",
+      "boundary": "rust-command",
+      "service": "diagnostics",
+      "callers": ["app-window"],
+      "matrix": ["P25"],
+      "replaces": "Electron log path and reveal-in-folder",
+      "design": "Rust owns the log directory; reveal uses the OS file-manager integration with a path the host computed, never a renderer path.",
+      "members": 2,
+      "state": "proposed",
+      "platforms": {
+        "linux": "required",
+        "windows": "required",
+        "macos": "required"
+      },
+      "constraints": []
+    },
+    {
+      "key": "main:command:i18n",
+      "boundary": "rust-command",
+      "service": "menu",
+      "callers": ["app-window"],
+      "matrix": ["P11", "P13", "P20"],
+      "replaces": "Electron application-menu relocalization",
+      "design": "Persists the language and rebuilds native menu and tray labels from it.",
+      "members": 1,
+      "state": "proposed",
+      "platforms": {
+        "linux": "required",
+        "windows": "required",
+        "macos": "required"
+      },
+      "constraints": []
+    },
+    {
+      "key": "main:command:import",
+      "boundary": "rust-command+channel",
+      "service": "import",
+      "callers": ["app-window"],
+      "matrix": ["P08", "P09"],
+      "replaces": "Electron import sessions in the main process",
+      "design": "Sessions are Rust-owned, tied to the creating window, bounded in count and bytes, and disposed with the window. Batches stream over a Tauri channel or raw IPC body with cancellation that accounts for accepted work.",
+      "constraints": [
+        "Paths come only from native dialogs or Tauri drag-drop events and become opaque grants; no renderer-supplied path is trusted"
+      ],
+      "members": 4,
+      "state": "proposed",
+      "platforms": {
+        "linux": "required",
+        "windows": "required",
+        "macos": "required"
+      }
+    },
+    {
+      "key": "preload:command:import",
+      "boundary": "frontend-adapter",
+      "service": "import",
+      "callers": ["app-window"],
+      "matrix": ["P08", "P09"],
+      "replaces": "Electron preload translation of browser File selections to native paths",
+      "design": "Tauri has no File.path. Native selection or Tauri drag-drop events yield grants consumed by createImportSession; the frontend adapter keeps the same call shape for shared UI code.",
+      "constraints": [
+        "Browser-only File objects without a grant must be imported through the existing web path, not through a native path guess"
+      ],
+      "members": 1,
+      "state": "proposed",
+      "platforms": {
+        "linux": "required",
+        "windows": "required",
+        "macos": "required"
+      }
+    },
+    {
+      "key": "main:command:findInPage",
+      "boundary": "platform-adapter",
+      "service": "find",
+      "callers": ["app-window"],
+      "matrix": ["P22"],
+      "replaces": "Electron webContents.findInPage",
+      "design": "Tauri 2 has no stable find-in-page API. Candidates: WebKitGTK FindController, WebView2 find APIs where exposed, WKWebView find. A per-platform spike must show match counts and navigation before this is accepted.",
+      "openRisk": "No cross-platform stable API; if a platform cannot match semantics the difference must be documented as a legitimate platform difference, not omitted",
+      "members": 2,
+      "state": "proposed",
+      "platforms": {
+        "linux": "required",
+        "windows": "required",
+        "macos": "required"
+      },
+      "constraints": []
+    },
+    {
+      "key": "main:command:popup",
+      "boundary": "rust-command",
+      "service": "popups",
+      "callers": ["popup-window"],
+      "matrix": ["P15"],
+      "replaces": "Electron popup windows for notifications and recording",
+      "design": "Rust creates popup WebViews with their own minimal capability set; commands are granted to the popup label only.",
+      "members": 3,
+      "state": "proposed",
+      "platforms": {
+        "linux": "required",
+        "windows": "required",
+        "macos": "required"
+      },
+      "constraints": []
+    },
+    {
+      "key": "main:command:recording",
+      "boundary": "rust-command+channel",
+      "service": "recording",
+      "callers": ["app-window", "popup-window"],
+      "matrix": ["P24", "P14", "P15"],
+      "replaces": "Electron recording coordinator over native media_capture",
+      "design": "Port the coordinator state machine to Rust over the existing media-capture crate without N-API. Permission flows are OS specific. Linux is unavailable as in the reference.",
+      "platforms": {
+        "linux": "not-applicable-as-reference",
+        "windows": "required",
+        "macos": "required-on-14.2-or-later"
+      },
+      "groups": {
+        "lifecycle": [
+          "setupRecordingFeature",
+          "disableRecordingFeature",
+          "checkRecordingAvailable",
+          "startRecording",
+          "stopRecording",
+          "getCurrentRecording",
+          "getRecording",
+          "removeRecording",
+          "dismissRecordingStatus"
+        ],
+        "permissions": [
+          "askForMeetingPermission",
+          "checkMeetingPermissions",
+          "showRecordingPermissionSetting"
+        ],
+        "files": ["readRecordingFile", "showSavedRecordings"],
+        "importQueue": [
+          "claimRecordingImport",
+          "completeRecordingImport",
+          "failRecordingImport",
+          "getRecordingImportQueue"
+        ]
+      },
+      "constraints": [
+        "Real capture on Windows and macOS only; mocks do not satisfy P24"
+      ],
+      "members": 18,
+      "state": "proposed"
+    },
+    {
+      "key": "main:command:sharedStorage",
+      "boundary": "rust-command",
+      "service": "shared-state",
+      "callers": ["app-window"],
+      "matrix": ["P20"],
+      "replaces": "Electron shared global state and cache with synchronous preload reads",
+      "design": "Rust holds revisioned state. The page is hydrated before the application imports, then updates flow through events carrying revision and source ID so echoes are suppressed and cross-view order is preserved.",
+      "members": 8,
+      "state": "proposed",
+      "platforms": {
+        "linux": "required",
+        "windows": "required",
+        "macos": "required"
+      },
+      "constraints": []
+    },
+    {
+      "key": "main:command:ui",
+      "boundary": "rust-command",
+      "service": "windows",
+      "callers": ["app-window"],
+      "matrix": ["P11", "P12", "P13", "P14", "P22", "P25", "P26"],
+      "replaces": "Electron window, tab and view manager",
+      "design": "Rust owns windows, tabs and workbench metadata. Native decorations stay hidden from construction, so the minimize, maximize and close actions below are driven by the application controls.",
+      "groups": {
+        "windowControls": [
+          "handleCloseApp",
+          "handleHideApp",
+          "handleMaximizeApp",
+          "handleMinimizeApp",
+          "handleOpenMainApp",
+          "handleWindowResize",
+          "isFullScreen",
+          "isMaximized"
+        ],
+        "tabs": [
+          "activateView",
+          "addTab",
+          "closeTab",
+          "ensureTabLoaded",
+          "getTabsStatus",
+          "getTabViewsMeta",
+          "getWorkbenchMeta",
+          "isActiveTab",
+          "moveTab",
+          "showTab",
+          "showTabContextMenu",
+          "tabGoTo",
+          "updateActiveViewMeta",
+          "updateWorkbenchMeta",
+          "updateWorkbenchViewMeta"
+        ],
+        "appearance": [
+          "handleThemeChange",
+          "onLanguageChange",
+          "openThemeEditor",
+          "toggleRightSidebar"
+        ],
+        "lifecycle": ["pingAppLayoutReady", "restartApp"],
+        "platformServices": [
+          "captureArea",
+          "getChallengeResponse",
+          "openExternal",
+          "showDevTools"
+        ]
+      },
+      "constraints": [
+        "openExternal accepts only validated schemes and never receives native capabilities in the opened content",
+        "captureArea needs a per-OS WebView capture adapter with exact-area tests",
+        "getChallengeResponse reuses the existing hashcash implementation without N-API",
+        "showDevTools is a debug-only capability"
+      ],
+      "members": 33,
+      "state": "proposed",
+      "platforms": {
+        "linux": "required",
+        "windows": "required",
+        "macos": "required"
+      }
+    },
+    {
+      "key": "main:command:updater",
+      "boundary": "rust-command+channel",
+      "service": "updater",
+      "callers": ["app-window"],
+      "matrix": ["P27"],
+      "replaces": "Electron auto-updater",
+      "design": "Tauri updater with a signed feed for fork artifacts. Progress flows over a channel and restart-install preserves local data.",
+      "blockedBy": [
+        "Signing keys and a controlled update feed are not available"
+      ],
+      "members": 6,
+      "state": "proposed",
+      "platforms": {
+        "linux": "required",
+        "windows": "required",
+        "macos": "required"
+      },
+      "constraints": []
+    },
+    {
+      "key": "main:command:worker",
+      "boundary": "frontend-adapter",
+      "service": "workers",
+      "callers": ["app-window"],
+      "matrix": ["P21", "P04"],
+      "replaces": "Electron MessagePort broker for shared and background workers",
+      "design": "Decision recorded in worker-transport-decision.md: dedicated Workers with a private port to a trusted main-thread bridge session; SharedWorker is not relied on because Linux and macOS WebViews give it an opaque origin that cannot use IndexedDB.",
+      "openRisk": "P21 asks to share workers across tabs. Cross-tab sharing of background work must be provided by Rust-owned sessions or a documented difference; it is not yet designed",
+      "members": 2,
+      "state": "proposed",
+      "platforms": {
+        "linux": "required",
+        "windows": "required",
+        "macos": "required"
+      },
+      "constraints": []
+    },
+    {
+      "key": "helper:command:db",
+      "boundary": "rust-command",
+      "service": "legacy-storage",
+      "callers": ["app-window"],
+      "matrix": ["P05"],
+      "replaces": "Electron helper SQLite v1 reader",
+      "design": "Read-only Rust reader of legacy v1 files used by the migration; backups are taken before any conversion and the originals are never modified.",
+      "constraints": [
+        "Back up WAL-backed databases consistently, not by copying storage.db alone"
+      ],
+      "members": 4,
+      "state": "proposed",
+      "platforms": {
+        "linux": "required",
+        "windows": "required",
+        "macos": "required"
+      }
+    },
+    {
+      "key": "helper:event:db",
+      "boundary": "not-applicable",
+      "service": "legacy-storage",
+      "callers": [],
+      "matrix": ["P05"],
+      "members": 0,
+      "replaces": "No exported members at the reference revision",
+      "design": "Nothing to implement; the record is kept so the empty registry is explicit.",
+      "state": "proposed",
+      "platforms": {
+        "linux": "required",
+        "windows": "required",
+        "macos": "required"
+      },
+      "constraints": []
+    },
+    {
+      "key": "helper:command:dialog",
+      "boundary": "rust-command",
+      "service": "dialogs",
+      "callers": ["app-window"],
+      "matrix": ["P06", "P07"],
+      "replaces": "Electron native dialogs for database files and the sync folder",
+      "design": "Dialogs are opened by Rust through the Tauri dialog facility, return opaque grants and keep system-owned presentation.",
+      "members": 3,
+      "state": "proposed",
+      "platforms": {
+        "linux": "required",
+        "windows": "required",
+        "macos": "required"
+      },
+      "constraints": []
+    },
+    {
+      "key": "helper:command:diskSync",
+      "boundary": "rust-command+channel",
+      "service": "disk-sync",
+      "callers": ["app-window"],
+      "matrix": ["P07", "P21"],
+      "replaces": "Electron helper folder synchronization",
+      "design": "Reuse the existing disk_sync engine without N-API. Sessions are owned by the starting window; events stream over a channel and stop with the session.",
+      "constraints": [
+        "Traversal, symlink and race tests plus real file round trips"
+      ],
+      "members": 5,
+      "state": "proposed",
+      "platforms": {
+        "linux": "required",
+        "windows": "required",
+        "macos": "required"
+      }
+    },
+    {
+      "key": "helper:event:diskSync",
+      "boundary": "rust-event",
+      "service": "disk-sync",
+      "callers": ["app-window"],
+      "matrix": ["P07"],
+      "replaces": "Electron onEvent helper notification",
+      "design": "Session-scoped channel with a bounded queue and an explicit resync signal when the consumer lags.",
+      "members": 1,
+      "state": "proposed",
+      "platforms": {
+        "linux": "required",
+        "windows": "required",
+        "macos": "required"
+      },
+      "constraints": []
+    },
+    {
+      "key": "helper:command:nbstore",
+      "boundary": "rust-command+raw-ipc",
+      "service": "storage",
+      "callers": ["app-window"],
+      "matrix": ["P04", "P18", "P20"],
+      "replaces": "Electron helper nbstore over N-API",
+      "design": "StorageSession owns one host-granted space, with the dedicated-Worker bridge in front. The diagnostic exercises getDoc and pushUpdate only; the rest is not implemented.",
+      "state": "diagnostic-partial",
+      "groups": {
+        "lifecycle": ["connect", "disconnect"],
+        "documents": [
+          "getDoc",
+          "pushUpdate",
+          "deleteDoc",
+          "getDocClock",
+          "getDocClocks"
+        ],
+        "blobs": [
+          "getBlob",
+          "setBlob",
+          "deleteBlob",
+          "listBlobs",
+          "releaseBlobs",
+          "getBlobUploadedAt",
+          "setBlobUploadedAt"
+        ],
+        "syncClocks": [
+          "clearClocks",
+          "getPeerPulledRemoteClock",
+          "getPeerPulledRemoteClocks",
+          "getPeerPushedClock",
+          "getPeerPushedClocks",
+          "getPeerRemoteClock",
+          "getPeerRemoteClocks",
+          "setPeerPulledRemoteClock",
+          "setPeerPushedClock",
+          "setPeerRemoteClock"
+        ],
+        "indexer": [
+          "clearDocIndexedClock",
+          "crawlDocData",
+          "getDocIndexedClock",
+          "indexAggregate",
+          "indexDelete",
+          "indexDeleteByQuery",
+          "indexFlush",
+          "indexSearch",
+          "indexUpsert",
+          "indexVersion",
+          "setDocIndexedClock",
+          "setDocIndexedClocks"
+        ]
+      },
+      "constraints": [
+        "Raw binary bodies with a ticket header; bounds enforced in the core independently of the bridge",
+        "Snapshot and revision event transport are not designed in code yet"
+      ],
+      "members": 36,
+      "platforms": {
+        "linux": "required",
+        "windows": "required",
+        "macos": "required"
+      }
+    },
+    {
+      "key": "helper:command:preview",
+      "boundary": "rust-command",
+      "service": "preview",
+      "callers": ["app-window"],
+      "matrix": ["P10"],
+      "replaces": "Electron helper Mermaid and Typst rendering",
+      "design": "Reuse affine_preview without N-API on a bounded blocking pool; input size and render time are limited and invalid input returns an explicit error.",
+      "members": 2,
+      "state": "proposed",
+      "platforms": {
+        "linux": "required",
+        "windows": "required",
+        "macos": "required"
+      },
+      "constraints": []
+    },
+    {
+      "key": "helper:command:workspace",
+      "boundary": "rust-command",
+      "service": "workspaces",
+      "callers": ["app-window"],
+      "matrix": ["P06", "P05"],
+      "replaces": "Electron helper workspace enumeration, trash and backup recovery",
+      "design": "Rust owns the sessionData layout and performs moves with backup-first semantics; identifiers are validated, never joined into paths as given.",
+      "members": 6,
+      "state": "proposed",
+      "platforms": {
+        "linux": "required",
+        "windows": "required",
+        "macos": "required"
+      },
+      "constraints": []
+    },
+    {
+      "key": "helper:event:workspace",
+      "boundary": "not-applicable",
+      "service": "workspaces",
+      "callers": [],
+      "matrix": ["P06"],
+      "members": 0,
+      "replaces": "No exported members at the reference revision",
+      "design": "Nothing to implement; the record is kept so the empty registry is explicit.",
+      "state": "proposed",
+      "platforms": {
+        "linux": "required",
+        "windows": "required",
+        "macos": "required"
+      },
+      "constraints": []
+    },
+    {
+      "key": "main:event:applicationMenu",
+      "boundary": "rust-event",
+      "service": "menu",
+      "callers": ["app-window"],
+      "matrix": ["P13"],
+      "replaces": "Electron application menu actions",
+      "design": "Native Tauri menu items emit targeted events to the focused app window; accelerators are verified per OS.",
+      "members": 3,
+      "state": "proposed",
+      "platforms": {
+        "linux": "required",
+        "windows": "required",
+        "macos": "required"
+      },
+      "constraints": []
+    },
+    {
+      "key": "main:event:popup",
+      "boundary": "rust-event",
+      "service": "popups",
+      "callers": ["popup-window"],
+      "matrix": ["P15"],
+      "replaces": "Electron popup notification change event",
+      "design": "Targeted event to the popup label only.",
+      "members": 1,
+      "state": "proposed",
+      "platforms": {
+        "linux": "required",
+        "windows": "required",
+        "macos": "required"
+      },
+      "constraints": []
+    },
+    {
+      "key": "main:event:power",
+      "boundary": "platform-adapter",
+      "service": "power",
+      "callers": ["app-window"],
+      "matrix": ["P23"],
+      "replaces": "Electron powerMonitor source change",
+      "design": "No stable Tauri API: needs per-OS adapters (Linux logind or UPower, Windows power broadcast, macOS IOKit) with an initial state read.",
+      "openRisk": "Adapter choice per OS is unproven",
+      "members": 1,
+      "state": "proposed",
+      "platforms": {
+        "linux": "required",
+        "windows": "required",
+        "macos": "required"
+      },
+      "constraints": []
+    },
+    {
+      "key": "main:event:recording",
+      "boundary": "rust-event",
+      "service": "recording",
+      "callers": ["app-window", "popup-window"],
+      "matrix": ["P24", "P15"],
+      "replaces": "Electron recording status and import queue notifications",
+      "design": "Revisioned events, registered before the first snapshot.",
+      "members": 2,
+      "state": "proposed",
+      "platforms": {
+        "linux": "required",
+        "windows": "required",
+        "macos": "required"
+      },
+      "constraints": []
+    },
+    {
+      "key": "main:event:sharedStorage",
+      "boundary": "rust-event",
+      "service": "shared-state",
+      "callers": ["app-window"],
+      "matrix": ["P20"],
+      "replaces": "Electron shared state change notifications",
+      "design": "Revision and source ID on every event; terminal lag forces a resnapshot.",
+      "members": 2,
+      "state": "proposed",
+      "platforms": {
+        "linux": "required",
+        "windows": "required",
+        "macos": "required"
+      },
+      "constraints": []
+    },
+    {
+      "key": "main:event:ui",
+      "boundary": "rust-event",
+      "service": "windows",
+      "callers": ["app-window"],
+      "matrix": ["P11", "P12", "P14", "P16"],
+      "replaces": "Electron window and tab notifications",
+      "design": "Targeted per-window events; tab events carry revisions so reorder and close races are detected.",
+      "groups": {
+        "windowState": ["onFullScreen", "onMaximized"],
+        "tabs": [
+          "onActiveTabChanged",
+          "onCloseView",
+          "onTabAction",
+          "onTabGoToRequest",
+          "onTabShellViewActiveChange",
+          "onTabsStatusChange",
+          "onTabViewsMetaChanged"
+        ],
+        "appearance": ["onToggleRightSidebar"],
+        "authentication": ["onAuthenticationRequest"]
+      },
+      "members": 11,
+      "state": "proposed",
+      "platforms": {
+        "linux": "required",
+        "windows": "required",
+        "macos": "required"
+      },
+      "constraints": []
+    },
+    {
+      "key": "main:event:updater",
+      "boundary": "rust-event",
+      "service": "updater",
+      "callers": ["app-window"],
+      "matrix": ["P27"],
+      "replaces": "Electron updater events",
+      "design": "Channel events for availability, progress and readiness.",
+      "blockedBy": [
+        "Signing keys and a controlled update feed are not available"
+      ],
+      "members": 3,
+      "state": "proposed",
+      "platforms": {
+        "linux": "required",
+        "windows": "required",
+        "macos": "required"
+      },
+      "constraints": []
+    }
+  ],
+  "nonIpcSurfaces": [
+    {
+      "matrix": "P01",
+      "surface": "Editor and blocks run in the existing shared frontend inside the native WebView",
+      "route": "frontend-reuse",
+      "evidence": "Native WebView smoke on three platforms covers creation and text input only"
+    },
+    {
+      "matrix": "P02",
+      "surface": "Edgeless canvas in the shared frontend",
+      "route": "frontend-reuse",
+      "evidence": "Native WebView smoke switches to edgeless only"
+    },
+    {
+      "matrix": "P03",
+      "surface": "Workspaces, documents, search and navigation in the shared frontend",
+      "route": "frontend-reuse",
+      "evidence": "Needs full E2E on Tauri"
+    },
+    {
+      "matrix": "P12",
+      "surface": "Tab strip visuals and drag behavior",
+      "route": "frontend-adapter",
+      "evidence": "Routing feasibility only; see workbench-design.md"
+    },
+    {
+      "matrix": "P14",
+      "surface": "Tray or menu-bar item and close-to-tray",
+      "route": "rust-native-ui",
+      "evidence": "None yet"
+    },
+    {
+      "matrix": "P16",
+      "surface": "Deep links and single instance",
+      "route": "rust-native-service",
+      "evidence": "None yet"
+    },
+    {
+      "matrix": "P26",
+      "surface": "Embedded assets, custom protocol, CSP, URL policy and API proxy",
+      "route": "rust-native-service",
+      "evidence": "Enforced CSP with embedded frontend passes on three platforms"
+    },
+    {
+      "matrix": "P28",
+      "surface": "Installers, signing and CI architecture matrix",
+      "route": "tauri-bundler",
+      "evidence": "None yet; signing credentials are not available"
+    }
+  ]
+}
