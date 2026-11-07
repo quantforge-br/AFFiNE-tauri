@@ -8,18 +8,19 @@ The reproducible Linux run is recorded in [evidence/linux-webview-smoke.json](ev
 
 ## Verified results
 
-| Check                                   | Result                      | Scope                                                                                                                                  |
-| --------------------------------------- | --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| Baseline IPC inventory                  | 5 tests passed, 0 failures  | 177 unique members, deterministic regeneration, source locations, no fabricated implementation status                                  |
-| Native storage library cargo check      | Passed                      | affine_nbstore with use-as-lib, locked reference dependencies                                                                          |
-| Native storage library cargo test       | 31 tests passed, 0 failures | Documents, blobs, sync clocks, schema validation/migrations, index persistence; no Node process needed to run the Rust test executable |
-| Tauri probe build                       | Passed                      | Tauri 2.11.5, tauri-wd 0.1.11 behind optional e2e feature, Linux x86_64                                                                |
-| Native decoration state at construction | False                       | Rust is_decorated assertion passed; native app emitted AFFINE_PROBE_WINDOW decorations=false                                           |
-| Real frontend creates a document        | Passed                      | WebKitGTK in isolated X11 display, W3C element click                                                                                   |
-| Real editor text input                  | Passed                      | Character-by-character W3C element input, not direct document/model mutation                                                           |
-| Switch to edgeless                      | Passed                      | Existing mode-switch control creates affine-edgeless-root                                                                              |
-| Reload persistence                      | Passed                      | Typed title and edgeless mode survive WebView reload; no mock persistence                                                              |
-| Canvas/IndexedDB/Worker/secure context  | Available                   | Queried inside the actual native WebView                                                                                               |
+| Check                                   | Result                            | Scope                                                                                                                                  |
+| --------------------------------------- | --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| Baseline IPC inventory                  | 5 tests passed, 0 failures        | 177 unique members, deterministic regeneration, source locations, no fabricated implementation status                                  |
+| Native storage library cargo check      | Passed                            | affine_nbstore with use-as-lib, locked reference dependencies                                                                          |
+| Native storage library cargo test       | 31 tests passed, 0 failures       | Documents, blobs, sync clocks, schema validation/migrations, index persistence; no Node process needed to run the Rust test executable |
+| Electron reference unit suite           | 122 tests passed, 14 files passed | Actual Linux @affine/native binding built; BUILD_TYPE=canary; reference test fixtures only                                             |
+| Tauri probe build                       | Passed                            | Tauri 2.11.5, tauri-wd 0.1.11 behind optional e2e feature, Linux x86_64                                                                |
+| Native decoration state at construction | False                             | Rust is_decorated assertion passed; native app emitted AFFINE_PROBE_WINDOW decorations=false                                           |
+| Real frontend creates a document        | Passed                            | WebKitGTK in isolated X11 display, W3C element click                                                                                   |
+| Real editor text input                  | Passed                            | Character-by-character W3C element input, not direct document/model mutation                                                           |
+| Switch to edgeless                      | Passed                            | Existing mode-switch control creates affine-edgeless-root                                                                              |
+| Reload persistence                      | Passed                            | Typed title and edgeless mode survive WebView reload; no mock persistence                                                              |
+| Canvas/IndexedDB/Worker/secure context  | Available                         | Queried inside the actual native WebView                                                                                               |
 
 ## Commands
 
@@ -55,7 +56,7 @@ The script deletes its WebDriver session in finally unless PROBE_KEEP_SESSION=1 
 - The native driver originally inherited WAYLAND_DISPLAY and attached to the real compositor despite Xvfb. Explicit X11 isolation avoids that and gives deterministic geometry.
 - The reference open-in-app banner may be offscreen. The test dismisses it only if visible rather than treating a hidden banner as an editor failure.
 - Bulk send-keys only inserted the first character into the reactive editor with this driver. Separate W3C key commands and an inter-character delay work; this is a test-driver limitation, not evidence of a production keyboard defect.
-- Running reference Electron unit tests with BUILD_TYPE=canary gave 115 passing / 7 failing tests in 14 files; the failures require the unbuilt @affine/native Node binding. Those are incomplete setup results, not confirmed baseline bugs. The initial run without BUILD_TYPE also failed four recording tests; setting the expected build environment resolved those four.
+- The initial Electron reference run had 115 passing / 7 failing tests because @affine/native had not been built. After building the actual Linux Node binding, all 122 tests passed in all 14 files with BUILD_TYPE=canary. No test mocks or application source changes were needed to resolve those seven failures. The build regenerated platform-specific binding declarations/loaders; those generated tracked files were restored before committing, while the ignored local binary remained available for the reference tests.
 
 ## Still unverified
 

@@ -1,0 +1,22 @@
+{
+  "referenceRevision": "ef401b20cb2a5960278a8e7ab2c0e96d8f759aeb",
+  "scope": "Electron reference unit suite; not Tauri parity",
+  "platform": "linux",
+  "architecture": "x64",
+  "node": "22.23.4",
+  "rust": "1.97.1",
+  "buildCommand": "RUSTUP_TOOLCHAIN=1.97 CARGO_PROFILE_DEV_DEBUG=0 yarn workspace @affine/native build:debug",
+  "testCommand": "BUILD_TYPE=canary yarn workspace @affine/electron exec vitest run",
+  "results": {
+    "filesPassed": 14,
+    "filesFailed": 0,
+    "testsPassed": 122,
+    "testsFailed": 0
+  },
+  "setupCorrection": "Build the real native binding before testing; prior seven failures were missing binding setup, not reference defects.",
+  "dataScope": "Disposable test fixtures only; no real workspace or cloud authentication",
+  "limitations": [
+    "Unit tests, not full Electron GUI acceptance",
+    "No Windows/macOS reference run yet"
+  ]
+}
