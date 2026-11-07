@@ -1,6 +1,6 @@
 # AFFiNE WebView compatibility probe
 
-This is a disposable development tool for the architecture milestone, not an implementation of desktop services or evidence of desktop parity. Frontend/protocol modes register no application IPC commands and grant no remote native capabilities. A separate debug-only authority-probe mode registers diagnostic commands, never storage APIs. Automation uses disposable per-session profiles on Linux/Windows and ephemeral WKWebView stores on macOS. Ordinary launches use a probe-specific identifier. Do not distribute this executable.
+This is a disposable development tool for the architecture milestone, not an implementation of desktop services or evidence of desktop parity. Frontend/protocol modes register no application IPC commands and grant no remote native capabilities. A separate debug-only authority-probe mode registers diagnostic commands and no storage APIs. A further storage-probe mode, which requires the disposable e2e profile, adds four fixed-scope storage commands for a fixture only. Automation uses disposable per-session profiles on Linux/Windows and ephemeral WKWebView stores on macOS. Ordinary launches use a probe-specific identifier. Do not distribute this executable.
 
 Start the reference frontend on localhost:8080 after generating templates and installing workspace dependencies. From this directory:
 
@@ -47,3 +47,7 @@ The only granted command is authority_ping on the local probe WebView. A second 
 The smoke requires page-script execution in same-origin, cross-origin and opaque sandbox frames, a dedicated Worker, real reload and remote top-level navigation. A same-origin frame can access and modify the parent realm: its rejected fake ticket is not proof of frame isolation or resistance to a pre-bootstrap callback/prototype attack. Worker absence of globals proves absence of bootstrap, not inability to construct raw IPC traffic.
 
 Load-event timing is platform-specific. In locked Wry 0.55.1, Linux Started corresponds to WebKit Committed, not every attempted/failed navigation. Reload rejection does not prove immediate attempted-navigation revocation, storage drain, BFCache/crash/window-close cleanup or storage ownership. Those gates remain open. The diagnostic does not bind TrustedStorageSession or expose affine_tauri_core. See docs/tauri-migration/native-authority-probe.md.
+
+## Disposable native storage diagnostic
+
+Run `node storage-build.mjs`, then build with `e2e,storage-probe` and TAURI_CONFIG containing tauri.storage.conf.json, then run with PROBE_MODE=storage. The feature reuses the authority ticket, registers `storage_read`, `storage_write`, `storage_close` and `storage_reopen` on the local probe WebView only, and opens a real Rust `StorageSession` in the driver's disposable automation profile. The fixture is bundled from packages/frontend/tauri-bridge/test/native-fixture and uses the production bridge. It is a fixed-space fixture, not the production command boundary, and it moves bytes as JSON number arrays. See docs/tauri-migration/native-storage-probe.md.

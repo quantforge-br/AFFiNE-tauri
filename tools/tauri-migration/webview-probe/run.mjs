@@ -94,7 +94,7 @@ try {
   await requireFreePort(4460);
   if (
     process.env.PROBE_BUNDLED_FRONTEND !== '1' &&
-    !['protocol', 'authority'].includes(process.env.PROBE_MODE)
+    !['protocol', 'authority', 'storage'].includes(process.env.PROBE_MODE)
   ) {
     const frontend = await start(
       process.execPath,
@@ -137,11 +137,13 @@ try {
   const smoke = await start(
     process.execPath,
     [
-      process.env.PROBE_MODE === 'authority'
-        ? 'tools/tauri-migration/webview-probe/authority-smoke.mjs'
-        : process.env.PROBE_MODE === 'protocol'
-          ? 'tools/tauri-migration/webview-probe/protocol-smoke.mjs'
-          : 'tools/tauri-migration/webview-probe/smoke.mjs',
+      process.env.PROBE_MODE === 'storage'
+        ? 'tools/tauri-migration/webview-probe/storage-smoke.mjs'
+        : process.env.PROBE_MODE === 'authority'
+          ? 'tools/tauri-migration/webview-probe/authority-smoke.mjs'
+          : process.env.PROBE_MODE === 'protocol'
+            ? 'tools/tauri-migration/webview-probe/protocol-smoke.mjs'
+            : 'tools/tauri-migration/webview-probe/smoke.mjs',
     ],
     'smoke.log',
     {

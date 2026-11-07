@@ -33,6 +33,14 @@ pub struct PingResponse {
   challenge: String,
 }
 
+fn document_path() -> &'static str {
+  if cfg!(feature = "storage-probe") {
+    "/storage.html"
+  } else {
+    "/authority.html"
+  }
+}
+
 fn trusted_url(url: &tauri::Url) -> bool {
   let origin = (url.scheme() == "tauri" && url.host_str() == Some("localhost"))
     || (url.scheme() == "http" && url.host_str() == Some("tauri.localhost"));
@@ -40,7 +48,7 @@ fn trusted_url(url: &tauri::Url) -> bool {
     && url.port().is_none()
     && url.username().is_empty()
     && url.password().is_none()
-    && url.path() == "/authority.html"
+    && url.path() == document_path()
     && url.query().is_none()
     && url.fragment().is_none()
 }
@@ -77,6 +85,19 @@ pub fn on_page_load(window: WebviewWindow, payload: PageLoadPayload<'_>) {
   {
     document.ticket = None;
   }
+}
+
+#[cfg(feature = "storage-probe")]
+pub fn authorize(webview: &Webview, state: &Authority, ticket: &str) -> Result<u64, &'static str> {
+  if webview.label() != "probe" || !webview.url().is_ok_and(|url| trusted_url(&url)) {
+    return Err("UNAUTHORIZED");
+  }
+  let ticket = Uuid::parse_str(ticket).map_err(|_| "UNAUTHORIZED")?;
+  let document = state.0.lock().map_err(|_| "UNAUTHORIZED")?;
+  if document.ticket != Some(ticket) {
+    return Err("UNAUTHORIZED");
+  }
+  Ok(document.generation)
 }
 
 #[tauri::command]
@@ -116,25 +137,29 @@ mod tests {
 
   #[test]
   fn only_the_exact_bundled_diagnostic_document_is_trusted() {
-    for url in [
-      "tauri://localhost/authority.html",
-      "http://tauri.localhost/authority.html",
-    ] {
-      assert!(trusted_url(&url.parse().unwrap()));
+    // Each diagnostic mode trusts only its own document; the other mode's document must fail.
+    let (active, other) = if cfg!(feature = "storage-probe") {
+      ("storage.html", "authority.html")
+    } else {
+      ("authority.html", "storage.html")
+    };
+    for origin in ["tauri://localhost", "http://tauri.localhost"] {
+      assert!(trusted_url(&format!("{origin}/{active}").parse().unwrap()));
+      assert!(!trusted_url(&format!("{origin}/{other}").parse().unwrap()));
     }
     for url in [
-      "https://tauri.localhost/authority.html",
-      "http://tauri.localhost:80/authority.html?forged",
-      "tauri://localhost/frame.html",
-      "http://localhost/authority.html",
-      "tauri://localhost/authority.html?forged",
-      "tauri://localhost/authority.html#forged",
-      "http://tauri.localhost:8080/authority.html",
-      "http://attacker@tauri.localhost/authority.html",
-      "http://tauri.localhost.evil/authority.html",
-      "tauri://localhost/authority.html/",
+      format!("https://tauri.localhost/{active}"),
+      format!("http://tauri.localhost:80/{active}?forged"),
+      "tauri://localhost/frame.html".to_string(),
+      format!("http://localhost/{active}"),
+      format!("tauri://localhost/{active}?forged"),
+      format!("tauri://localhost/{active}#forged"),
+      format!("http://tauri.localhost:8080/{active}"),
+      format!("http://attacker@tauri.localhost/{active}"),
+      format!("http://tauri.localhost.evil/{active}"),
+      format!("tauri://localhost/{active}/"),
     ] {
-      assert!(!trusted_url(&url.parse().unwrap()));
+      assert!(!trusted_url(&url.parse().unwrap()), "{url}");
     }
   }
 

@@ -11,6 +11,10 @@ compile_error!("authority diagnostic must run separately from frontend/protocol 
 compile_error!("the authority diagnostic must not be included in release builds");
 #[cfg(feature = "authority-probe")]
 mod authority;
+#[cfg(feature = "storage-probe")]
+mod storage;
+#[cfg(all(feature = "storage-probe", not(feature = "e2e")))]
+compile_error!("storage diagnostic requires the disposable e2e profile");
 use tauri::{WebviewUrl, WebviewWindowBuilder};
 
 fn main() {
@@ -19,12 +23,24 @@ fn main() {
   let builder = tauri::Builder::default();
   #[cfg(feature = "e2e")]
   let builder = builder.plugin(tauri_wd::init());
-  #[cfg(feature = "authority-probe")]
+  #[cfg(all(feature = "authority-probe", not(feature = "storage-probe")))]
   let builder = builder
     .manage(authority::Authority::default())
     .invoke_handler(tauri::generate_handler![
       authority::authority_ping,
       authority::authority_forbidden
+    ]);
+  #[cfg(feature = "storage-probe")]
+  let builder = builder
+    .manage(authority::Authority::default())
+    .manage(tauri::async_runtime::block_on(storage::StorageProbe::new()).expect("disposable native storage fixture"))
+    .invoke_handler(tauri::generate_handler![
+      authority::authority_ping,
+      authority::authority_forbidden,
+      storage::storage_read,
+      storage::storage_write,
+      storage::storage_close,
+      storage::storage_reopen
     ]);
 
   builder
@@ -35,8 +51,10 @@ fn main() {
       let url = WebviewUrl::App("index.html".into());
       #[cfg(feature = "protocol-probe")]
       let url = WebviewUrl::App("protocol.html".into());
-      #[cfg(feature = "authority-probe")]
+      #[cfg(all(feature = "authority-probe", not(feature = "storage-probe")))]
       let url = WebviewUrl::App("authority.html".into());
+      #[cfg(feature = "storage-probe")]
+      let url = WebviewUrl::App("storage.html".into());
       let window = WebviewWindowBuilder::new(app, "probe", url)
         .title("AFFiNE WebView Compatibility Probe")
         .decorations(false)
@@ -118,7 +136,7 @@ fn main() {
       "#);
       let window = window
         .on_navigation(|url| {
-          #[cfg(feature = "authority-probe")]
+          #[cfg(all(feature = "authority-probe", not(feature = "storage-probe")))]
           if url.scheme() == "http" && url.host_str() == Some("127.0.0.1") && url.port() == Some(8080) && url.path() == "/frame.html" {
             return true;
           }
@@ -142,7 +160,7 @@ fn main() {
           }
         }
       });
-      #[cfg(feature = "authority-probe")]
+      #[cfg(all(feature = "authority-probe", not(feature = "storage-probe")))]
       {
         // This second local WebView deliberately has no command capability or document ticket.
         let blocked = WebviewWindowBuilder::new(app, "authority-blocked", WebviewUrl::App("authority-blocked.html".into()))

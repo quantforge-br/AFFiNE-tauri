@@ -1048,6 +1048,7 @@ __metadata:
     esbuild: "npm:^0.28.1"
     typescript: "npm:@typescript/typescript6@6.0.2"
     vitest: "npm:^4.1.11"
+    yjs: "npm:^13.6.27"
   languageName: unknown
   linkType: soft
 

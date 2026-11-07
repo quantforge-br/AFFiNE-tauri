@@ -1,0 +1,146 @@
+import * as Y from 'yjs';
+
+import { WorkerStorageClient } from '../../src/worker';
+
+// Disposable native-WebView fixture. It uses the production Worker client against a directly transferred port.
+interface FixtureScope {
+  postMessage(message: unknown): void;
+  addEventListener(
+    type: 'message',
+    listener: (event: MessageEvent) => void,
+    options?: { once: boolean }
+  ): void;
+}
+const scope = self as unknown as FixtureScope;
+const text = 'Native session café 東京 🦀';
+const expected = Uint8Array.from({ length: 256 }, (_, index) => index);
+
+function assert(condition: unknown, message: string): asserts condition {
+  if (!condition) throw new Error(message);
+}
+function code(error: unknown) {
+  return (error as { code?: string }).code ?? String(error);
+}
+function inspect(data: Uint8Array) {
+  const doc = new Y.Doc();
+  Y.applyUpdate(doc, data);
+  assert(doc.getText('text').toString() === text, 'Unicode CRDT text changed');
+  const bytes = doc.getMap('fixture').get('bytes');
+  assert(
+    bytes instanceof Uint8Array &&
+      bytes.length === 256 &&
+      bytes.every((byte, index) => byte === expected[index]),
+    'Binary CRDT payload changed'
+  );
+  doc.destroy();
+}
+
+async function run(port: MessagePort, phase: string) {
+  const client = new WorkerStorageClient(port);
+  const nativeGlobals = '__TAURI_INTERNALS__' in self || '__TAURI__' in self;
+  assert(!nativeGlobals, 'Worker received native bootstrap');
+  if (phase === 'initial') {
+    assert((await client.getDoc('roundtrip')) === null, 'Fixture is not empty');
+    const doc = new Y.Doc();
+    doc.getText('text').insert(0, text);
+    doc.getMap('fixture').set('bytes', expected);
+    const update = Y.encodeStateAsUpdate(doc);
+    const retained = new Uint8Array(update);
+    const clock = await client.pushUpdate('roundtrip', update);
+    assert(
+      clock.docId === 'roundtrip' && Number.isSafeInteger(clock.timestampMs),
+      'Invalid native write clock'
+    );
+    assert(
+      update.length === retained.length &&
+        update.every((byte, index) => byte === retained[index]),
+      'Client detached or changed caller input'
+    );
+    const stored = await client.getDoc('roundtrip');
+    assert(stored, 'Native write not readable');
+    inspect(stored.data);
+    let denial = '';
+    try {
+      await client.pushUpdate('roundtrip', new Uint8Array([255]));
+    } catch (error) {
+      denial = code(error);
+    }
+    assert(
+      denial === 'INVALID_INPUT',
+      'Malformed CRDT update was not rejected'
+    );
+    const unchanged = await client.getDoc('roundtrip');
+    assert(unchanged, 'Malformed input removed document');
+    inspect(unchanged.data);
+    doc.destroy();
+    scope.postMessage({
+      phase,
+      passed: true,
+      nativeGlobals,
+      bytes: 256,
+      text,
+      denial,
+    });
+  } else if (phase === 'reopen') {
+    const stored = await client.getDoc('roundtrip');
+    assert(stored, 'Awaited close/reopen lost the real SQLite document');
+    inspect(stored.data);
+    scope.postMessage({ phase, passed: true, nativeGlobals });
+  } else if (phase === 'cancel') {
+    const doc = new Y.Doc();
+    doc.getText('text').insert(0, 'accepted despite external cancellation');
+    const controller = new AbortController();
+    // The trusted host aborts only after the real native operation completed, while its reply is gated.
+    scope.addEventListener(
+      'message',
+      event => {
+        if ((event.data as { abort?: boolean }).abort === true)
+          controller.abort();
+      },
+      { once: true }
+    );
+    let denial = '';
+    try {
+      await client.pushUpdate(
+        'uncertain',
+        Y.encodeStateAsUpdate(doc),
+        controller.signal
+      );
+    } catch (error) {
+      denial = code(error);
+    }
+    assert(
+      denial === 'CANCELLED',
+      'External waiter did not observe cancellation'
+    );
+    doc.destroy();
+    scope.postMessage({ phase, passed: true, denial });
+  } else if (phase === 'reconcile') {
+    const stored = await client.getDoc('uncertain');
+    assert(stored, 'Accepted cancelled write was not persisted');
+    const doc = new Y.Doc();
+    Y.applyUpdate(doc, stored.data);
+    assert(
+      doc.getText('text').toString() ===
+        'accepted despite external cancellation',
+      'Reconciliation failed'
+    );
+    doc.destroy();
+    scope.postMessage({ phase, passed: true });
+  } else {
+    throw new Error('Unknown fixture phase');
+  }
+}
+scope.addEventListener(
+  'message',
+  event => {
+    const data = event.data as { port?: unknown; phase?: string };
+    if (data.port instanceof MessagePort && typeof data.phase === 'string') {
+      const phase = data.phase;
+      run(data.port, phase).catch((error: unknown) =>
+        scope.postMessage({ phase, passed: false, failure: String(error) })
+      );
+    }
+  },
+  { once: true }
+);

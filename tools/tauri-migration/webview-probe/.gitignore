@@ -1,2 +1,4 @@
 /target/
 /gen/
+/assets/storage-main.js
+/assets/storage-worker.js

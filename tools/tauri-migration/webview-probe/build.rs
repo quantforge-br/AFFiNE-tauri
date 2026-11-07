@@ -1,5 +1,14 @@
 fn main() {
-  let commands: &[&str] = if cfg!(feature = "authority-probe") {
+  let commands: &[&str] = if cfg!(feature = "storage-probe") {
+    &[
+      "authority_ping",
+      "authority_forbidden",
+      "storage_read",
+      "storage_write",
+      "storage_close",
+      "storage_reopen",
+    ]
+  } else if cfg!(feature = "authority-probe") {
     &["authority_ping", "authority_forbidden"]
   } else {
     &[]

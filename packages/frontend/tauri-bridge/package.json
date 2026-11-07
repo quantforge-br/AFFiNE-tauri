@@ -12,6 +12,7 @@
     "@types/node": "^22.0.0",
     "esbuild": "^0.28.1",
     "typescript": "npm:@typescript/typescript6@6.0.2",
-    "vitest": "^4.1.11"
+    "vitest": "^4.1.11",
+    "yjs": "^13.6.27"
   }
 }
