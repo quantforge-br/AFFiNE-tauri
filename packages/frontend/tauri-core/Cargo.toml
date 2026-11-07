@@ -1,0 +1,18 @@
+[package]
+name = "affine_tauri_core"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[dependencies]
+affine_nbstore = { workspace = true, features = ["use-as-lib"] }
+y-octo = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+sha2 = { workspace = true }
+thiserror = { workspace = true }
+tokio = { workspace = true, features = ["fs", "sync"] }
+uuid = { workspace = true, features = ["v4", "serde"] }
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }
+serde_json = { workspace = true }

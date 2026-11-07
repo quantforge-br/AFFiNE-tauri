@@ -1,0 +1,111 @@
+{
+  "capturedAt": "2026-11-07T16:00:20Z",
+  "platform": "Linux x86_64",
+  "toolchain": "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+  "scope": "Host-only Rust library using real SQLite and CRDT fixtures; not a Tauri command surface, editor storage adapter or desktop parity result",
+  "sourceParentRevision": "60385bdd4d",
+  "sourceHashes": {
+    "packages/frontend/tauri-core/Cargo.toml": "cf4e3dd9050faf87f08805a3217ff6467784b715bb4db346c5016076aec6ded0",
+    "packages/frontend/tauri-core/src/lib.rs": "dc0a53e9d1c48e05905ccb12ce0432edb2424efbad3bcc1680113edd080d5a7a",
+    "packages/frontend/tauri-core/src/tests.rs": "80fd26bcce201859340b12bb80e20912f95bdcee6bc19a087cfa6fd6e1709193",
+    "packages/frontend/tauri-core/tests/storage.rs": "e9321793fd0200c31bed8de050e6c755375fc46233ca3cc54aedb0f685baf07b"
+  },
+  "checks": [
+    {
+      "command": "cargo test -p affine_tauri_core --locked --offline",
+      "passed": true,
+      "unitTests": 4,
+      "integrationHarnessCases": 18,
+      "childFixtureIncluded": true,
+      "cases": [
+        "tests::accepted_write_finishes_and_publishes_when_the_awaiting_caller_is_cancelled",
+        "tests::in_flight_byte_budget_prevents_large_queued_requests_from_exceeding_64_mib",
+        "tests::owner_revocation_waits_for_inflight_writes_then_denies_further_access",
+        "tests::queued_write_budget_is_bounded_even_when_callers_cancel",
+        "cold_process_fixture",
+        "private_root_rejects_group_or_other_permissions",
+        "a_private_root_has_only_one_authority_across_brokers_and_processes",
+        "cold_process_restart_retains_document_and_rejects_the_previous_process_handle",
+        "malformed_crdt_is_rejected_before_changing_clocks_or_revisions",
+        "hostile_identifiers_cannot_select_paths_and_wire_errors_are_sanitized",
+        "hostile_crdt_counts_depth_and_trailing_bytes_are_rejected_without_persistence",
+        "owner_and_lease_limits_reject_overflow_and_release_capacity",
+        "sharing_uses_owner_scoped_leases_and_close_keeps_other_owner_alive",
+        "symlinked_root_and_sqlite_sidecars_are_rejected",
+        "valid_incremental_updates_can_arrive_before_their_dependencies",
+        "reopening_uses_existing_database_without_migrating_an_electron_profile",
+        "revoke_wakes_blocked_subscribers_and_does_not_invalidate_other_owners",
+        "snapshots_have_no_subscription_gap_and_source_echoes_are_suppressed",
+        "concurrent_updates_to_one_document_converge_without_lost_clients",
+        "parallel_writes_have_strict_revisions_and_no_lost_committed_updates",
+        "peer_type_and_length_delimited_identifiers_isolate_databases",
+        "lagged_events_explicitly_require_a_new_snapshot"
+      ]
+    },
+    {
+      "command": "cargo clippy -p affine_tauri_core --all-targets --locked --offline --no-deps -- -D warnings",
+      "passed": true
+    },
+    {
+      "command": "cargo fmt -p affine_tauri_core -- --check",
+      "passed": true,
+      "note": "Stable rustfmt warns about preexisting nightly-only repository settings."
+    },
+    {
+      "command": "cargo tree -p affine_tauri_core --locked --offline --edges normal,build --prefix none --format '{p}'",
+      "passed": true,
+      "napiCrates": []
+    },
+    {
+      "command": "cargo test -p affine_nbstore --no-default-features --features use-as-lib --locked --offline",
+      "passed": true,
+      "unitTests": 31,
+      "integrationTests": 1
+    },
+    {
+      "command": "cargo test -p affine_nbstore --features napi --locked --offline --lib",
+      "passed": true,
+      "tests": 33
+    },
+    {
+      "command": "cargo test -p affine_mobile_native --locked --offline",
+      "passed": true,
+      "tests": 8
+    },
+    {
+      "command": "cargo check -p affine_native --locked --offline",
+      "passed": true
+    },
+    {
+      "command": "BUILD_TYPE=canary node ../../../../node_modules/vitest/vitest.mjs run",
+      "cwd": "packages/frontend/apps/electron",
+      "passed": true,
+      "testFiles": 14,
+      "tests": 122,
+      "note": "Actual prebuilt Linux native binding, no generated binding changes."
+    },
+    {
+      "command": "NODE_PATH=/usr/lib/node_modules node --test tools/tauri-migration/inventory.test.mjs tools/tauri-migration/lottie-assets.test.mjs",
+      "passed": true,
+      "tests": 8
+    },
+    {
+      "command": "actionlint .github/workflows/tauri-core.yml",
+      "passed": true
+    },
+    {
+      "command": "git diff --check",
+      "passed": true
+    }
+  ],
+  "limitations": [
+    "Only Linux library results are recorded here; Windows/macOS execution requires actual tauri-core.yml artifacts.",
+    "The cold process fixture tests library SQLite recovery after process exit, not application restart, power-loss durability or legacy migration.",
+    "No renderer/Tauri commands, MessageChannel adapter, trusted main-frame isolation or owner lifecycle integration exist yet.",
+    "Read/merge memory and CPU, stored growth, snapshot pagination, subscription/read budgets and large-document compatibility remain gates before renderer exposure.",
+    "Unix root permissions and preexisting symlink checks are not race-proof filesystem confinement; Windows ACL/reparse/hardlink policy remains pending.",
+    "Queue limits are not a total process memory bound or an approved product capability reduction.",
+    "No blobs/indexing/sync/awareness/telemetry adapter, full StoreManager compatibility, native controls, cloud or packaging acceptance.",
+    "Native root locking is cooperative and does not defend against another process that ignores locks or replaces files."
+  ]
+}

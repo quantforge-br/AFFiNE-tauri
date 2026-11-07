@@ -38,6 +38,8 @@ A trusted UI bridge brokers Web Worker requests to Rust. Ordinary Web Workers do
 
 The Rust storage pool uses the existing v2 schema/migrations and native indexer. The standalone use-as-lib path now uses owned Vec<u8> and optional N-API dependencies, with a dependency audit proving no N-API crates in the standalone/mobile graphs. Linux checks cover 31 library tests, a byte/CRDT SQLite reopen integration test, 33 binding-mode tests, eight mobile tests and the 122-test Electron reference suite after rebuilding its actual binding. See evidence/linux-rust-storage.json. Explicit wire DTOs, host authorization, cold-process restart and production migration tests remain prerequisites for Tauri integration.
 
+A host-owned storage foundation now exists at packages/frontend/tauri-core. It adds non-deserializable host owners, scoped leases, shared-space serialization, native exclusive root locking, bounded CRDT validation, cancellation-safe accepted writes and revisioned snapshot/event streams. Linux passes four unit tests and eighteen integration harness cases, including separate-process reopen and root-lock denial; see [evidence/linux-tauri-core.json](evidence/linux-tauri-core.json) and the crate README for limits. This library has no Tauri commands or frontend adapter. Read/merge resources, Windows path policy, legacy migration and the full nbstore API still gate renderer exposure.
+
 Workspace data belongs in a new app-owned location by default. Import from the reference only after consistent backup and validation, including WAL/SHM handling and restart/interruption recovery. Never write to the original profile merely because an app ID matches.
 
 ## Network, authentication and remote content
