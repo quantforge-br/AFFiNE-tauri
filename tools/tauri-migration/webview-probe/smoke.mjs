@@ -129,6 +129,60 @@ try {
   assert.equal(runtime.worker, 'function');
   assert.equal(runtime.canvas, true);
   checks.push({ name: 'required-web-platform-apis', passed: true });
+  const workerTransport = await command('POST', '/execute/async', {
+    script: `
+      const done = arguments[arguments.length - 1];
+      const bytes = new Uint8Array([0, 1, 127, 128, 255]);
+      const channel = new MessageChannel();
+      const source = 'self.onmessage = ({data}) => { const {port, buffer} = data; port.postMessage({buffer, nativeIPC: typeof self.__TAURI_INTERNALS__?.invoke === "function"}, [buffer]); };';
+      const url = URL.createObjectURL(new Blob([source], {type: 'text/javascript'}));
+      const worker = new Worker(url);
+      const timer = setTimeout(() => finish({error: 'worker transfer timed out'}), 10000);
+      function finish(result) {
+        clearTimeout(timer);
+        worker.terminate();
+        channel.port1.close();
+        channel.port2.close();
+        URL.revokeObjectURL(url);
+        done(result);
+      }
+      worker.onerror = event => finish({error: event.message});
+      channel.port1.onmessage = event => finish({
+        bytes: Array.from(new Uint8Array(event.data.buffer)),
+        detached: bytes.byteLength === 0,
+        workerNativeIPC: event.data.nativeIPC,
+      });
+      worker.postMessage({port: channel.port2, buffer: bytes.buffer}, [channel.port2, bytes.buffer]);
+    `,
+    args: [],
+  });
+  assert.deepEqual(workerTransport.bytes, [0, 1, 127, 128, 255]);
+  assert.equal(workerTransport.detached, true);
+  assert.equal(workerTransport.workerNativeIPC, false);
+  checks.push({
+    name: 'worker-message-port-binary-transfer',
+    passed: true,
+    workerTransport,
+  });
+  const nativeAccess = await command('POST', '/execute/async', {
+    script: `
+      const done = arguments[arguments.length - 1];
+      if (typeof window.__TAURI_INTERNALS__?.invoke !== 'function') {
+        done({error: 'native IPC transport missing; cannot verify authorization'});
+      } else {
+        window.__TAURI_INTERNALS__.invoke('plugin:window|set_title', {label: 'probe', title: 'UNAUTHORIZED'})
+          .then(() => done({allowed: true}), error => done({allowed: false, reason: String(error)}));
+      }
+    `,
+    args: [],
+  });
+  assert.equal(nativeAccess.allowed, false, JSON.stringify(nativeAccess));
+  assert.match(nativeAccess.reason, /not allowed|not permitted|denied/i);
+  checks.push({
+    name: 'remote-native-command-denied',
+    passed: true,
+    reason: nativeAccess.reason,
+  });
   const evidence = {
     scope: 'reference frontend in isolated Tauri WebView; not desktop parity',
     capturedAt: new Date().toISOString(),

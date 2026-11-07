@@ -21,6 +21,8 @@ The reproducible Linux run is recorded in [evidence/linux-webview-smoke.json](ev
 | Switch to edgeless                      | Passed                            | Existing mode-switch control creates affine-edgeless-root                                                                              |
 | Reload persistence                      | Passed                            | Typed title and edgeless mode survive WebView reload; no mock persistence                                                              |
 | Canvas/IndexedDB/Worker/secure context  | Available                         | Queried inside the actual native WebView                                                                                               |
+| Worker/MessagePort binary transport     | Passed                            | Actual Worker returns transferred bytes 0/1/127/128/255, sender buffer detached, no Worker native IPC                                  |
+| Remote native command authorization     | Denied as expected                | Invoking core window.set_title from the localhost content returns a permission error; not a complete IPC security audit                |
 
 ## Commands
 

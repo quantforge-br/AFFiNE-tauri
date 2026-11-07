@@ -2,7 +2,7 @@
   "referenceRevision": "ef401b20cb2a5960278a8e7ab2c0e96d8f759aeb",
   "kind": "architecture-compatibility-probe",
   "scope": "reference frontend in isolated Tauri WebView; not desktop parity",
-  "capturedAt": "2026-11-07T12:02:32.464Z",
+  "capturedAt": "2026-11-07T12:25:02.388Z",
   "platform": "linux",
   "architecture": "x64",
   "checks": [
@@ -13,7 +13,7 @@
     {
       "name": "native-text-input",
       "passed": true,
-      "marker": "Tauri WebView persistence 1794052917067"
+      "marker": "Tauri WebView persistence 1794054266509"
     },
     {
       "name": "switch-edgeless",
@@ -22,18 +22,32 @@
     {
       "name": "reload-persistence",
       "passed": true,
-      "url": "http://localhost:8080/workspace/n2dUEuaSjq8jH2LyVkJYB/03Do-6VwB_EiIT9D3zNe2"
+      "url": "http://localhost:8080/workspace/JdGg8RKVYHBy9phZHI5lk/mLto3_u71cx-dxfyviJ1u"
     },
     {
       "name": "required-web-platform-apis",
       "passed": true
+    },
+    {
+      "name": "worker-message-port-binary-transfer",
+      "passed": true,
+      "workerTransport": {
+        "bytes": [0, 1, 127, 128, 255],
+        "detached": true,
+        "workerNativeIPC": false
+      }
+    },
+    {
+      "name": "remote-native-command-denied",
+      "passed": true,
+      "reason": "window.set_title not allowed. Permissions associated with this command: core:window:allow-set-title"
     }
   ],
   "runtime": {
     "canvas": true,
     "indexedDB": "object",
     "secureContext": true,
-    "url": "http://localhost:8080/workspace/n2dUEuaSjq8jH2LyVkJYB/03Do-6VwB_EiIT9D3zNe2?mode=edgeless",
+    "url": "http://localhost:8080/workspace/JdGg8RKVYHBy9phZHI5lk/mLto3_u71cx-dxfyviJ1u?mode=edgeless",
     "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/60.5 Safari/605.1.15",
     "worker": "function"
   },
@@ -53,7 +67,7 @@
   "limitations": [
     "Reference web frontend served on localhost, not a production desktop build",
     "Browser IndexedDB persistence across reload only, not a Rust/SQLite adapter or cold restart",
-    "No authenticated cloud, native IPC parity, custom window controls, packaging or update tests",
+    "No authenticated cloud, complete native IPC/security parity, custom window controls, packaging or update tests",
     "Windows and macOS runtime evidence pending"
   ]
 }
