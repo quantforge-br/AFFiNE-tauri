@@ -27,6 +27,9 @@ try {
       },
     })
   ).sessionId;
+  await request('POST', '/session/' + sessionId + '/timeouts', {
+    script: 5000,
+  });
   const deadline = Date.now() + 120000;
   const documents = new Set();
   const transientErrors = [];

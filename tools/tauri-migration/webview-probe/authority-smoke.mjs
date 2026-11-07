@@ -25,6 +25,25 @@ const execute = script =>
     script,
     args: [],
   });
+const transientScriptTimeouts = [];
+// WebView2 can lose the callback of a script that is pending while the document is replaced. Only
+// that exact timeout is retried, each one is recorded, and acceptance still needs the page evidence.
+async function poll(script) {
+  try {
+    return await execute(script);
+  } catch (error) {
+    if (
+      !String(error).includes('script timeout') ||
+      transientScriptTimeouts.length >= 12
+    )
+      throw error;
+    transientScriptTimeouts.push({
+      at: new Date().toISOString(),
+      script: script.slice(0, 60),
+    });
+    return undefined;
+  }
+}
 try {
   sessionId = (
     await request('POST', '/session', {
@@ -35,6 +54,10 @@ try {
       },
     })
   ).sessionId;
+  evidence.transientScriptTimeouts = transientScriptTimeouts;
+  await request('POST', '/session/' + sessionId + '/timeouts', {
+    script: 5_000,
+  });
   const handles = await request(
     'GET',
     '/session/' + sessionId + '/window/handles'
@@ -66,7 +89,7 @@ try {
   await request('POST', '/session/' + sessionId + '/window', { handle: main });
   let result;
   do {
-    result = await execute('return window.__authorityResults');
+    result = await poll('return window.__authorityResults');
     if (result?.done) break;
     await delay(250);
   } while (Date.now() < deadline);
@@ -94,9 +117,9 @@ try {
     "setTimeout(() => { location.href = 'http://127.0.0.1:8080/frame.html?tag=remote-navigation'; }, 0); return true;"
   );
   let remote;
-  const remoteDeadline = Date.now() + 20_000;
+  const remoteDeadline = Date.now() + 45_000;
   do {
-    remote = await execute('return window.__frameAuthorityOutcome');
+    remote = await poll('return window.__frameAuthorityOutcome');
     if (remote?.tag === 'remote-navigation') break;
     await delay(250);
   } while (Date.now() < remoteDeadline);
