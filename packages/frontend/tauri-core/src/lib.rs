@@ -15,6 +15,9 @@ use uuid::Uuid;
 #[cfg(test)]
 mod tests;
 
+mod session;
+pub use session::StorageSession;
+
 const MAX_IDENTIFIER_BYTES: usize = 2048;
 const MAX_OWNERS: usize = 128;
 const MAX_GRANTS: usize = 128;
@@ -65,6 +68,8 @@ pub enum Error {
   ResyncRequired,
   #[error("storage operation task failed")]
   Task,
+  #[error("storage session is closed")]
+  Closed,
 }
 pub type Result<T> = std::result::Result<T, Error>;
 

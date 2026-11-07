@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "scope": "Rust-only fixed-scope session and native accepted-work lifetime; not Tauri/TypeScript binding or desktop parity",
+  "parentRevision": "e1e86894ab6b50fd3c3f1155415e0158cd66d86e",
+  "platform": "Linux x86_64",
+  "toolchain": "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+  "sourceHashes": {
+    "packages/frontend/tauri-core/Cargo.toml": "cf4e3dd9050faf87f08805a3217ff6467784b715bb4db346c5016076aec6ded0",
+    "packages/frontend/tauri-core/src/lib.rs": "6f667fd5539c7586f6532879272c2baed204592b1b8281c0e4035af0daa36a43",
+    "packages/frontend/tauri-core/src/session.rs": "68e13040ef28dee17141420a706a7b732b125257fef9edfc238f303cd01d39c7",
+    "packages/frontend/tauri-core/src/session/tests.rs": "ef2dbeffd58e2696b06027e0104276ea53c2564c1cd2e12530d8ba75b93919a2",
+    "packages/frontend/tauri-core/tests/session.rs": "beb9d816fb275e7be58be21080dca7478cc85188bd7fec4b6367a6c847da65f9"
+  },
+  "implementation": {
+    "authority": "Host-only trusted SpaceKey creates dedicated owner and lease; method payloads only docId/update",
+    "admission": "Synchronous admission/closing gate; 64 accepted calls, 64 MiB update input bytes rounded to 64 KiB",
+    "cancellation": "Accepted operation and admission survive cancellation of its external waiter",
+    "close": "Stops admission, drains accepted native work, revokes dedicated owner, shares a stable result with concurrent/repeated/cancelled waiters",
+    "failure": "Host-side external revocation yields stable UNAUTHORIZED; join failure maps TASK, not success",
+    "drop": "Best-effort async cleanup only; explicit awaited close with live runtime is required"
+  },
+  "verification": {
+    "sessionUnitTests": 8,
+    "sessionPublicIntegrationTests": 3,
+    "existingCoreUnitTests": 4,
+    "existingStorageIntegrationHarnessCases": 18,
+    "totalHarnessCases": 33,
+    "standaloneStorageUnitTests": 33,
+    "standaloneStorageIntegrationTests": 2,
+    "format": "passed; existing nightly-only configuration warnings retained",
+    "clippy": "passed --all-targets --no-deps -- -D warnings",
+    "dependencyAudit": "normal/build graph excludes napi, napi-derive and napi-build",
+    "realDatabase": true,
+    "testDoubles": false,
+    "multithread": "Accepted write draining, cancelled close waiter and cancelled-read capacity cases run on a two-thread Tokio runtime; no sleeps",
+    "immediateCleanup": "Root close/reopen plus immediate remove_dir_all asserted without retries"
+  },
+  "logs": {
+    "root": "/tmp/affine-tauri-build",
+    "core": "session-core-final.log",
+    "clippy": "session-clippy-final.log",
+    "format": "session-fmt-final.log",
+    "dependencies": "session-dependencies.log",
+    "standalone": "session-nbstore-regression.log"
+  },
+  "limitations": [
+    "No TypeScript TrustedStorageSession implementation, Tauri commands, native main-frame authorization, Worker bridge or editor integration.",
+    "Lower-level SQLite close returns no error result; stable external-revocation failure is not simulated disk/flush failure evidence.",
+    "Runtime/process shutdown, stuck native work, panic recovery, leaked references and host navigation/reload/close wiring remain open.",
+    "Per-session operation/input budgets do not bound merged reads, stored growth, response serialization or aggregate sessions/queues.",
+    "No snapshot/subscription transport, blobs, full StoreManager API, migration, power-loss or application restart acceptance.",
+    "Windows/macOS extension results pending; previous library evidence remains separate."
+  ],
+  "review": "Host-agent OCR-rule review, not independent code review/security audit"
+}
