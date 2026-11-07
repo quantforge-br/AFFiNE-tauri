@@ -10,7 +10,7 @@ On Linux WebKitGTK, a minimal embedded page at tauri://localhost can fetch JavaS
 
 The AFFiNE reference web frontend already exposes a dedicated-Worker path. The architecture probe selects that path using its existing local setting; the production Tauri adapter must select it explicitly before importing the application. A disposable setting is not the implementation of a production broker.
 
-The updated Linux development-origin smoke passes creation, real input, edgeless, completed writes, real reload, binary transfer, native-command denial and independent workbench routes with a dedicated Worker. This does not establish native-origin packaging or inter-window parity. The production/static web bundle still stops responding after initial workspace loading with the dedicated Worker; the minimal diagnostic excludes a general dedicated-Worker/IndexedDB incompatibility, not all bootstrap defects.
+The development-origin smoke passes all nine checks on Linux, Windows and macOS with dedicated Workers; [third CI evidence](evidence/ci-webview-probe-third.json) includes real writes/reload, binary transfer, native-command denial and independent workbench routes. The minimal native protocol diagnostics pass dedicated Worker transport/storage on all three platforms; SharedWorker storage fails on Linux/macOS and succeeds on Windows. None of these results implements cross-window coordination or full native-origin frontend packaging.
 
 ## Required implementation
 
@@ -21,4 +21,4 @@ The updated Linux development-origin smoke passes creation, real input, edgeless
 - Revisioned bootstrap must avoid subscribe/snapshot races. Events are scoped to authorized owners and suppress feedback to the original writer.
 - Unit, integration and native E2E must cover two windows, concurrency, close/reopen, cancellation, large/binary data, worker termination, offline process restart and all three platforms.
 
-This direction does not close the architecture milestone. Windows reload, static native-origin bootstrap, actual tab lifecycle and the production bridge remain open gates.
+This direction does not close the architecture milestone. The previous Windows development-origin reload and Linux interaction failures are resolved at the probe level in the third CI, without deleting earlier failed evidence. Full static native-origin bootstrap, actual tab lifecycle and the production bridge remain open gates.

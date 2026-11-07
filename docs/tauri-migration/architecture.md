@@ -1,6 +1,6 @@
 # Tauri desktop architecture proposal
 
-Status: **provisional**. Linux editor feasibility is verified in linux-probe-results.md. Windows/macOS engine and native-integration checks are still required before this architecture milestone can be closed.
+Status: **provisional**. The nine-check editor smoke with dedicated Workers and the minimal native-origin protocol/storage diagnostic pass on Linux, Windows and macOS in [CI run 42382266355](evidence/ci-webview-probe-third.json). Full embedded-frontend execution, production broker/native integrations and the workbench lifecycle still gate architecture acceptance.
 
 ## Runtime model
 
@@ -65,6 +65,6 @@ Remote iframe isolation is a high-risk item: Tauri docs warn that Linux cannot d
 
 Follow parity-matrix.md and record OS/architecture/revision/commands/results; source mapping and mocks alone never close a requirement. Separate pure Rust/unit tests from actual WebView/native E2E. Keep all automation behind test features and loopback authentication.
 
-The current standalone probe is not part of production packaging. Linux smoke passes creation, character input, edgeless switching and persistence after reload. 31 native storage Rust tests pass. Windows/macOS execution, custom controls, restart/backup and authenticated cloud integration still need evidence. If machines, certificates or accounts are missing, preserve progress and ask rather than weakening scope.
+The standalone probe is not part of production packaging. All three native WebViews pass document creation, real text input, edgeless, completed writes, reload persistence, required web APIs, binary Worker transfer, denied native commands and independent workbench routes. Minimal native-origin dedicated Worker/IndexedDB diagnostics also pass on each platform. These are not cold process restart, native storage-host integration, authentication, custom controls, tab lifecycle or installable-package evidence. See evidence/ci-webview-probe-third.json; earlier failed runs remain recorded.
 
 Sources consulted: https://v2.tauri.app/concept/architecture/ ; https://v2.tauri.app/security/capabilities/ ; https://v2.tauri.app/develop/tests/webdriver/ . Exact local Tauri 2.11.5 source was inspected for add_child, navigation policy and decoration state APIs.

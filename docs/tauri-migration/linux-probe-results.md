@@ -4,7 +4,7 @@
 
 Reference application revision: ef401b20cb2a5960278a8e7ab2c0e96d8f759aeb. The probe sources are in tools/tauri-migration/webview-probe. This is compatibility evidence only: the probe loads the existing web frontend from a local development server and is **not** the completed native desktop application. Its persistence check uses the reference browser storage, not a new Tauri SQLite adapter.
 
-The reproducible Linux run is recorded in [evidence/linux-webview-smoke.json](evidence/linux-webview-smoke.json). The full runner started and stopped its own frontend/driver; occupied ports are rejected rather than silently reusing another process. The three-platform CI workflow is configured, but no Windows/macOS result is claimed until those jobs execute.
+The original reproducible Linux run is recorded in [evidence/linux-webview-smoke.json](evidence/linux-webview-smoke.json). The runner starts/stops its own processes and rejects occupied ports. Subsequent [third CI evidence](evidence/ci-webview-probe-third.json) records nine passing editor checks on Linux, Windows and macOS, plus passing minimal native-protocol dedicated Worker storage diagnostics. The first and second failed CI runs remain preserved.
 
 ## Verified results
 
@@ -62,4 +62,4 @@ The script deletes its WebDriver session in finally unless PROBE_KEEP_SESSION=1 
 
 ## Still unverified
 
-Cold process restart persistence, SQLite-to-Tauri integration, offline asset packaging, native auth/sync, complete IPC security, clipboard/import/export, tabs, split views, worker ownership, media, signed updates, window-control transitions and all other parity matrix entries remain open. The first CI run built and launched all three native engines; Windows/macOS passed creation/input/edgeless but failed the reload gate. Their raw results are preserved in evidence/ci-webview-probe-first.json. A corrected test waits for actual engine persistence before a deferred reload and asserts a new performance.timeOrigin; Linux passes this stronger sequence, and a new three-platform run is required. Do not complete the architecture milestone or claim desktop parity from this report.
+Cold process restart persistence, SQLite-to-Tauri integration, full offline asset packaging, native auth/sync, complete IPC security, clipboard/import/export, tabs, real split-view lifecycle, cross-window worker ownership, media, signed updates, window-control transitions and other parity items remain open. Third CI run 42382266355 passes the nine-check development-origin editor smoke on all three systems, resolving the earlier Windows reload/Linux interaction failures through stronger document identity/interaction sequencing. This does not establish full embedded-native-origin application execution or production desktop parity.
