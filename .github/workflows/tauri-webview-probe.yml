@@ -46,10 +46,28 @@ jobs:
         run: node .yarn/releases/yarn-4.18.0.cjs install --immutable --mode=skip-build
       - name: Generate reference template assets
         run: node .yarn/releases/yarn-4.18.0.cjs workspace @affine/templates build
-      - name: Build isolated native probe
-        run: cargo build --manifest-path tools/tauri-migration/webview-probe/Cargo.toml --locked --features e2e
       - name: Install native WebDriver
         run: cargo install tauri-wd --version 0.1.11 --locked --debug
+      - name: Build minimal native protocol diagnostic
+        shell: bash
+        run: |
+          TAURI_CONFIG="$(cat tools/tauri-migration/webview-probe/tauri.protocol.conf.json)"
+          export TAURI_CONFIG
+          cargo build --manifest-path tools/tauri-migration/webview-probe/Cargo.toml --locked --features e2e,protocol-probe
+      - name: Run native protocol diagnostic (Linux)
+        if: runner.os == 'Linux'
+        env:
+          PROBE_MODE: protocol
+          PROBE_OUTPUT_DIR: ${{ github.workspace }}/.coverage/tauri-probe/protocol
+        run: env -u WAYLAND_DISPLAY GDK_BACKEND=x11 xvfb-run -a -s '-screen 0 1600x1000x24' node tools/tauri-migration/webview-probe/run.mjs
+      - name: Run native protocol diagnostic (Windows/macOS)
+        if: runner.os != 'Linux'
+        env:
+          PROBE_MODE: protocol
+          PROBE_OUTPUT_DIR: ${{ github.workspace }}/.coverage/tauri-probe/protocol
+        run: node tools/tauri-migration/webview-probe/run.mjs
+      - name: Build isolated native editor probe
+        run: cargo build --manifest-path tools/tauri-migration/webview-probe/Cargo.toml --locked --features e2e
       - name: Run native editor probe (Linux)
         if: runner.os == 'Linux'
         run: env -u WAYLAND_DISPLAY GDK_BACKEND=x11 xvfb-run -a -s '-screen 0 1600x1000x24' node tools/tauri-migration/webview-probe/run.mjs

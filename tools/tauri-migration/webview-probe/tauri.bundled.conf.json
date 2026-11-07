@@ -1,0 +1,11 @@
+{
+  "build": {
+    "frontendDist": "../../../packages/frontend/apps/web/dist"
+  },
+  "app": {
+    "security": {
+      "capabilities": [],
+      "csp": "default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; worker-src 'self' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data: https:; font-src 'self' data:; connect-src 'self' ipc: http://ipc.localhost blob: data:; media-src 'self' blob: data:; object-src 'none'; base-uri 'self'; frame-src 'none'"
+    }
+  }
+}

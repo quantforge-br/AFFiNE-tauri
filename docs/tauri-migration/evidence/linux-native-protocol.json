@@ -1,0 +1,94 @@
+{
+  "scope": "Minimal native-scheme reproduction, not AFFiNE or desktop parity",
+  "capturedAt": "2026-11-07T14:33:54.615Z",
+  "platform": "linux",
+  "architecture": "x64",
+  "checks": [
+    {
+      "name": "fetch-worker-asset",
+      "passed": true,
+      "status": 200,
+      "type": "text/javascript"
+    },
+    {
+      "bytes": [
+        0,
+        127,
+        255
+      ],
+      "name": "indexeddb-roundtrip",
+      "passed": true
+    },
+    {
+      "databasePassed": true,
+      "name": "dedicated-native-url",
+      "passed": true,
+      "response": {
+        "crypto": "function",
+        "database": true,
+        "databaseBytes": [
+          0,
+          127,
+          255
+        ],
+        "indexedDB": "object",
+        "message": "protocol-test",
+        "nativeIPC": false,
+        "origin": "tauri://localhost",
+        "secureContext": true
+      }
+    },
+    {
+      "databasePassed": true,
+      "name": "dedicated-fetched-blob",
+      "passed": true,
+      "response": {
+        "crypto": "function",
+        "database": true,
+        "databaseBytes": [
+          0,
+          127,
+          255
+        ],
+        "indexedDB": "object",
+        "message": "protocol-test",
+        "nativeIPC": false,
+        "origin": "tauri://localhost",
+        "secureContext": true
+      }
+    },
+    {
+      "databasePassed": false,
+      "name": "shared-native-url",
+      "passed": true,
+      "response": {
+        "crypto": "function",
+        "databaseError": "SecurityError: IDBFactory.open() called in an invalid security context",
+        "indexedDB": "object",
+        "message": "protocol-test",
+        "nativeIPC": false,
+        "origin": "null",
+        "secureContext": true
+      }
+    },
+    {
+      "databasePassed": false,
+      "name": "shared-fetched-blob",
+      "passed": true,
+      "response": {
+        "crypto": "function",
+        "databaseError": "SecurityError: IDBFactory.open() called in an invalid security context",
+        "indexedDB": "object",
+        "message": "protocol-test",
+        "nativeIPC": false,
+        "origin": "null",
+        "secureContext": true
+      }
+    }
+  ],
+  "done": true,
+  "origin": "tauri://localhost",
+  "secureContext": true,
+  "sharedWorkerStorageSupported": false,
+  "acceptance": "Dedicated Worker transport and storage required; SharedWorker results are diagnostic only"
+}

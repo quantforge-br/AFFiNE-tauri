@@ -92,18 +92,23 @@ try {
   // Do not accidentally test an unrelated process already listening on these ports.
   await requireFreePort(8080);
   await requireFreePort(4460);
-  const frontend = await start(
-    process.execPath,
-    ['.yarn/releases/yarn-4.18.0.cjs', 'affine', 'dev', '-p', '@affine/web'],
-    'frontend.log',
-    { ...process.env, NODE_OPTIONS: '--max-old-space-size=6144' }
-  );
-  await waitFor(
-    'http://localhost:8080/',
-    frontend,
-    'reference frontend',
-    async response => (await response.text()).includes('<html')
-  );
+  if (
+    process.env.PROBE_BUNDLED_FRONTEND !== '1' &&
+    process.env.PROBE_MODE !== 'protocol'
+  ) {
+    const frontend = await start(
+      process.execPath,
+      ['.yarn/releases/yarn-4.18.0.cjs', 'affine', 'dev', '-p', '@affine/web'],
+      'frontend.log',
+      { ...process.env, NODE_OPTIONS: '--max-old-space-size=6144' }
+    );
+    await waitFor(
+      'http://localhost:8080/',
+      frontend,
+      'reference frontend',
+      async response => (await response.text()).includes('<html')
+    );
+  }
   const driver = await start(
     process.env.PROBE_DRIVER ?? 'tauri-wd',
     ['--port', '4460'],
@@ -117,7 +122,11 @@ try {
   );
   const smoke = await start(
     process.execPath,
-    ['tools/tauri-migration/webview-probe/smoke.mjs'],
+    [
+      process.env.PROBE_MODE === 'protocol'
+        ? 'tools/tauri-migration/webview-probe/protocol-smoke.mjs'
+        : 'tools/tauri-migration/webview-probe/smoke.mjs',
+    ],
     'smoke.log',
     {
       ...process.env,

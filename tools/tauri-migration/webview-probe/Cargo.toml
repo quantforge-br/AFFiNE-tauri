@@ -8,6 +8,8 @@ publish = false
 
 [features]
 e2e = ["dep:tauri-wd"]
+bundled-frontend = ["tauri/custom-protocol"]
+protocol-probe = ["tauri/custom-protocol"]
 
 [dependencies]
 tauri = { version = "=2.11.5" }

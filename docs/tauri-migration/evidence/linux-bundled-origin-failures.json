@@ -1,0 +1,78 @@
+{
+  "referenceRevision": "ef401b20cb2a5960278a8e7ab2c0e96d8f759aeb",
+  "scope": "Failed architecture experiments, not passing offline acceptance",
+  "platform": "linux",
+  "origin": "tauri://localhost",
+  "frontend": "Reference web production bundle with PUBLIC_PATH=/, assets embedded in the Tauri executable",
+  "capabilities": [],
+  "attempts": [
+    {
+      "name": "native-scheme-shared-worker",
+      "result": {
+        "checks": [],
+        "failure": "Error: Timed out: workspace load",
+        "diagnostic": {
+          "edgeless": false,
+          "editor": false,
+          "errors": [],
+          "focused": true,
+          "text": "Open this doc in AFFiNE app\nDon't have the app? Click to download.\nRemember choice\nDismiss\nOpen in app",
+          "title": null,
+          "url": "tauri://localhost",
+          "viewport": [1280, 900],
+          "visibility": "visible",
+          "workers": [
+            {
+              "kind": "SharedWorker",
+              "url": "/js/nbstore-0.27.5.worker.js"
+            }
+          ],
+          "workspace": null
+        },
+        "sessionId": "ea9b123f-3ae6-40fe-a74f-46228f08b492"
+      }
+    },
+    {
+      "name": "native-scheme-dedicated-worker",
+      "result": {
+        "checks": [],
+        "failure": "Error: {\"value\":{\"error\":\"script timeout\",\"message\":\"Script execution timed out\",\"stacktrace\":\"\"}}",
+        "diagnostic": "Error: {\"value\":{\"error\":\"script timeout\",\"message\":\"Script execution timed out\",\"stacktrace\":\"\"}}",
+        "sessionId": "3afe52b1-0da7-4a09-bd23-82bbacc94e69"
+      }
+    },
+    {
+      "name": "blob-importscripts-bootstrap",
+      "result": {
+        "checks": [],
+        "failure": "Error: Timed out: workspace load",
+        "diagnostic": {
+          "edgeless": false,
+          "editor": false,
+          "errors": [],
+          "focused": true,
+          "text": "Open this doc in AFFiNE app\nDon't have the app? Click to download.\nRemember choice\nDismiss\nOpen in app",
+          "title": null,
+          "url": "tauri://localhost",
+          "viewport": [1280, 900],
+          "visibility": "visible",
+          "workers": [
+            {
+              "kind": "SharedWorker",
+              "url": "/js/nbstore-0.27.5.worker.js"
+            }
+          ],
+          "workspace": null
+        },
+        "sessionId": "9f910ae9-c567-47ca-bde4-021e3b4e579d"
+      }
+    }
+  ],
+  "conclusions": [
+    "The page rendered the initial banner, but storage/workspace initialization did not finish.",
+    "No worker error was surfaced by the SharedWorker variants. The dedicated variant also timed out during script evaluation.",
+    "These results do not establish the precise engine defect; a focused protocol/Worker reproduction is still required.",
+    "Do not ship a global Worker monkey patch or silently keep the dev server as production.",
+    "Native storage remains a Rust SQLite requirement; browser IndexedDB is probe-only."
+  ]
+}

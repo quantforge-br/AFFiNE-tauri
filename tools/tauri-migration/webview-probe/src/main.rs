@@ -13,8 +13,13 @@ fn main() {
 
   builder
     .setup(|app| {
-      let url = "http://localhost:8080/".parse()?;
-      let window = WebviewWindowBuilder::new(app, "probe", WebviewUrl::External(url))
+      #[cfg(not(any(feature = "bundled-frontend", feature = "protocol-probe")))]
+      let url = WebviewUrl::External("http://localhost:8080/".parse()?);
+      #[cfg(all(feature = "bundled-frontend", not(feature = "protocol-probe")))]
+      let url = WebviewUrl::App("index.html".into());
+      #[cfg(feature = "protocol-probe")]
+      let url = WebviewUrl::App("protocol.html".into());
+      let window = WebviewWindowBuilder::new(app, "probe", url)
         .title("AFFiNE WebView Compatibility Probe")
         .decorations(false)
         .inner_size(1280.0, 900.0);
@@ -32,8 +37,55 @@ fn main() {
       } else {
         window
       };
+      #[cfg(not(feature = "protocol-probe"))]
+      let window = window.initialization_script(
+        // Probe only: the production adapter must choose its transport explicitly.
+        "localStorage.setItem('disableSharedWorker', 'true');",
+      );
+      #[cfg(feature = "e2e")]
+      let window = window.on_web_resource_request(|request, response| {
+        eprintln!("AFFINE_PROBE_RESOURCE {} {} {}", request.uri(), response.status(), response.body().len());
+      });
+      #[cfg(feature = "e2e")]
+      let window = window.initialization_script(r#"
+        window.__probeErrors = [];
+        const originalError = console.error;
+        console.error = (...args) => {
+          window.__probeErrors.push(args.map(value => String(value)).join(' '));
+          originalError.apply(console, args);
+        };
+        window.__probeWorkers = [];
+        for (const name of ['Worker', 'SharedWorker']) {
+          const Constructor = window[name];
+          if (!Constructor) continue;
+          window[name] = new Proxy(Constructor, {
+            construct(Target, args) {
+              const record = {kind: name, url: String(args[0])};
+              window.__probeWorkers.push(record);
+              try {
+                const worker = new Target(...args);
+                worker.addEventListener('error', event => window.__probeErrors.push(name + ': ' + event.message));
+                return worker;
+              } catch (error) {
+                window.__probeErrors.push(name + ' constructor: ' + error);
+                throw error;
+              }
+            }
+          });
+        };
+        window.addEventListener('error', event => window.__probeErrors.push(String(event.message)));
+        window.addEventListener('unhandledrejection', event => window.__probeErrors.push(String(event.reason)));
+        window.addEventListener('securitypolicyviolation', event => window.__probeErrors.push('CSP ' + event.violatedDirective + ': ' + event.blockedURI));
+      "#);
       let window = window
-        .on_navigation(|url| url.scheme() == "http" && url.host_str() == Some("localhost") && url.port() == Some(8080))
+        .on_navigation(|url| {
+          if cfg!(any(feature = "bundled-frontend", feature = "protocol-probe")) {
+            (url.scheme() == "tauri" && url.host_str() == Some("localhost"))
+              || (url.scheme() == "http" && url.host_str() == Some("tauri.localhost"))
+          } else {
+            url.scheme() == "http" && url.host_str() == Some("localhost") && url.port() == Some(8080)
+          }
+        })
         .build()?;
       if window.is_decorated()? {
         return Err("the WebView probe must not have native decorations".into());

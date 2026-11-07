@@ -39,6 +39,19 @@ async function element(using, value) {
   const result = await command('POST', '/element', { using, value });
   return result['element-6066-11e4-a52e-4f735466cecf'];
 }
+async function waitForClickable(selector) {
+  await until(
+    'const element = document.querySelector(' +
+      JSON.stringify(selector) +
+      ');' +
+      'if (!element) return false;' +
+      'const rect = element.getBoundingClientRect();' +
+      'const x = rect.left + rect.width / 2, y = rect.top + rect.height / 2;' +
+      'const target = document.elementFromPoint(x, y);' +
+      'return rect.width > 0 && rect.height > 0 && (target === element || element.contains(target));',
+    'clickable ' + selector
+  );
+}
 async function click(using, value) {
   const id = await element(using, value);
   return command('POST', '/element/' + id + '/click', {});
@@ -69,9 +82,17 @@ try {
   );
   if (hasDismiss)
     await click('xpath', '//button[normalize-space(.)="Dismiss"]');
-  await click('css selector', '[data-testid="sidebar-new-page-button"]');
   await until(
     'return !!document.querySelector("doc-title .inline-editor")',
+    'initial editor loaded'
+  );
+  await waitForClickable('[data-testid="sidebar-new-page-button"]');
+  const previousDocument = await evaluate('return location.pathname');
+  await click('css selector', '[data-testid="sidebar-new-page-button"]');
+  await until(
+    'const title = document.querySelector("doc-title"); return location.pathname !== ' +
+      JSON.stringify(previousDocument) +
+      ' && !!title?.querySelector(".inline-editor") && title.doc?.id === location.pathname.split("/")[3]',
     'document editor'
   );
   checks.push({ name: 'create-document', passed: true });
@@ -146,12 +167,18 @@ try {
   );
   checks.push({ name: 'reload-persistence', passed: true, url });
   const runtime = await evaluate(
-    'return {userAgent:navigator.userAgent,url:location.href,secureContext:isSecureContext,indexedDB:typeof indexedDB,worker:typeof Worker,canvas:!!document.createElement("canvas").getContext("2d")}'
+    'return {workers:window.__probeWorkers,userAgent:navigator.userAgent,url:location.href,secureContext:isSecureContext,indexedDB:typeof indexedDB,worker:typeof Worker,canvas:!!document.createElement("canvas").getContext("2d")}'
   );
   assert.equal(runtime.secureContext, true);
   assert.equal(runtime.indexedDB, 'object');
   assert.equal(runtime.worker, 'function');
   assert.equal(runtime.canvas, true);
+  assert.ok(
+    runtime.workers?.some(
+      worker => worker.kind === 'Worker' && worker.url.includes('/nbstore-')
+    )
+  );
+  assert.ok(!runtime.workers?.some(worker => worker.kind === 'SharedWorker'));
   checks.push({ name: 'required-web-platform-apis', passed: true });
   const workerTransport = await command('POST', '/execute/async', {
     script: `
@@ -276,7 +303,7 @@ try {
 } catch (error) {
   const diagnostic = sessionId
     ? await evaluate(
-        'return {url:location.href,viewport:[innerWidth,innerHeight],text:document.body.innerText.slice(0,1800),title:document.querySelector("doc-title .inline-editor")?.textContent,editor:!!document.querySelector("affine-page-root"),edgeless:!!document.querySelector("affine-edgeless-root")}'
+        'return {errors:window.__probeErrors,workers:window.__probeWorkers,focused:document.hasFocus(),visibility:document.visibilityState,workspace:window.currentWorkspace?{id:window.currentWorkspace.id,flavour:window.currentWorkspace.flavour}:null,url:location.href,viewport:[innerWidth,innerHeight],text:document.body.innerText.slice(0,1800),title:document.querySelector("doc-title .inline-editor")?.textContent,editor:!!document.querySelector("affine-page-root"),edgeless:!!document.querySelector("affine-edgeless-root")}'
       ).catch(String)
     : null;
   const failure = { checks, failure: String(error), diagnostic, sessionId };

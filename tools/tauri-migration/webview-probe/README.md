@@ -29,3 +29,11 @@ The runner starts the reference frontend and local WebDriver, executes the edito
     env -u WAYLAND_DISPLAY GDK_BACKEND=x11 xvfb-run -a -s '-screen 0 1600x1000x24' node tools/tauri-migration/webview-probe/run.mjs
 
 PROBE_DRIVER and CARGO_TARGET_DIR can point to non-default driver/build locations. PROBE_OUTPUT_DIR selects the evidence directory. The smoke validates document creation, real editor input, edgeless switching and persistence across reload. It does not claim process-restart or native SQLite parity.
+
+## Native-origin diagnostic and embedded frontend experiment
+
+The editor probe selects the reference frontend's existing dedicated-Worker path. This is a compatibility test, not the Rust broker. See docs/tauri-migration/worker-transport-decision.md.
+
+To test native-scheme assets independently of AFFiNE, build with e2e,protocol-probe and TAURI_CONFIG containing tauri.protocol.conf.json, then set PROBE_MODE=protocol when invoking run.mjs. The required checks cover asset fetch, main-thread IndexedDB and dedicated-Worker storage. SharedWorker echo and storage results are reported separately; a successful echo must not be represented as storage support. Native capabilities remain empty.
+
+The bundled-frontend feature embeds the reference web dist with tauri.bundled.conf.json. Build that frontend with PUBLIC_PATH=/ before compiling. PROBE_BUNDLED_FRONTEND=1 skips the development server. This experiment currently fails during bootstrap and must not be distributed or described as offline packaging. Test logs retain failed evidence. Ordinary development-origin runs require rebuilding without bundled-frontend and without the bundled TAURI_CONFIG.

@@ -1,0 +1,8 @@
+{
+  "app": {
+    "security": {
+      "capabilities": [],
+      "csp": "default-src 'self'; script-src 'self'; worker-src 'self' blob:; connect-src 'self' ipc: http://ipc.localhost; object-src 'none'; base-uri 'self'; frame-src 'none'"
+    }
+  }
+}
