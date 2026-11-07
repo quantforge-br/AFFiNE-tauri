@@ -6,6 +6,9 @@ on:
     paths:
       - .github/workflows/tauri-webview-probe.yml
       - tools/tauri-migration/webview-probe/**
+      - packages/frontend/tauri-bridge/**
+      - packages/frontend/tauri-core/**
+      - packages/frontend/native/nbstore/**
       - tools/tauri-migration/*lottie*
       - packages/frontend/component/src/ui/lottie/**
   workflow_dispatch:
@@ -21,7 +24,7 @@ jobs:
       matrix:
         os: [ubuntu-24.04, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 45
+    timeout-minutes: 75
     env:
       BUILD_TYPE: canary
       YARN_ENABLE_SCRIPTS: 'false'
@@ -80,6 +83,40 @@ jobs:
         env:
           PROBE_MODE: authority
           PROBE_OUTPUT_DIR: ${{ github.workspace }}/.coverage/tauri-probe/authority
+        run: node tools/tauri-migration/webview-probe/run.mjs
+      - name: Test and audit disposable native storage diagnostic
+        shell: bash
+        run: |
+          TAURI_CONFIG="$(cat tools/tauri-migration/webview-probe/tauri.storage.conf.json)"
+          export TAURI_CONFIG
+          mkdir -p .coverage/tauri-probe/storage
+          git rev-parse HEAD > .coverage/tauri-probe/storage/source-revision.log
+          rustc --version > .coverage/tauri-probe/storage/toolchain.log
+          cargo test --manifest-path tools/tauri-migration/webview-probe/Cargo.toml --locked --features e2e,storage-probe 2>&1 | tee .coverage/tauri-probe/storage/tests.log
+          cargo clippy --manifest-path tools/tauri-migration/webview-probe/Cargo.toml --locked --features e2e,storage-probe --all-targets --no-deps -- -D warnings 2>&1 | tee .coverage/tauri-probe/storage/clippy.log
+          cargo tree --manifest-path tools/tauri-migration/webview-probe/Cargo.toml --locked --features e2e,storage-probe --edges normal,build --prefix none --format '{p}' > .coverage/tauri-probe/storage/dependencies.log
+          if grep -qi napi .coverage/tauri-probe/storage/dependencies.log; then
+            echo 'N-API crate found in the storage diagnostic dependency graph' >&2
+            exit 1
+          fi
+      - name: Build isolated native storage diagnostic
+        shell: bash
+        run: |
+          node tools/tauri-migration/webview-probe/storage-build.mjs
+          TAURI_CONFIG="$(cat tools/tauri-migration/webview-probe/tauri.storage.conf.json)"
+          export TAURI_CONFIG
+          cargo build --manifest-path tools/tauri-migration/webview-probe/Cargo.toml --locked --features e2e,storage-probe
+      - name: Run native storage diagnostic (Linux)
+        if: runner.os == 'Linux'
+        env:
+          PROBE_MODE: storage
+          PROBE_OUTPUT_DIR: ${{ github.workspace }}/.coverage/tauri-probe/storage
+        run: env -u WAYLAND_DISPLAY GDK_BACKEND=x11 xvfb-run -a -s '-screen 0 1600x1000x24' node tools/tauri-migration/webview-probe/run.mjs
+      - name: Run native storage diagnostic (Windows/macOS)
+        if: runner.os != 'Linux'
+        env:
+          PROBE_MODE: storage
+          PROBE_OUTPUT_DIR: ${{ github.workspace }}/.coverage/tauri-probe/storage
         run: node tools/tauri-migration/webview-probe/run.mjs
       - name: Build minimal native protocol diagnostic
         shell: bash
