@@ -1,0 +1,132 @@
+{
+  "schemaVersion": 1,
+  "runId": 42403730886,
+  "url": "https://github.com/quantforge-br/AFFiNE-tauri/actions/runs/42403730886",
+  "sourceRevision": "5f4f3ed19d00de999e3bcf8bad91ff1b2935e125",
+  "status": "completed",
+  "conclusion": "failure",
+  "scope": "First three-platform run of the disposable native storage diagnostic (JSON-array byte transport, 15 checks). Linux and macOS executed it; Windows failed in an earlier authority step, so no Windows storage result exists for this run.",
+  "jobs": [
+    {
+      "name": "Native editor smoke (macos-latest)",
+      "conclusion": "success",
+      "failedSteps": [],
+      "skippedSteps": [
+        "Install Linux system dependencies",
+        "Run native authority diagnostic (Linux)",
+        "Run native storage diagnostic (Linux)",
+        "Run native protocol diagnostic (Linux)",
+        "Run native editor probe (Linux)",
+        "Run embedded editor probe (Linux)"
+      ]
+    },
+    {
+      "name": "Native editor smoke (ubuntu-24.04)",
+      "conclusion": "success",
+      "failedSteps": [],
+      "skippedSteps": [
+        "Run native authority diagnostic (Windows/macOS)",
+        "Run native storage diagnostic (Windows/macOS)",
+        "Run native protocol diagnostic (Windows/macOS)",
+        "Run native editor probe (Windows/macOS)",
+        "Run embedded editor probe (Windows/macOS)"
+      ]
+    },
+    {
+      "name": "Native editor smoke (windows-latest)",
+      "conclusion": "failure",
+      "failedSteps": ["Run native authority diagnostic (Windows/macOS)"],
+      "skippedSteps": [
+        "Install Linux system dependencies",
+        "Run native authority diagnostic (Linux)",
+        "Test and audit disposable native storage diagnostic",
+        "Build isolated native storage diagnostic",
+        "Run native storage diagnostic (Linux)",
+        "Run native storage diagnostic (Windows/macOS)",
+        "Build minimal native protocol diagnostic",
+        "Run native protocol diagnostic (Linux)",
+        "Run native protocol diagnostic (Windows/macOS)",
+        "Build isolated native editor probe",
+        "Run native editor probe (Linux)",
+        "Run native editor probe (Windows/macOS)",
+        "Validate expression-free animation assets",
+        "Build local static frontend assets",
+        "Build embedded native editor probe",
+        "Run embedded editor probe (Linux)",
+        "Run embedded editor probe (Windows/macOS)",
+        "Post Run Swatinem/rust-cache@e9d7b9f1e587218970671bac74e5511ed9506e6a",
+        "Post Run actions/setup-node@v4"
+      ]
+    }
+  ],
+  "results": [
+    {
+      "artifact": "Linux-X64",
+      "sourceRevision": "5f4f3ed19d00de999e3bcf8bad91ff1b2935e125",
+      "rustUnitTests": 6,
+      "clippy": "Finished `dev` profile [unoptimized] target(s) in 57.52s",
+      "napiCratesInDependencyGraph": 0,
+      "origin": "tauri://localhost",
+      "checksPassed": "15/15",
+      "cspViolations": 0,
+      "reload": {
+        "navigationType": "reload",
+        "generation": 2,
+        "previousGeneration": 1,
+        "stale": "UNAUTHORIZED",
+        "unclaimed": "UNAUTHORIZED",
+        "previousLifetimeMs": 179
+      },
+      "transientPollErrors": []
+    },
+    {
+      "artifact": "macOS-ARM64",
+      "sourceRevision": "5f4f3ed19d00de999e3bcf8bad91ff1b2935e125",
+      "rustUnitTests": 6,
+      "clippy": "Finished `dev` profile [unoptimized] target(s) in 47.45s",
+      "napiCratesInDependencyGraph": 0,
+      "origin": "tauri://localhost",
+      "checksPassed": "15/15",
+      "cspViolations": 0,
+      "reload": {
+        "navigationType": "reload",
+        "generation": 2,
+        "previousGeneration": 1,
+        "stale": "UNAUTHORIZED",
+        "unclaimed": "UNAUTHORIZED",
+        "previousLifetimeMs": 582
+      },
+      "transientPollErrors": []
+    }
+  ],
+  "windows": {
+    "failedStep": "Run native authority diagnostic (Windows/macOS)",
+    "executedBeforeFailure": "authority Rust unit tests passed (2); nine of ten authority checks and the denied WebView were recorded",
+    "failure": "Error: {\"value\":{\"error\":\"script timeout\",\"message\":\"Script execution timed out\",\"stacktrace\":\"\"}}",
+    "checksRecordedBeforeFailure": [
+      "host-ticket-main-document",
+      "forged-ticket-denied",
+      "renderer-authority-fields-denied",
+      "ungranted-app-command-denied",
+      "same-origin-forged-ticket-denied",
+      "untrusted-cross-origin-denied",
+      "untrusted-opaque-sandbox-denied",
+      "worker-has-no-native-bootstrap",
+      "real-reload-revokes-previous-document"
+    ],
+    "diagnosis": "The ninth check passed and the remote fixture was served. The collector then waited 30 s inside a script that was pending while the WebView navigated to the remote document, and WebDriver reported a script timeout. The same step had passed on Windows in run 42397826185, so this is a timing-dependent collector weakness exposed on the hosted runner, not a changed authorization result. WebView2 losing the callback of a script pending across a document replacement is the working explanation and is not independently proven.",
+    "notExecuted": "The storage Rust tests, strict Clippy, dependency audit, storage build and storage diagnostic come after the failed step and did not run on Windows. Skipped steps are not passing steps.",
+    "correction": "Commit 463ea7d2df sets a 5 s script timeout and retries only that exact timeout, bounded and recorded, while still requiring the page evidence. Whether it resolves Windows is established only by a later run."
+  },
+  "observations": [
+    "Linux and macOS: 15/15 storage checks, empty CSP violations, a real reload with navigationType reload, an advanced generation and stale tickets denied.",
+    "macOS passed the authority, protocol, editor and embedded stages in the same run.",
+    "The first document lived 179 ms on Linux and 582 ms on macOS before the reload, which confirms why polling cannot be required to observe it."
+  ],
+  "limitations": [
+    "This run predates raw binary IPC; later results supersede its transport but not its Windows failure.",
+    "No Windows storage result. Native storage on Windows (SQLite, automation profile directory, ACLs) is untested.",
+    "Compatibility evidence for a disposable fixture only."
+  ],
+  "artifacts": "/tmp/affine-tauri-build/ci-42403730886"
+}
