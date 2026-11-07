@@ -207,6 +207,58 @@ try {
     passed: true,
     reason: nativeAccess.reason,
   });
+  // Architecture-level API exercise, not end-user tab or drag/drop acceptance.
+  const originalView = await evaluate(
+    'return {id:window.workbench.activeView$.value.id,location:window.workbench.activeView$.value.location$.value}'
+  );
+  await evaluate(
+    'window.__probeEditorHost = document.querySelector("affine-edgeless-root"); window.workbench.createView("tail", "/all", false); return true'
+  );
+  await until(
+    'return document.querySelectorAll("[data-testid=split-view-panel]").length === 2',
+    'two real workbench panels'
+  );
+  assert.equal(
+    await evaluate('return window.__probeEditorHost.isConnected'),
+    true
+  );
+  const routes = await evaluate(
+    'return window.workbench.views$.value.map(view => ({id:view.id,path:view.location$.value.pathname}))'
+  );
+  assert.equal(routes.length, 2);
+  assert.equal(routes[0].id, originalView.id);
+  assert.equal(routes[0].path, originalView.location.pathname);
+  assert.equal(routes[1].path, '/all');
+  await evaluate(
+    'window.workbench.views$.value[1].push("/journal"); return true'
+  );
+  await until(
+    'return window.workbench.views$.value[1].location$.value.pathname === "/journal"',
+    'independent secondary view history'
+  );
+  assert.equal(
+    await evaluate(
+      'return window.workbench.views$.value[0].location$.value.pathname'
+    ),
+    originalView.location.pathname
+  );
+  assert.equal(
+    await evaluate('return window.__probeEditorHost.isConnected'),
+    true
+  );
+  await evaluate(
+    'window.workbench.close(window.workbench.views$.value[1]); delete window.__probeEditorHost; return true'
+  );
+  await until(
+    'return document.querySelectorAll("[data-testid=split-view-panel]").length === 1',
+    'secondary workbench view disposal'
+  );
+  checks.push({
+    name: 'multi-view-routing-feasibility',
+    passed: true,
+    scope: 'public workbench API; no tabs, focus changes or drag/drop',
+    routes,
+  });
   const evidence = {
     scope: 'reference frontend in isolated Tauri WebView; not desktop parity',
     capturedAt: new Date().toISOString(),

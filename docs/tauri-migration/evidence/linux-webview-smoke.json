@@ -2,7 +2,7 @@
   "referenceRevision": "ef401b20cb2a5960278a8e7ab2c0e96d8f759aeb",
   "kind": "architecture-compatibility-probe",
   "scope": "reference frontend in isolated Tauri WebView; not desktop parity",
-  "capturedAt": "2026-11-07T12:25:02.388Z",
+  "capturedAt": "2026-11-07T12:39:59.017Z",
   "platform": "linux",
   "architecture": "x64",
   "checks": [
@@ -13,16 +13,20 @@
     {
       "name": "native-text-input",
       "passed": true,
-      "marker": "Tauri WebView persistence 1794054266509"
+      "marker": "Tauri WebView persistence 1794055191824"
     },
     {
       "name": "switch-edgeless",
       "passed": true
     },
     {
+      "name": "local-storage-write-completed",
+      "passed": true
+    },
+    {
       "name": "reload-persistence",
       "passed": true,
-      "url": "http://localhost:8080/workspace/JdGg8RKVYHBy9phZHI5lk/mLto3_u71cx-dxfyviJ1u"
+      "url": "http://localhost:8080/workspace/Wi4jt_fJ_I0xdNLEDzX6O/9p43aCFGHGh6Oye6zVRw_"
     },
     {
       "name": "required-web-platform-apis",
@@ -41,13 +45,28 @@
       "name": "remote-native-command-denied",
       "passed": true,
       "reason": "window.set_title not allowed. Permissions associated with this command: core:window:allow-set-title"
+    },
+    {
+      "name": "multi-view-routing-feasibility",
+      "passed": true,
+      "scope": "public workbench API; no tabs, focus changes or drag/drop",
+      "routes": [
+        {
+          "id": "YuSxCMyvnkYgh_Ceuq4h1",
+          "path": "/9p43aCFGHGh6Oye6zVRw_"
+        },
+        {
+          "id": "omqP2WUCqlxHW-ZTcRBzU",
+          "path": "/all"
+        }
+      ]
     }
   ],
   "runtime": {
     "canvas": true,
     "indexedDB": "object",
     "secureContext": true,
-    "url": "http://localhost:8080/workspace/JdGg8RKVYHBy9phZHI5lk/mLto3_u71cx-dxfyviJ1u?mode=edgeless",
+    "url": "http://localhost:8080/workspace/Wi4jt_fJ_I0xdNLEDzX6O/9p43aCFGHGh6Oye6zVRw_?mode=edgeless",
     "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/60.5 Safari/605.1.15",
     "worker": "function"
   },
