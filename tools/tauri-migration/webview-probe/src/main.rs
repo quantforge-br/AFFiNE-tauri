@@ -11,8 +11,23 @@ compile_error!("authority diagnostic must run separately from frontend/protocol 
 compile_error!("the authority diagnostic must not be included in release builds");
 #[cfg(feature = "authority-probe")]
 mod authority;
+#[cfg(feature = "controls-probe")]
+mod controls;
 #[cfg(feature = "storage-probe")]
 mod storage;
+#[cfg(all(
+  feature = "controls-probe",
+  any(
+    feature = "authority-probe",
+    feature = "protocol-probe",
+    feature = "bundled-frontend"
+  )
+))]
+compile_error!("the window-controls diagnostic must run separately from the other modes");
+#[cfg(all(feature = "controls-probe", not(feature = "e2e")))]
+compile_error!("the window-controls diagnostic requires the disposable e2e profile");
+#[cfg(all(feature = "controls-probe", not(debug_assertions)))]
+compile_error!("the window-controls diagnostic must not be included in release builds");
 #[cfg(all(feature = "storage-probe", not(feature = "e2e")))]
 compile_error!("storage diagnostic requires the disposable e2e profile");
 use tauri::{WebviewUrl, WebviewWindowBuilder};
@@ -43,9 +58,22 @@ fn main() {
       storage::storage_reopen
     ]);
 
+  #[cfg(feature = "controls-probe")]
+  let builder = builder
+    .manage(controls::Controls::default())
+    .invoke_handler(tauri::generate_handler![
+      controls::controls_report,
+      controls::controls_allow_close
+    ]);
+
   builder
     .setup(|app| {
-      #[cfg(not(any(feature = "bundled-frontend", feature = "protocol-probe", feature = "authority-probe")))]
+      #[cfg(not(any(
+        feature = "bundled-frontend",
+        feature = "protocol-probe",
+        feature = "authority-probe",
+        feature = "controls-probe"
+      )))]
       let url = WebviewUrl::External("http://localhost:8080/".parse()?);
       #[cfg(all(feature = "bundled-frontend", not(feature = "protocol-probe")))]
       let url = WebviewUrl::App("index.html".into());
@@ -55,8 +83,15 @@ fn main() {
       let url = WebviewUrl::App("authority.html".into());
       #[cfg(feature = "storage-probe")]
       let url = WebviewUrl::App("storage.html".into());
+      #[cfg(feature = "controls-probe")]
+      let url = WebviewUrl::App("controls.html".into());
+      let title = if cfg!(feature = "controls-probe") {
+        "AFFiNE Window Controls Diagnostic"
+      } else {
+        "AFFiNE WebView Compatibility Probe"
+      };
       let window = WebviewWindowBuilder::new(app, "probe", url)
-        .title("AFFiNE WebView Compatibility Probe")
+        .title(title)
         .decorations(false)
         .inner_size(1280.0, 900.0);
       #[cfg(feature = "authority-probe")]
@@ -75,7 +110,7 @@ fn main() {
       } else {
         window
       };
-      #[cfg(not(any(feature = "protocol-probe", feature = "authority-probe")))]
+      #[cfg(not(any(feature = "protocol-probe", feature = "authority-probe", feature = "controls-probe")))]
       let window = window.initialization_script(
         // Probe only: the production adapter must choose its transport explicitly.
         "localStorage.setItem('disableSharedWorker', 'true');",
@@ -140,7 +175,12 @@ fn main() {
           if url.scheme() == "http" && url.host_str() == Some("127.0.0.1") && url.port() == Some(8080) && url.path() == "/frame.html" {
             return true;
           }
-          if cfg!(any(feature = "bundled-frontend", feature = "protocol-probe", feature = "authority-probe")) {
+          if cfg!(any(
+            feature = "bundled-frontend",
+            feature = "protocol-probe",
+            feature = "authority-probe",
+            feature = "controls-probe"
+          )) {
             (url.scheme() == "tauri" && url.host_str() == Some("localhost"))
               || (url.scheme() == "http" && url.host_str() == Some("tauri.localhost"))
           } else {
@@ -152,12 +192,21 @@ fn main() {
         return Err("the WebView probe must not have native decorations".into());
       }
       eprintln!("AFFINE_PROBE_WINDOW decorations=false");
+      #[cfg(not(feature = "controls-probe"))]
       window.on_window_event({
         let window = window.clone();
         move |event| {
           if matches!(event, tauri::WindowEvent::Resized(_)) {
             assert_eq!(window.is_decorated().ok(), Some(false));
           }
+        }
+      });
+      #[cfg(feature = "controls-probe")]
+      window.on_window_event({
+        let window = window.clone();
+        move |event| {
+          use tauri::Manager;
+          controls::observe(&window, &window.state::<controls::Controls>(), event);
         }
       });
       #[cfg(all(feature = "authority-probe", not(feature = "storage-probe")))]

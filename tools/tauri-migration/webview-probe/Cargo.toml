@@ -12,6 +12,7 @@ bundled-frontend = ["tauri/custom-protocol"]
 protocol-probe = ["tauri/custom-protocol"]
 authority-probe = ["tauri/custom-protocol", "dep:serde", "dep:serde_json", "dep:uuid"]
 storage-probe = ["authority-probe", "dep:affine_tauri_core", "dep:tokio"]
+controls-probe = ["tauri/custom-protocol", "dep:serde", "dep:serde_json"]
 
 [dependencies]
 tauri = { version = "=2.11.5" }

@@ -1,0 +1,81 @@
+name: Tauri window controls diagnostic
+
+on:
+  push:
+    branches: [feat/tauri-desktop]
+    paths:
+      - .github/workflows/tauri-window-controls.yml
+      - tools/tauri-migration/webview-probe/**
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  window-controls:
+    name: Window controls (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 45
+    env:
+      CARGO_TARGET_DIR: ${{ github.workspace }}/.cache/tauri-probe-target
+      CARGO_PROFILE_DEV_DEBUG: '0'
+      CARGO_BUILD_JOBS: '3'
+      PROBE_OUTPUT_DIR: ${{ github.workspace }}/.coverage/tauri-controls
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - uses: dtolnay/rust-toolchain@59a558e8c538bf4a23bbffa19e5a278b703f2920
+        with:
+          components: rustfmt, clippy
+      - name: Install Linux system dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev patchelf xvfb openbox xdotool x11-utils
+      - uses: Swatinem/rust-cache@e9d7b9f1e587218970671bac74e5511ed9506e6a
+        with:
+          workspaces: tools/tauri-migration/webview-probe -> ../../../.cache/tauri-probe-target
+          key: window-controls-${{ runner.os }}
+      - name: Install native WebDriver
+        run: cargo install tauri-wd --version 0.1.11 --locked --debug
+      - name: Test and lint the window controls diagnostic
+        shell: bash
+        run: |
+          TAURI_CONFIG="$(cat tools/tauri-migration/webview-probe/tauri.controls.conf.json)"
+          export TAURI_CONFIG
+          mkdir -p .coverage/tauri-controls
+          git rev-parse HEAD > .coverage/tauri-controls/source-revision.log
+          rustc --version > .coverage/tauri-controls/toolchain.log
+          cargo test --manifest-path tools/tauri-migration/webview-probe/Cargo.toml --locked --features e2e,controls-probe 2>&1 | tee .coverage/tauri-controls/tests.log
+          cargo fmt --manifest-path tools/tauri-migration/webview-probe/Cargo.toml -- --check
+          cargo clippy --manifest-path tools/tauri-migration/webview-probe/Cargo.toml --locked --features e2e,controls-probe --all-targets --no-deps -- -D warnings 2>&1 | tee .coverage/tauri-controls/clippy.log
+      - name: Build the window controls diagnostic
+        shell: bash
+        run: |
+          TAURI_CONFIG="$(cat tools/tauri-migration/webview-probe/tauri.controls.conf.json)"
+          export TAURI_CONFIG
+          cargo build --manifest-path tools/tauri-migration/webview-probe/Cargo.toml --locked --features e2e,controls-probe
+      - name: Run the window controls diagnostic (Linux)
+        if: runner.os == 'Linux'
+        env:
+          PROBE_MODE: controls
+        run: env -u WAYLAND_DISPLAY GDK_BACKEND=x11 xvfb-run -a -s '-screen 0 1600x1000x24' node tools/tauri-migration/webview-probe/run.mjs
+      - name: Run the window controls diagnostic (Windows/macOS)
+        if: runner.os != 'Linux'
+        env:
+          PROBE_MODE: controls
+        run: node tools/tauri-migration/webview-probe/run.mjs
+      - name: Upload window controls evidence and diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tauri-window-controls-${{ runner.os }}-${{ runner.arch }}
+          path: .coverage/tauri-controls
+          if-no-files-found: warn
+          retention-days: 14

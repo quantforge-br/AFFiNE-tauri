@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Window controls diagnostic</title>
+    <link rel="stylesheet" href="controls.css" />
+    <script defer src="controls.js"></script>
+  </head>
+  <body>
+    <header class="titlebar">
+      <div class="tabs" role="tablist" aria-label="Open documents">
+        <button type="button" role="tab" id="tab-one" aria-selected="true">
+          Document one
+        </button>
+        <button type="button" role="tab" id="tab-two" aria-selected="false">
+          Document two
+        </button>
+      </div>
+      <div id="drag" class="drag" data-tauri-drag-region></div>
+      <div class="controls" role="group" aria-label="Window controls">
+        <button type="button" id="minimize" aria-label="Minimize window">
+          <svg viewBox="0 0 10 10" aria-hidden="true"><path d="M1 5h8" /></svg>
+        </button>
+        <button type="button" id="maximize" aria-label="Maximize window">
+          <svg viewBox="0 0 10 10" aria-hidden="true">
+            <path d="M1.5 1.5h7v7h-7z" />
+          </svg>
+        </button>
+        <button type="button" id="close" aria-label="Close window">
+          <svg viewBox="0 0 10 10" aria-hidden="true">
+            <path d="M1 1l8 8M9 1L1 9" />
+          </svg>
+        </button>
+      </div>
+    </header>
+    <main>
+      <h1>Window controls diagnostic</h1>
+      <pre id="results"></pre>
+    </main>
+  </body>
+</html>

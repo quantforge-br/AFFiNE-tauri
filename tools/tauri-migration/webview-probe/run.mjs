@@ -1,4 +1,4 @@
-import { spawn } from 'node:child_process';
+import { execFile, spawn } from 'node:child_process';
 import { mkdir, open } from 'node:fs/promises';
 import { createServer } from 'node:net';
 import path from 'node:path';
@@ -51,6 +51,32 @@ async function start(command, args, logfile, env = process.env) {
   });
   return child;
 }
+function x11Root() {
+  return new Promise(resolve =>
+    execFile(
+      'xprop',
+      ['-root', '_NET_SUPPORTING_WM_CHECK'],
+      { timeout: 5_000 },
+      (error, stdout) => resolve(error ? '' : String(stdout))
+    )
+  );
+}
+// Maximize, minimize and focus need a real EWMH window manager; a bare X server silently ignores them.
+async function startWindowManager() {
+  const command = process.env.PROBE_WINDOW_MANAGER ?? 'openbox';
+  const args = (process.env.PROBE_WINDOW_MANAGER_ARGS ?? '')
+    .split(' ')
+    .filter(Boolean);
+  const manager = await start(command, args, 'window-manager.log');
+  const deadline = Date.now() + 30_000;
+  while (Date.now() < deadline) {
+    if (manager.exitCode !== null || manager.signalCode !== null)
+      throw new Error('window manager exited before becoming ready');
+    if ((await x11Root()).includes('window id #')) return manager;
+    await delay(250);
+  }
+  throw new Error('window manager readiness timed out');
+}
 async function waitFor(url, child, label, accept) {
   const deadline = Date.now() + 180_000;
   while (Date.now() < deadline) {
@@ -94,7 +120,9 @@ try {
   await requireFreePort(4460);
   if (
     process.env.PROBE_BUNDLED_FRONTEND !== '1' &&
-    !['protocol', 'authority', 'storage'].includes(process.env.PROBE_MODE)
+    !['protocol', 'authority', 'storage', 'controls'].includes(
+      process.env.PROBE_MODE
+    )
   ) {
     const frontend = await start(
       process.execPath,
@@ -123,6 +151,8 @@ try {
         (await response.text()).includes('Untrusted frame fixture')
     );
   }
+  if (process.env.PROBE_MODE === 'controls' && process.platform === 'linux')
+    await startWindowManager();
   const driver = await start(
     process.env.PROBE_DRIVER ?? 'tauri-wd',
     ['--port', '4460'],
@@ -137,13 +167,13 @@ try {
   const smoke = await start(
     process.execPath,
     [
-      process.env.PROBE_MODE === 'storage'
-        ? 'tools/tauri-migration/webview-probe/storage-smoke.mjs'
-        : process.env.PROBE_MODE === 'authority'
-          ? 'tools/tauri-migration/webview-probe/authority-smoke.mjs'
-          : process.env.PROBE_MODE === 'protocol'
-            ? 'tools/tauri-migration/webview-probe/protocol-smoke.mjs'
-            : 'tools/tauri-migration/webview-probe/smoke.mjs',
+      {
+        storage: 'tools/tauri-migration/webview-probe/storage-smoke.mjs',
+        authority: 'tools/tauri-migration/webview-probe/authority-smoke.mjs',
+        protocol: 'tools/tauri-migration/webview-probe/protocol-smoke.mjs',
+        controls: 'tools/tauri-migration/webview-probe/controls-smoke.mjs',
+      }[process.env.PROBE_MODE] ??
+        'tools/tauri-migration/webview-probe/smoke.mjs',
     ],
     'smoke.log',
     {

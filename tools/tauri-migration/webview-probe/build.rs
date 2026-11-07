@@ -8,6 +8,8 @@ fn main() {
       "storage_close",
       "storage_reopen",
     ]
+  } else if cfg!(feature = "controls-probe") {
+    &["controls_report", "controls_allow_close"]
   } else if cfg!(feature = "authority-probe") {
     &["authority_ping", "authority_forbidden"]
   } else {

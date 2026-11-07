@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-controls-report"
+description = "Enables the controls_report command without any pre-configured scope."
+commands.allow = ["controls_report"]
+
+[[permission]]
+identifier = "deny-controls-report"
+description = "Denies the controls_report command without any pre-configured scope."
+commands.deny = ["controls_report"]

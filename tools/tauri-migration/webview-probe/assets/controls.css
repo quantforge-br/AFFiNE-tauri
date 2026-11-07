@@ -1,0 +1,67 @@
+html,
+body {
+  margin: 0;
+  height: 100%;
+  font:
+    14px system-ui,
+    sans-serif;
+  background: #fff;
+  color: #111;
+}
+.titlebar {
+  display: flex;
+  align-items: stretch;
+  height: 40px;
+  background: #ececec;
+  border-bottom: 1px solid #c8c8c8;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.tabs {
+  display: flex;
+}
+.tabs button {
+  border: 0;
+  padding: 0 16px;
+  background: transparent;
+  font: inherit;
+}
+.tabs button[aria-selected='true'] {
+  background: #fff;
+}
+.drag {
+  flex: 1;
+  min-width: 80px;
+}
+.controls {
+  display: flex;
+}
+.controls button {
+  width: 46px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+}
+.controls button:hover,
+.controls button:focus-visible {
+  background: #d8d8d8;
+}
+.controls #close:hover,
+.controls #close:focus-visible {
+  background: #e81123;
+  color: #fff;
+}
+.controls svg {
+  width: 10px;
+  height: 10px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1;
+}
+main {
+  padding: 16px;
+}
+pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
