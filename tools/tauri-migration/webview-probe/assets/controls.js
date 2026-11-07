@@ -187,7 +187,10 @@
     const state = await readState();
     if (state.fullscreen) {
       await win('set_fullscreen', { value: false });
-      await win('unmaximize');
+      // The reference also calls unmaximize here, which Electron treats as a no-op for a window that is
+      // not maximized. tao on macOS instead records the current (full screen) frame as the frame to
+      // restore, so the call is made only when the window really was maximized.
+      if (state.maximized) await win('unmaximize');
     } else if (state.maximized) {
       await win('unmaximize');
     } else {

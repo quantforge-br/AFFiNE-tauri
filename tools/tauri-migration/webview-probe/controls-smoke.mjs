@@ -520,12 +520,14 @@ try {
     // already fitted) and must now fill most of the available area without exceeding it.
     const fitted =
       before.width <= screen[0] + 2 && before.height <= screen[1] + 2;
+    // Windows reports the outer rectangle, which includes the 8 px invisible resize border on each side.
+    const overhang = windows ? 20 : 2;
     const rect = await until(
       'maximized window rectangle',
       nativeRect,
       value =>
-        value.width <= screen[0] + 2 &&
-        value.height <= screen[1] + 2 &&
+        value.width <= screen[0] + overhang &&
+        value.height <= screen[1] + overhang &&
         value.width >= screen[0] * 0.8 &&
         value.height >= screen[1] * 0.8 &&
         (!fitted ||
