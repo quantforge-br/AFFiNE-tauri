@@ -1,0 +1,120 @@
+{
+  "run": "https://github.com/quantforge-br/AFFiNE-tauri/actions/runs/42373195427",
+  "sourceRevision": "b22c356e6f",
+  "scope": "Architecture probe only; Windows reload and Linux interaction failures remain open",
+  "results": [
+    {
+      "platform": "linux",
+      "artifact": "Linux-X64",
+      "passed": false,
+      "checks": [],
+      "failure": "Error: {\"value\":{\"error\":\"element not interactable\",\"message\":\"element not interactable: center point is outside the pointer-interactable paint tree\",\"stacktrace\":\"\"}}",
+      "diagnostic": {
+        "edgeless": false,
+        "editor": false,
+        "text": "\nOpen this doc in AFFiNE app\n\nDon't have the app? Click to download.\n\nRemember choice\n\nDismiss\n\nOpen in app\nDemo Workspace\nSyncing...\nSearch\nAll docs\nJournals\nIntelligence\nSettings\nFavorites\nOrganize\nNo folders\nTags\nCollections\nOthers\nTrash\nImport\nTemplate\nLearn more\n\n\nGetting Started \n\n\nYour workspace is saved in this browser. When disk space is low, the browser may remove it automatically. Enable AFFiNE Sync to keep it safer.\n\nSign in and enable\n\n\nLoading\nLoading document content, please wait a moment.\n\n",
+        "title": null,
+        "url": "http://localhost:8080/workspace/tqSB3rkzE-OQNVpwzByfD/_WWZBlqa5t",
+        "viewport": [1280, 900]
+      },
+      "sessionId": "b0438af2-b050-456f-bd5b-7701aa994275"
+    },
+    {
+      "platform": "windows",
+      "artifact": "Windows-X64",
+      "passed": false,
+      "checks": [
+        {
+          "name": "create-document",
+          "passed": true
+        },
+        {
+          "name": "native-text-input",
+          "passed": true,
+          "marker": "Tauri WebView persistence 1794055282608"
+        },
+        {
+          "name": "switch-edgeless",
+          "passed": true
+        },
+        {
+          "name": "local-storage-write-completed",
+          "passed": true
+        }
+      ],
+      "failure": "Error: Timed out: title persistence after reload",
+      "diagnostic": {
+        "edgeless": false,
+        "editor": false,
+        "text": "Open this doc in AFFiNE app\nDon't have the app? Click to download.\nRemember choice\nDismiss\nOpen in app\nDemo Workspace",
+        "title": null,
+        "url": "http://localhost:8080/workspace/Yd-LhLzFFj5U5WdaClIho/mxs86Hg2cbUHh-TrQurQW?mode=edgeless",
+        "viewport": [1028, 779]
+      },
+      "sessionId": "5b70be2c-ccad-4a17-8b6e-062390ab2a82"
+    },
+    {
+      "platform": "darwin",
+      "artifact": "macOS-ARM64",
+      "passed": true,
+      "scope": "reference frontend in isolated Tauri WebView; not desktop parity",
+      "capturedAt": "2026-11-07T12:44:29.860Z",
+      "architecture": "arm64",
+      "checks": [
+        {
+          "name": "create-document",
+          "passed": true
+        },
+        {
+          "name": "native-text-input",
+          "passed": true,
+          "marker": "Tauri WebView persistence 1794055453210"
+        },
+        {
+          "name": "switch-edgeless",
+          "passed": true
+        },
+        {
+          "name": "local-storage-write-completed",
+          "passed": true
+        },
+        {
+          "name": "reload-persistence",
+          "passed": true,
+          "url": "http://localhost:8080/workspace/qpPCzq6RwxV0UUrg7L3OO/n1tUIdhICLzC5zqQgm8YE"
+        },
+        {
+          "name": "required-web-platform-apis",
+          "passed": true
+        },
+        {
+          "name": "worker-message-port-binary-transfer",
+          "passed": true,
+          "workerTransport": {
+            "bytes": [0, 1, 127, 128, 255],
+            "detached": true,
+            "workerNativeIPC": false
+          }
+        },
+        {
+          "name": "remote-native-command-denied",
+          "passed": true,
+          "reason": "window.set_title not allowed. Permissions associated with this command: core:window:allow-set-title"
+        }
+      ],
+      "runtime": {
+        "canvas": true,
+        "indexedDB": "object",
+        "secureContext": true,
+        "url": "http://localhost:8080/workspace/qpPCzq6RwxV0UUrg7L3OO/n1tUIdhICLzC5zqQgm8YE?mode=edgeless",
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko)",
+        "worker": "function"
+      }
+    }
+  ],
+  "analysis": {
+    "macos": "Native WKWebView passed all eight checks after the storage synchronization and deferred-navigation change.",
+    "windows": "Storage synchronization completed, but editor rehydration still timed out after a new document navigation. Not fixed by waiting for writes.",
+    "linux": "The new-document action failed hit testing while the initial document was loading. The next probe explicitly waits for initial editor and pointer-interactable button; passing native rerun required."
+  }
+}
