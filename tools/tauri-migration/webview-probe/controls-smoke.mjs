@@ -307,8 +307,31 @@ try {
   );
   const initial = await pageResults();
   evidence.origin = initial.origin;
-  const initialRect = await nativeRect();
-  evidence.initialRect = initialRect;
+  evidence.initialRect = await nativeRect();
+  // The application asks for a large window, which can exceed a small runner screen. Operating system
+  // behaviour for a window larger than its screen (for example macOS clamping it when leaving full
+  // screen) would then be measured instead of the controls, so the checks start from a window that fits.
+  {
+    const available = await execute(
+      'return [screen.availWidth, screen.availHeight]'
+    );
+    const target = {
+      x: 40,
+      y: 40,
+      width: Math.min(1000, available[0] - 160),
+      height: Math.min(600, available[1] - 160),
+    };
+    await request('POST', session('/window/rect'), target);
+    const fitted = await until(
+      'window resized to fit the screen',
+      nativeRect,
+      value =>
+        near(value.width, target.width, 24) &&
+        near(value.height, target.height, 24)
+    );
+    evidence.available = available;
+    evidence.fittedRect = fitted;
+  }
   const dpr = await execute('return window.devicePixelRatio');
   evidence.devicePixelRatio = dpr;
   if (linux) x11Window = await x11WindowId();
@@ -343,14 +366,24 @@ try {
       const native = await win32();
       details.win32 = { style: native.style, exStyle: native.exStyle };
       assert.ok(native.style, 'Win32 window not found by title');
-      // tao keeps WS_CAPTION on undecorated windows and removes the non-client area in WM_NCCALCSIZE, so
-      // the style bit proves nothing. What the user sees is the measured non-client frame, which is zero.
+      // tao keeps WS_CAPTION on undecorated windows and removes the caption in WM_NCCALCSIZE, so the style
+      // bit proves nothing. What counts is the measured non-client frame.
+      // The window keeps tao's undecorated shadow, which makes DWM reserve a thin invisible resize border
+      // (about 8 px at 100% scale on the sides and bottom, 1 px at the top). A title bar would be 30 px or
+      // more at the top, so the top inset is what proves it is gone; the exact insets are recorded.
       details.win32.frame = native.frame;
-      assert.deepEqual(
-        native.frame,
-        { left: 0, top: 0, right: 0, bottom: 0 },
-        'Windows draws a non-client frame (title bar or border)'
+      assert.ok(
+        native.frame.top >= 0 && native.frame.top <= 2,
+        'Windows reserves a title bar: ' + JSON.stringify(native.frame)
       );
+      for (const side of ['left', 'right', 'bottom'])
+        assert.ok(
+          native.frame[side] >= 0 && native.frame[side] <= 12,
+          'Windows reserves a wide ' +
+            side +
+            ' border: ' +
+            JSON.stringify(native.frame)
+        );
     } else {
       evidence.notRun.push({
         name: 'window-system-decoration-query',
