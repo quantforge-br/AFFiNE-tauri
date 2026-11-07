@@ -31,7 +31,16 @@ Nineteen checks pass with empty CSP violations and no Tauri IPC fallback warning
 - Accepted-but-pending work across document replacement, close failure, disk or flush failure.
 - Production resource budgets. The native write path copies the body once more, the 16 MiB bound is enforced by the core after the whole body is received, and browser structured-clone allocation, aggregate queues and read-side budgets are not measured. One 8 MiB document does not establish large-document compatibility.
 - Snapshot/subscription transport, blobs, indexing, sync, awareness, telemetry, editor connection and legacy migration.
-- Windows and macOS results for this exact version. The first CI run of the earlier JSON-array variant passed on macOS, and its Windows job failed earlier in the authority collector (see the evidence); a later run is required.
+- Installed-application behaviour, cold restart and power-loss durability on any platform. The hosted-runner results below cover the disposable fixture only.
+
+## Three-platform results
+
+Hosted runners with real native WebViews run the same fixture on Linux x86_64, Windows x86_64 and macOS ARM64:
+
+- [Run 42405878029](evidence/ci-native-storage-second.json) passes 18 storage checks with raw binary IPC, the authority diagnostic (10/10), the development, protocol and embedded editor stages, and the Rust tests, strict Clippy and N-API audit on all three.
+- [Run 42406387430](evidence/ci-native-storage-third.json) adds the Worker-constructed attack and passes 19 storage checks on all three. No hand-built request succeeds on any platform and the native counter shows none reached a command.
+- The server drops a wrong-key request without a reply. Linux and macOS leave the fetch pending; Windows fails it with a TypeError. Tauri prints the expected invoke key to standard error on every mismatch on all three, so that stream stays secret in production.
+- Earlier runs failed for collector or audit-gate reasons and are preserved: [first](evidence/ci-native-storage-first.json) (Windows script timeout), and the failures listed in the second and Linux evidence files (substring N-API gate on Windows, premature WebView discovery on Linux, remote-navigation trigger on Windows).
 
 ## Findings that production must act on
 

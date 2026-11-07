@@ -1,0 +1,327 @@
+{
+  "schemaVersion": 1,
+  "runId": 42406387430,
+  "url": "https://github.com/quantforge-br/AFFiNE-tauri/actions/runs/42406387430",
+  "sourceRevision": "a9c2511d9dcba9df0aebd32b0d396adce9eaa720",
+  "status": "completed",
+  "conclusion": "success",
+  "scope": "Three-platform run of the disposable native storage diagnostic with raw binary IPC and the Worker-constructed raw IPC attack (19 checks). Hosted runners, real native WebViews, fixture space and automation profile only.",
+  "jobs": [
+    {
+      "name": "Native editor smoke (ubuntu-24.04)",
+      "conclusion": "success",
+      "failedSteps": []
+    },
+    {
+      "name": "Native editor smoke (macos-latest)",
+      "conclusion": "success",
+      "failedSteps": []
+    },
+    {
+      "name": "Native editor smoke (windows-latest)",
+      "conclusion": "success",
+      "failedSteps": []
+    }
+  ],
+  "results": [
+    {
+      "artifact": "Linux-X64",
+      "sourceRevision": "a9c2511d9dcba9df0aebd32b0d396adce9eaa720",
+      "rustUnitTests": 9,
+      "clippy": "Finished `dev` profile [unoptimized] target(s) in 2.21s",
+      "napiCratesInDependencyGraph": 0,
+      "authority": {
+        "checks": "10/10",
+        "windowDiscoveryRounds": 2,
+        "transientScriptTimeouts": 0,
+        "cspViolations": 0
+      },
+      "storage": {
+        "origin": "tauri://localhost",
+        "checks": "19/19",
+        "cspViolations": 0,
+        "ipcFallbackWarnings": 0,
+        "transientPollErrors": 0,
+        "largeDocument": {
+          "bytes": 8388640,
+          "storedBytes": 8388640,
+          "writeMs": 144,
+          "readMs": 128
+        }
+      },
+      "workerConstructedRawIpc": {
+        "nativePingSequence": [2, 3],
+        "workerTauriGlobals": [],
+        "outcomes": [
+          {
+            "label": "no-credentials",
+            "outcome": "status:500",
+            "tauriResponse": null,
+            "body": "missing Tauri-Invoke-Key header"
+          },
+          {
+            "label": "leaked-ticket-without-invoke-key",
+            "outcome": "status:500",
+            "tauriResponse": null,
+            "body": "missing Tauri-Invoke-Key header"
+          },
+          {
+            "label": "leaked-ticket-guessed-key:empty",
+            "outcome": "no-response",
+            "tauriResponse": null,
+            "body": null
+          },
+          {
+            "label": "leaked-ticket-guessed-key:undefined",
+            "outcome": "no-response",
+            "tauriResponse": null,
+            "body": null
+          },
+          {
+            "label": "leaked-ticket-guessed-key:null",
+            "outcome": "no-response",
+            "tauriResponse": null,
+            "body": null
+          },
+          {
+            "label": "leaked-ticket-guessed-key:0",
+            "outcome": "no-response",
+            "tauriResponse": null,
+            "body": null
+          },
+          {
+            "label": "leaked-ticket-guessed-key:tauri",
+            "outcome": "no-response",
+            "tauriResponse": null,
+            "body": null
+          },
+          {
+            "label": "leaked-ticket-guessed-key:__TAURI_INVOKE_KEY__",
+            "outcome": "no-response",
+            "tauriResponse": null,
+            "body": null
+          },
+          {
+            "label": "leaked-ticket-ping",
+            "outcome": "no-response",
+            "tauriResponse": null,
+            "body": null
+          },
+          {
+            "label": "ungranted-command",
+            "outcome": "no-response",
+            "tauriResponse": null,
+            "body": null
+          }
+        ],
+        "successfulRequests": 0,
+        "nativeInvokeKeyMismatchLines": 8,
+        "keyValueInProcessOutput": true
+      }
+    },
+    {
+      "artifact": "Windows-X64",
+      "sourceRevision": "a9c2511d9dcba9df0aebd32b0d396adce9eaa720",
+      "rustUnitTests": 9,
+      "clippy": "Finished `dev` profile [unoptimized] target(s) in 1m 11s",
+      "napiCratesInDependencyGraph": 0,
+      "authority": {
+        "checks": "10/10",
+        "windowDiscoveryRounds": 1,
+        "transientScriptTimeouts": 0,
+        "cspViolations": 0
+      },
+      "storage": {
+        "origin": "http://tauri.localhost",
+        "checks": "19/19",
+        "cspViolations": 0,
+        "ipcFallbackWarnings": 0,
+        "transientPollErrors": 0,
+        "largeDocument": {
+          "bytes": 8388640,
+          "storedBytes": 8388640,
+          "writeMs": 374,
+          "readMs": 314
+        }
+      },
+      "workerConstructedRawIpc": {
+        "nativePingSequence": [2, 3],
+        "workerTauriGlobals": [],
+        "outcomes": [
+          {
+            "label": "no-credentials",
+            "outcome": "status:500",
+            "tauriResponse": null,
+            "body": "missing Tauri-Invoke-Key header"
+          },
+          {
+            "label": "leaked-ticket-without-invoke-key",
+            "outcome": "status:500",
+            "tauriResponse": null,
+            "body": "missing Tauri-Invoke-Key header"
+          },
+          {
+            "label": "leaked-ticket-guessed-key:empty",
+            "outcome": "status:500",
+            "tauriResponse": null,
+            "body": "missing Tauri-Invoke-Key header"
+          },
+          {
+            "label": "leaked-ticket-guessed-key:undefined",
+            "outcome": "rejected:TypeError",
+            "tauriResponse": null,
+            "body": null
+          },
+          {
+            "label": "leaked-ticket-guessed-key:null",
+            "outcome": "rejected:TypeError",
+            "tauriResponse": null,
+            "body": null
+          },
+          {
+            "label": "leaked-ticket-guessed-key:0",
+            "outcome": "rejected:TypeError",
+            "tauriResponse": null,
+            "body": null
+          },
+          {
+            "label": "leaked-ticket-guessed-key:tauri",
+            "outcome": "rejected:TypeError",
+            "tauriResponse": null,
+            "body": null
+          },
+          {
+            "label": "leaked-ticket-guessed-key:__TAURI_INVOKE_KEY__",
+            "outcome": "rejected:TypeError",
+            "tauriResponse": null,
+            "body": null
+          },
+          {
+            "label": "leaked-ticket-ping",
+            "outcome": "rejected:TypeError",
+            "tauriResponse": null,
+            "body": null
+          },
+          {
+            "label": "ungranted-command",
+            "outcome": "rejected:TypeError",
+            "tauriResponse": null,
+            "body": null
+          }
+        ],
+        "successfulRequests": 0,
+        "nativeInvokeKeyMismatchLines": 7,
+        "keyValueInProcessOutput": true
+      }
+    },
+    {
+      "artifact": "macOS-ARM64",
+      "sourceRevision": "a9c2511d9dcba9df0aebd32b0d396adce9eaa720",
+      "rustUnitTests": 9,
+      "clippy": "Finished `dev` profile [unoptimized] target(s) in 5.31s",
+      "napiCratesInDependencyGraph": 0,
+      "authority": {
+        "checks": "10/10",
+        "windowDiscoveryRounds": 1,
+        "transientScriptTimeouts": 0,
+        "cspViolations": 0
+      },
+      "storage": {
+        "origin": "tauri://localhost",
+        "checks": "19/19",
+        "cspViolations": 0,
+        "ipcFallbackWarnings": 0,
+        "transientPollErrors": 0,
+        "largeDocument": {
+          "bytes": 8388640,
+          "storedBytes": 8388640,
+          "writeMs": 90,
+          "readMs": 121
+        }
+      },
+      "workerConstructedRawIpc": {
+        "nativePingSequence": [2, 3],
+        "workerTauriGlobals": [],
+        "outcomes": [
+          {
+            "label": "no-credentials",
+            "outcome": "status:500",
+            "tauriResponse": null,
+            "body": "missing Tauri-Invoke-Key header"
+          },
+          {
+            "label": "leaked-ticket-without-invoke-key",
+            "outcome": "status:500",
+            "tauriResponse": null,
+            "body": "missing Tauri-Invoke-Key header"
+          },
+          {
+            "label": "leaked-ticket-guessed-key:empty",
+            "outcome": "no-response",
+            "tauriResponse": null,
+            "body": null
+          },
+          {
+            "label": "leaked-ticket-guessed-key:undefined",
+            "outcome": "no-response",
+            "tauriResponse": null,
+            "body": null
+          },
+          {
+            "label": "leaked-ticket-guessed-key:null",
+            "outcome": "no-response",
+            "tauriResponse": null,
+            "body": null
+          },
+          {
+            "label": "leaked-ticket-guessed-key:0",
+            "outcome": "no-response",
+            "tauriResponse": null,
+            "body": null
+          },
+          {
+            "label": "leaked-ticket-guessed-key:tauri",
+            "outcome": "no-response",
+            "tauriResponse": null,
+            "body": null
+          },
+          {
+            "label": "leaked-ticket-guessed-key:__TAURI_INVOKE_KEY__",
+            "outcome": "no-response",
+            "tauriResponse": null,
+            "body": null
+          },
+          {
+            "label": "leaked-ticket-ping",
+            "outcome": "no-response",
+            "tauriResponse": null,
+            "body": null
+          },
+          {
+            "label": "ungranted-command",
+            "outcome": "no-response",
+            "tauriResponse": null,
+            "body": null
+          }
+        ],
+        "successfulRequests": 0,
+        "nativeInvokeKeyMismatchLines": 8,
+        "keyValueInProcessOutput": true
+      }
+    }
+  ],
+  "observations": [
+    "All three platforms pass 19 storage checks. In every hand-built request the Worker holds a real, leaked document ticket and none succeeds; the native ping counter advanced from 2 to 3 only for the page ping made after the attack, so no Worker request reached a command.",
+    "A missing invoke key gets an HTTP 500 text reply on all three platforms.",
+    "A wrong invoke key is dropped by Tauri 2.11.5 without a reply. Linux and macOS leave the fetch pending until the fixture timeout. Windows (WebView2) fails those fetches with a TypeError, so the same server behavior is visible differently per platform.",
+    "On Windows the empty-key guess is reported as a missing header (HTTP 500) whereas Linux and macOS deliver it to the handler as a mismatch; this follows the header normalization of each WebView and is not an authorization difference.",
+    "Tauri prints \"__TAURI_INVOKE_KEY__ expected <key> but received <guess>\" to process standard error on every mismatch on all three platforms. The expected value of that disposable fixture process is present in the uploaded driver logs, and the committed evidence deliberately omits it. Production must keep standard error out of logs, reports and uploads.",
+    "The ACL did not decide these outcomes. The Worker origin is the local document origin; the invoke key was the barrier that held."
+  ],
+  "limitations": [
+    "The attack covers hand-built requests that lack the invoke key. A Worker that obtained the invoke key, same-origin page code, same-origin frames and service workers are not covered.",
+    "Disposable fixture only; no production ownership, native lifecycle hooks, snapshots, blobs or editor connection.",
+    "Hosted runners do not establish installed-application behaviour, restart or power-loss durability, or real user data."
+  ],
+  "artifacts": "/tmp/affine-tauri-build/ci-42406387430/"
+}

@@ -1,0 +1,186 @@
+{
+  "schemaVersion": 1,
+  "runId": 42405878029,
+  "url": "https://github.com/quantforge-br/AFFiNE-tauri/actions/runs/42405878029",
+  "sourceRevision": "9fc470e81ecf42e8fc52ab8f9546840f202618c9",
+  "status": "completed",
+  "conclusion": "success",
+  "scope": "First three-platform pass of the disposable native storage diagnostic with raw binary IPC (18 checks). Hosted runners, real native WebViews, fixture space and automation profile only. It does not include the Worker-constructed IPC attack added later.",
+  "jobs": [
+    {
+      "name": "Native editor smoke (macos-latest)",
+      "conclusion": "success",
+      "failedSteps": []
+    },
+    {
+      "name": "Native editor smoke (windows-latest)",
+      "conclusion": "success",
+      "failedSteps": []
+    },
+    {
+      "name": "Native editor smoke (ubuntu-24.04)",
+      "conclusion": "success",
+      "failedSteps": []
+    }
+  ],
+  "results": [
+    {
+      "artifact": "Linux-X64",
+      "sourceRevision": "9fc470e81ecf42e8fc52ab8f9546840f202618c9",
+      "rustUnitTests": 9,
+      "clippy": "Finished `dev` profile [unoptimized] target(s) in 3.69s",
+      "napiCratesInDependencyGraph": 0,
+      "authority": {
+        "checks": "10/10",
+        "windowDiscoveryRounds": 2,
+        "transientScriptTimeouts": 0,
+        "cspViolations": 0,
+        "remoteNavigation": {
+          "invokeSource": "frame",
+          "denied": true
+        }
+      },
+      "storage": {
+        "origin": "tauri://localhost",
+        "checks": "18/18",
+        "cspViolations": 0,
+        "ipcFallbackWarnings": 0,
+        "transientPollErrors": 0,
+        "largeDocument": {
+          "bytes": 8388640,
+          "storedBytes": 8388640,
+          "writeMs": 116,
+          "readMs": 139
+        },
+        "reload": {
+          "navigationType": "reload",
+          "generation": 2,
+          "previousGeneration": 1,
+          "stale": "UNAUTHORIZED",
+          "unclaimed": "UNAUTHORIZED",
+          "previousLifetimeMs": 657
+        }
+      },
+      "otherStages": {
+        "developmentEditor": "9/9",
+        "nativeProtocol": "7/7",
+        "embeddedEditor": "10/10"
+      }
+    },
+    {
+      "artifact": "Windows-X64",
+      "sourceRevision": "9fc470e81ecf42e8fc52ab8f9546840f202618c9",
+      "rustUnitTests": 9,
+      "clippy": "Finished `dev` profile [unoptimized] target(s) in 1m 09s",
+      "napiCratesInDependencyGraph": 0,
+      "authority": {
+        "checks": "10/10",
+        "windowDiscoveryRounds": 1,
+        "transientScriptTimeouts": 0,
+        "cspViolations": 0,
+        "remoteNavigation": {
+          "invokeSource": "frame",
+          "denied": true
+        }
+      },
+      "storage": {
+        "origin": "http://tauri.localhost",
+        "checks": "18/18",
+        "cspViolations": 0,
+        "ipcFallbackWarnings": 0,
+        "transientPollErrors": 0,
+        "largeDocument": {
+          "bytes": 8388640,
+          "storedBytes": 8388640,
+          "writeMs": 341,
+          "readMs": 296
+        },
+        "reload": {
+          "navigationType": "reload",
+          "generation": 2,
+          "previousGeneration": 1,
+          "stale": "UNAUTHORIZED",
+          "unclaimed": "UNAUTHORIZED",
+          "previousLifetimeMs": 2341
+        }
+      },
+      "otherStages": {
+        "developmentEditor": "9/9",
+        "nativeProtocol": "7/7",
+        "embeddedEditor": "10/10"
+      }
+    },
+    {
+      "artifact": "macOS-ARM64",
+      "sourceRevision": "9fc470e81ecf42e8fc52ab8f9546840f202618c9",
+      "rustUnitTests": 9,
+      "clippy": "Finished `dev` profile [unoptimized] target(s) in 7.02s",
+      "napiCratesInDependencyGraph": 0,
+      "authority": {
+        "checks": "10/10",
+        "windowDiscoveryRounds": 1,
+        "transientScriptTimeouts": 0,
+        "cspViolations": 0,
+        "remoteNavigation": {
+          "invokeSource": "frame",
+          "denied": true
+        }
+      },
+      "storage": {
+        "origin": "tauri://localhost",
+        "checks": "18/18",
+        "cspViolations": 0,
+        "ipcFallbackWarnings": 0,
+        "transientPollErrors": 0,
+        "largeDocument": {
+          "bytes": 8388640,
+          "storedBytes": 8388640,
+          "writeMs": 149,
+          "readMs": 111
+        },
+        "reload": {
+          "navigationType": "reload",
+          "generation": 2,
+          "previousGeneration": 1,
+          "stale": "UNAUTHORIZED",
+          "unclaimed": "UNAUTHORIZED",
+          "previousLifetimeMs": 1372
+        }
+      },
+      "otherStages": {
+        "developmentEditor": "9/9",
+        "nativeProtocol": "7/7",
+        "embeddedEditor": "10/10"
+      }
+    }
+  ],
+  "failedPredecessors": [
+    {
+      "runId": 42403730886,
+      "evidence": "ci-native-storage-first.json",
+      "summary": "Windows authority collector script timeout; Linux and macOS passed the 15-check JSON-array variant"
+    },
+    {
+      "runId": 42404753608,
+      "sourceRevision": "952e0f131dd4476fc8804d49a87ab116c3938019",
+      "failure": "Windows: the dependency gate searched for the substring napi and matched winapi-util; the graph has no N-API crate. Linux and macOS passed."
+    },
+    {
+      "runId": 42405282385,
+      "sourceRevision": "9dbc97dbfe",
+      "failure": "Linux: window list read before the second WebView navigated, so the capability-denied WebView was missing. Windows: the script that starts the remote navigation lost its callback with a script timeout after nine checks. macOS passed."
+    }
+  ],
+  "observations": [
+    "Windows, Linux and macOS all complete the 18 storage checks, including the 8 MiB document verified after a real reload and the 16 MiB + 1 byte frame rejected at the native boundary.",
+    "Linux needed two discovery rounds on the hosted runner, which is the race that failed run 42405282385; the corrected collector tolerates it and records it.",
+    "No platform reported a Tauri IPC fallback warning, so the custom-protocol path carried the raw bodies on all three.",
+    "The large-document durations are single informational runs on shared hosted machines, not performance budgets."
+  ],
+  "limitations": [
+    "Disposable fixture only; no production ownership, native lifecycle hooks, snapshots, blobs or editor connection.",
+    "Does not include the Worker-constructed raw IPC attack, which needs its own three-platform run.",
+    "Hosted runners do not establish installed-application behaviour, restart or power-loss durability, or real user data."
+  ],
+  "artifacts": "/tmp/affine-tauri-build/ci-42405878029/"
+}
