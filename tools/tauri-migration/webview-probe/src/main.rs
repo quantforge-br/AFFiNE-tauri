@@ -49,6 +49,7 @@ fn main() {
       #[cfg(feature = "e2e")]
       let window = window.initialization_script(r#"
         window.__probeErrors = [];
+        window.__probeCspViolations = [];
         const originalError = console.error;
         console.error = (...args) => {
           window.__probeErrors.push(args.map(value => String(value)).join(' '));
@@ -75,7 +76,10 @@ fn main() {
         };
         window.addEventListener('error', event => window.__probeErrors.push(String(event.message)));
         window.addEventListener('unhandledrejection', event => window.__probeErrors.push(String(event.reason)));
-        window.addEventListener('securitypolicyviolation', event => window.__probeErrors.push('CSP ' + event.violatedDirective + ': ' + event.blockedURI));
+        window.addEventListener('securitypolicyviolation', event => {
+          window.__probeCspViolations.push({directive: event.effectiveDirective, blockedURI: event.blockedURI, disposition: event.disposition});
+          window.__probeErrors.push('CSP ' + event.violatedDirective + ': ' + event.blockedURI);
+        });
       "#);
       let window = window
         .on_navigation(|url| {

@@ -286,6 +286,30 @@ try {
     scope: 'public workbench API; no tabs, focus changes or drag/drop',
     routes,
   });
+  if (process.env.PROBE_BUNDLED_FRONTEND === '1') {
+    const policy = await evaluate(
+      'return {origin:location.origin,csp:window.__probeCspViolations}'
+    );
+    assert.ok(
+      ['tauri://localhost', 'http://tauri.localhost'].includes(policy.origin)
+    );
+    assert.ok(Array.isArray(policy.csp), 'CSP instrumentation is required');
+    assert.deepEqual(
+      policy.csp.filter(item => item.directive.startsWith('script-src')),
+      [],
+      'bundled scripts must not violate enforced CSP'
+    );
+    const dynamicScript = await evaluate(
+      'try { new Function("return 42")(); return {blocked:false}; } catch(error) { return {blocked:true,name:error.name}; }'
+    );
+    assert.equal(
+      dynamicScript.blocked,
+      true,
+      'enforced CSP must reject dynamic JavaScript compilation'
+    );
+    policy.dynamicScript = dynamicScript;
+    checks.push({ name: 'native-origin-script-csp', passed: true, ...policy });
+  }
   const evidence = {
     scope: 'reference frontend in isolated Tauri WebView; not desktop parity',
     capturedAt: new Date().toISOString(),

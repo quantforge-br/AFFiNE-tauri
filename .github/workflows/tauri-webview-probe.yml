@@ -6,6 +6,8 @@ on:
     paths:
       - .github/workflows/tauri-webview-probe.yml
       - tools/tauri-migration/webview-probe/**
+      - tools/tauri-migration/*lottie*
+      - packages/frontend/component/src/ui/lottie/**
   workflow_dispatch:
 
 permissions:
@@ -19,7 +21,7 @@ jobs:
       matrix:
         os: [ubuntu-24.04, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 35
+    timeout-minutes: 45
     env:
       BUILD_TYPE: canary
       YARN_ENABLE_SCRIPTS: 'false'
@@ -73,6 +75,31 @@ jobs:
         run: env -u WAYLAND_DISPLAY GDK_BACKEND=x11 xvfb-run -a -s '-screen 0 1600x1000x24' node tools/tauri-migration/webview-probe/run.mjs
       - name: Run native editor probe (Windows/macOS)
         if: runner.os != 'Linux'
+        run: node tools/tauri-migration/webview-probe/run.mjs
+      - name: Validate expression-free animation assets
+        run: node --test tools/tauri-migration/lottie-assets.test.mjs
+      - name: Build local static frontend assets
+        env:
+          PUBLIC_PATH: /
+          NODE_OPTIONS: --max-old-space-size=8192
+        run: node .yarn/releases/yarn-4.18.0.cjs affine bundle -p @affine/web
+      - name: Build embedded native editor probe
+        shell: bash
+        run: |
+          TAURI_CONFIG="$(cat tools/tauri-migration/webview-probe/tauri.bundled.conf.json)"
+          export TAURI_CONFIG
+          cargo build --manifest-path tools/tauri-migration/webview-probe/Cargo.toml --locked --features e2e,bundled-frontend
+      - name: Run embedded editor probe (Linux)
+        if: runner.os == 'Linux'
+        env:
+          PROBE_BUNDLED_FRONTEND: '1'
+          PROBE_OUTPUT_DIR: ${{ github.workspace }}/.coverage/tauri-probe/bundled
+        run: env -u WAYLAND_DISPLAY GDK_BACKEND=x11 xvfb-run -a -s '-screen 0 1600x1000x24' node tools/tauri-migration/webview-probe/run.mjs
+      - name: Run embedded editor probe (Windows/macOS)
+        if: runner.os != 'Linux'
+        env:
+          PROBE_BUNDLED_FRONTEND: '1'
+          PROBE_OUTPUT_DIR: ${{ github.workspace }}/.coverage/tauri-probe/bundled
         run: node tools/tauri-migration/webview-probe/run.mjs
       - name: Upload probe evidence and diagnostics
         if: always()

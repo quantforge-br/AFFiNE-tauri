@@ -2,7 +2,7 @@
 
 ## Scope and revisions
 
-Reference application revision: ef401b20cb2a5960278a8e7ab2c0e96d8f759aeb. The probe sources are in tools/tauri-migration/webview-probe. This is compatibility evidence only: the probe loads the existing web frontend from a local development server and is **not** the completed native desktop application. Its persistence check uses the reference browser storage, not a new Tauri SQLite adapter.
+Reference application revision: ef401b20cb2a5960278a8e7ab2c0e96d8f759aeb. The probe sources are in tools/tauri-migration/webview-probe. This is compatibility evidence only: development mode loads the reference frontend from localhost, and bundled mode embeds its static output. Neither is the completed native desktop application. Persistence checks use reference browser storage, not the production Rust/SQLite adapter.
 
 The original reproducible Linux run is recorded in [evidence/linux-webview-smoke.json](evidence/linux-webview-smoke.json). The runner starts/stops its own processes and rejects occupied ports. Subsequent [third CI evidence](evidence/ci-webview-probe-third.json) records nine passing editor checks on Linux, Windows and macOS, plus passing minimal native-protocol dedicated Worker storage diagnostics. The first and second failed CI runs remain preserved.
 

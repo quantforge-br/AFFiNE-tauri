@@ -1,0 +1,126 @@
+{
+  "scope": "Static reference web frontend embedded in an isolated Tauri probe, not native desktop parity",
+  "sourceBaseRevision": "a43a166ac3b509192c0c80194005d37ea09dcba1",
+  "sourceChanges": [
+    "Generated expression-free collections/delete animation assets and component imports",
+    "E2E-only CSP capture, native-origin assertion and dynamic JavaScript compilation denial"
+  ],
+  "mode": "e2e,bundled-frontend",
+  "build": {
+    "publicPath": "/",
+    "frontend": "node .yarn/releases/yarn-4.18.0.cjs affine bundle -p @affine/web",
+    "rust": "cargo build --manifest-path tools/tauri-migration/webview-probe/Cargo.toml --locked --features e2e,bundled-frontend",
+    "tauriConfig": {
+      "build": {
+        "frontendDist": "../../../packages/frontend/apps/web/dist"
+      },
+      "app": {
+        "security": {
+          "capabilities": [],
+          "csp": "default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; worker-src 'self' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' blob: data: https:; font-src 'self' data:; connect-src 'self' ipc: http://ipc.localhost blob: data:; media-src 'self' blob: data:; object-src 'none'; base-uri 'self'; frame-src 'none'"
+        }
+      }
+    }
+  },
+  "nativeDecorations": false,
+  "frontendServer": false,
+  "telemetryPreferenceOverride": false,
+  "storage": "Reference dedicated Worker and IndexedDB; production Rust broker not implemented",
+  "result": {
+    "scope": "reference frontend in isolated Tauri WebView; not desktop parity",
+    "capturedAt": "2026-11-07T15:20:26.273Z",
+    "platform": "linux",
+    "architecture": "x64",
+    "checks": [
+      {
+        "name": "create-document",
+        "passed": true
+      },
+      {
+        "name": "native-text-input",
+        "passed": true,
+        "marker": "Tauri WebView persistence 1794064820674"
+      },
+      {
+        "name": "switch-edgeless",
+        "passed": true
+      },
+      {
+        "name": "local-storage-write-completed",
+        "passed": true
+      },
+      {
+        "name": "reload-persistence",
+        "passed": true,
+        "url": "tauri://localhost/workspace/sOvzt8CnlYQ302z91V1hI/FBNtZRUhTH3-UHDqWNkUB"
+      },
+      {
+        "name": "required-web-platform-apis",
+        "passed": true
+      },
+      {
+        "name": "worker-message-port-binary-transfer",
+        "passed": true,
+        "workerTransport": {
+          "bytes": [0, 1, 127, 128, 255],
+          "detached": true,
+          "workerNativeIPC": false
+        }
+      },
+      {
+        "name": "remote-native-command-denied",
+        "passed": true,
+        "reason": "window.set_title not allowed. Permissions associated with this command: core:window:allow-set-title"
+      },
+      {
+        "name": "multi-view-routing-feasibility",
+        "passed": true,
+        "scope": "public workbench API; no tabs, focus changes or drag/drop",
+        "routes": [
+          {
+            "id": "INZJiWWr6X_QMvYHpFNDY",
+            "path": "/FBNtZRUhTH3-UHDqWNkUB"
+          },
+          {
+            "id": "2xnFxaanGaMerIi6H2rzu",
+            "path": "/all"
+          }
+        ]
+      },
+      {
+        "name": "native-origin-script-csp",
+        "passed": true,
+        "csp": [],
+        "origin": "tauri://localhost",
+        "dynamicScript": {
+          "blocked": true,
+          "name": "EvalError"
+        }
+      }
+    ],
+    "runtime": {
+      "canvas": true,
+      "indexedDB": "object",
+      "secureContext": true,
+      "url": "tauri://localhost/workspace/sOvzt8CnlYQ302z91V1hI/FBNtZRUhTH3-UHDqWNkUB?mode=edgeless",
+      "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/60.5 Safari/605.1.15",
+      "worker": "function",
+      "workers": [
+        {
+          "kind": "Worker",
+          "url": "/js/nbstore-0.27.5.worker.js"
+        },
+        {
+          "kind": "Worker",
+          "url": "/js/workspace-profile-0.27.5.worker.js"
+        }
+      ]
+    }
+  },
+  "limitations": [
+    "No cold process restart or migration acceptance",
+    "No production IPC commands or capabilities",
+    "No native auth/sync, custom controls, tab lifecycle or packaging acceptance",
+    "Linux result only; new bundled CI execution on Windows/macOS is required"
+  ]
+}
