@@ -109,7 +109,31 @@ try {
     'edgeless editor'
   );
   checks.push({ name: 'switch-edgeless', passed: true });
-  await command('POST', '/refresh', {});
+  const persisted = await command('POST', '/execute/async', {
+    script: `
+      const done = arguments[arguments.length - 1];
+      const workspace = window.currentWorkspace;
+      const [, , workspaceId, docId] = location.pathname.split('/');
+      if (!workspace || !workspaceId || !docId) {
+        done({saved: false, error: 'workspace engine unavailable'});
+      } else {
+        Promise.all([workspaceId, 'db$docProperties', docId].map(id =>
+          workspace.engine.doc.waitForSynced(id, AbortSignal.timeout(25000))
+        )).then(() => done({saved: true}), error => done({saved: false, error: String(error)}));
+      }
+    `,
+    args: [],
+  });
+  assert.equal(persisted.saved, true, JSON.stringify(persisted));
+  checks.push({ name: 'local-storage-write-completed', passed: true });
+  const previousTimeOrigin = await evaluate('return performance.timeOrigin');
+  // Immediate location.reload() discards WKWebView's evaluation callback in tauri-wd 0.1.11.
+  // Schedule a real navigation after the command returns, then require a new document.
+  await evaluate('setTimeout(() => location.reload(), 50); return true');
+  await until(
+    'return performance.timeOrigin !== ' + previousTimeOrigin,
+    'new document after reload'
+  );
   await until(
     'return document.querySelector("doc-title .inline-editor")?.textContent.includes(' +
       JSON.stringify(marker) +

@@ -1,0 +1,111 @@
+{
+  "run": "https://github.com/quantforge-br/AFFiNE-tauri/actions/runs/42371989137",
+  "sourceRevision": "8eaef61dd2e931c2f23d6bda677b4d6a51bb65a9",
+  "scope": "Native WebView architecture probe; failed Windows/macOS gates remain open",
+  "results": [
+    {
+      "platform": "linux",
+      "artifact": "Linux-X64",
+      "passed": true,
+      "scope": "reference frontend in isolated Tauri WebView; not desktop parity",
+      "capturedAt": "2026-11-07T12:27:25.633Z",
+      "architecture": "x64",
+      "checks": [
+        {
+          "name": "create-document",
+          "passed": true
+        },
+        {
+          "name": "native-text-input",
+          "passed": true,
+          "marker": "Tauri WebView persistence 1794054433682"
+        },
+        {
+          "name": "switch-edgeless",
+          "passed": true
+        },
+        {
+          "name": "reload-persistence",
+          "passed": true,
+          "url": "http://localhost:8080/workspace/TJf6hC5JK2RkwwACWrPuP/VEXRXncUfQN_vGrrH1Bid"
+        },
+        {
+          "name": "required-web-platform-apis",
+          "passed": true
+        }
+      ],
+      "runtime": {
+        "canvas": true,
+        "indexedDB": "object",
+        "secureContext": true,
+        "url": "http://localhost:8080/workspace/TJf6hC5JK2RkwwACWrPuP/VEXRXncUfQN_vGrrH1Bid?mode=edgeless",
+        "userAgent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/60.5 Safari/605.1.15",
+        "worker": "function"
+      }
+    },
+    {
+      "platform": "windows",
+      "artifact": "Windows-X64",
+      "passed": false,
+      "checks": [
+        {
+          "name": "create-document",
+          "passed": true
+        },
+        {
+          "name": "native-text-input",
+          "passed": true,
+          "marker": "Tauri WebView persistence 1794054513998"
+        },
+        {
+          "name": "switch-edgeless",
+          "passed": true
+        }
+      ],
+      "failure": "Error: Timed out: title persistence after reload",
+      "diagnostic": {
+        "edgeless": false,
+        "editor": false,
+        "text": "Open this doc in AFFiNE app\nDon't have the app? Click to download.\nRemember choice\nDismiss\nOpen in app\nDemo Workspace",
+        "title": null,
+        "url": "http://localhost:8080/workspace/WU41aaeci7U65BOGPHKH0/J6cgc0p-5hduxC-SSSOEX?mode=edgeless",
+        "viewport": [1028, 779]
+      },
+      "sessionId": "6050331a-5f3f-49db-973e-6541972b02ad"
+    },
+    {
+      "platform": "macos",
+      "artifact": "macOS-ARM64",
+      "passed": false,
+      "checks": [
+        {
+          "name": "create-document",
+          "passed": true
+        },
+        {
+          "name": "native-text-input",
+          "passed": true,
+          "marker": "Tauri WebView persistence 1794054327442"
+        },
+        {
+          "name": "switch-edgeless",
+          "passed": true
+        }
+      ],
+      "failure": "Error: {\"value\":{\"error\":\"script timeout\",\"message\":\"Script execution timed out\",\"stacktrace\":\"\"}}",
+      "diagnostic": {
+        "edgeless": true,
+        "editor": false,
+        "text": "\nOpen this doc in AFFiNE app\n\nDon't have the app? Click to download.\n\nRemember choice\n\nDismiss\n\nOpen in app\n\nDemo Workspace\nSyncing...\n\nSearch\n\nAll docs\nJournals\nIntelligence\nSettings\nFavorites\n\nNo favorites\nOrganize\n\nFirst Folder\n\n\nTags\n\nCollections\n\nOthers\nTrash\nImport\nTemplate\nLearn more\n\nDownload App\n\n\nTauri WebView persistence 1794054327442\n\n\n\n\n\nShare\n\nYour workspace is saved in this browser. When disk space is low, the browser may remove it automatically. Enable AFFiNE Sync to keep it safer.\n\nSign in and enable\n\n \n\n\n\n Tauri WebView persistence 1794054327442\n ‌\n \n",
+        "title": "Tauri WebView persistence 1794054327442",
+        "url": "http://localhost:8080/workspace/78ahIKkbt_fd6SG8QGt7j/mDCsV5UJSl9wn0yfra_HF?mode=edgeless",
+        "viewport": [1280, 900]
+      },
+      "sessionId": "2d223ef1-1b4d-4c5b-b865-4cb1c35dad2e"
+    }
+  ],
+  "analysis": {
+    "macos": "Driver refresh executes immediate location.reload() inside an awaited JS evaluation; diagnostic still showed title and edgeless. The callback may be discarded by navigation; a deferred real navigation and timeOrigin assertion replace the racy command.",
+    "windows": "Title/editor did not rehydrate after reload. The original test reloaded without waiting for asynchronous document/property writes. New test waits for the reference engine waitForSynced contract before navigating; a passing rerun is still required."
+  }
+}
