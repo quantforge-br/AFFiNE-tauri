@@ -79,6 +79,9 @@ try {
     'previous-document-session-drained-by-replacement',
     'persisted-data-after-real-reload',
     'persisted-cancelled-write-after-real-reload',
+    'oversized-raw-update-rejected-without-state-change',
+    'large-document-raw-ipc-roundtrip',
+    'large-document-persisted-after-real-reload',
   ]) {
     assert.equal(
       evidence.checks.find(check => check.name === name)?.passed,
@@ -99,6 +102,17 @@ try {
       check => check.name === 'previous-document-session-drained-by-replacement'
     )?.drainedPrevious,
     true
+  );
+  const large = evidence.checks.find(
+    check => check.name === 'large-document-raw-ipc-roundtrip'
+  );
+  assert.ok(large.updateBytes > 8 * 1024 * 1024);
+  assert.equal(large.storedBytes, large.updateBytes);
+  assert.deepEqual(
+    evidence.warnings.filter(warning =>
+      warning.includes('IPC custom protocol failed')
+    ),
+    []
   );
   evidence.acceptance =
     'Disposable native Worker/private-port/production bridge/Rust session/SQLite diagnostic only';

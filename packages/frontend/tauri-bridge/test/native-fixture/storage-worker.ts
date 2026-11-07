@@ -14,6 +14,8 @@ interface FixtureScope {
 const scope = self as unknown as FixtureScope;
 const text = 'Native session café 東京 🦀';
 const expected = Uint8Array.from({ length: 256 }, (_, index) => index);
+const LARGE_ID = 'large café 東京';
+const LARGE_BYTES = 8 * 1024 * 1024;
 
 function assert(condition: unknown, message: string): asserts condition {
   if (!condition) throw new Error(message);
@@ -32,6 +34,27 @@ function inspect(data: Uint8Array) {
       bytes.every((byte, index) => byte === expected[index]),
     'Binary CRDT payload changed'
   );
+  doc.destroy();
+}
+
+function largePayload() {
+  const payload = new Uint8Array(LARGE_BYTES);
+  for (let index = 0; index < payload.length; index += 1)
+    payload[index] = (index * 31 + (index >>> 8)) & 255;
+  return payload;
+}
+function inspectLarge(data: Uint8Array) {
+  const doc = new Y.Doc();
+  Y.applyUpdate(doc, data);
+  const stored = doc.getMap('fixture').get('large');
+  assert(
+    stored instanceof Uint8Array && stored.length === LARGE_BYTES,
+    'Large binary CRDT payload changed size'
+  );
+  const payload = largePayload();
+  for (let index = 0; index < payload.length; index += 1)
+    if (stored[index] !== payload[index])
+      throw new Error('Large payload differs at byte ' + index);
   doc.destroy();
 }
 
@@ -115,6 +138,34 @@ async function run(port: MessagePort, phase: string) {
     );
     doc.destroy();
     scope.postMessage({ phase, passed: true, denial });
+  } else if (phase === 'large') {
+    const doc = new Y.Doc();
+    doc.getMap('fixture').set('large', largePayload());
+    const update = Y.encodeStateAsUpdate(doc);
+    doc.destroy();
+    const started = performance.now();
+    const clock = await client.pushUpdate(LARGE_ID, update);
+    const written = performance.now();
+    const stored = await client.getDoc(LARGE_ID);
+    const read = performance.now();
+    assert(
+      clock.docId === LARGE_ID && stored?.docId === LARGE_ID,
+      'Unicode document identifier changed'
+    );
+    inspectLarge(stored.data);
+    scope.postMessage({
+      phase,
+      passed: true,
+      updateBytes: update.length,
+      storedBytes: stored.data.length,
+      writeMs: Math.round(written - started),
+      readMs: Math.round(read - written),
+    });
+  } else if (phase === 'large-persisted') {
+    const stored = await client.getDoc(LARGE_ID);
+    assert(stored, 'Large document was not persisted');
+    inspectLarge(stored.data);
+    scope.postMessage({ phase, passed: true, storedBytes: stored.data.length });
   } else if (phase === 'reconcile') {
     const stored = await client.getDoc('uncertain');
     assert(stored, 'Accepted cancelled write was not persisted');

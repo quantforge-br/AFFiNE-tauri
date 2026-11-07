@@ -24,6 +24,7 @@ interface Results {
   origin: string;
   timeOrigin: number;
   violations: unknown[];
+  warnings: string[];
   stage: string;
   failure?: string;
 }
@@ -37,7 +38,11 @@ interface Previous {
 declare global {
   interface Window {
     __TAURI_INTERNALS__: {
-      invoke<T>(command: string, payload: unknown): Promise<T>;
+      invoke<T>(
+        command: string,
+        payload?: unknown,
+        options?: { headers?: Record<string, string> }
+      ): Promise<T>;
     };
     __acceptAuthorityTicket?: (ticket: string, generation: number) => void;
     __storageResults: Results;
@@ -55,8 +60,15 @@ const result: Results = (window.__storageResults = {
   origin: location.origin,
   timeOrigin: performance.timeOrigin,
   violations: [],
+  warnings: [],
   stage: 'waiting-for-native-ticket',
 });
+// Tauri logs a warning and silently switches to postMessage when its custom-protocol IPC fails.
+const originalWarn = console.warn.bind(console);
+console.warn = (...args: unknown[]) => {
+  result.warnings.push(args.map(String).join(' ').slice(0, 240));
+  originalWarn(...args);
+};
 window.addEventListener('securitypolicyviolation', event =>
   result.violations.push({
     directive: event.effectiveDirective,
@@ -68,6 +80,32 @@ function assert(condition: unknown, message: string): asserts condition {
 }
 const record = (name: string, detail: object = {}) =>
   result.checks.push({ name, passed: true, ...detail });
+const encoder = new TextEncoder();
+const MAX_UPDATE = 16 * 1024 * 1024;
+const FRAME_HEADER = 9;
+// Write frame: u32 little-endian identifier length, UTF-8 identifier, update bytes.
+function encodeWrite(docId: string, data: Uint8Array) {
+  const id = encoder.encode(docId);
+  const frame = new Uint8Array(4 + id.length + data.length);
+  new DataView(frame.buffer).setUint32(0, id.length, true);
+  frame.set(id, 4);
+  frame.set(data, 4 + id.length);
+  return frame;
+}
+// Read frame: status byte, i64 little-endian clock, document bytes.
+function decodeRecord(docId: string, response: unknown): DocRecord | null {
+  assert(response instanceof ArrayBuffer, 'Native read did not return binary');
+  assert(response.byteLength >= FRAME_HEADER, 'Truncated native record');
+  const view = new DataView(response);
+  const status = view.getUint8(0);
+  if (status === 0) return null;
+  assert(status === 1, 'Unknown native record status');
+  return {
+    docId,
+    timestampMs: Number(view.getBigInt64(1, true)),
+    data: new Uint8Array(response.slice(FRAME_HEADER)),
+  };
+}
 function bridgeError(error: unknown) {
   const known = CODES.find((code: NativeCode) => code === error);
   return new StorageBridgeError(known ?? 'STORAGE');
@@ -78,9 +116,26 @@ async function run(ticket: string, generation: number): Promise<boolean> {
     window.__TAURI_INTERNALS__.invoke<T>(command, {
       request: { ticket, ...fields },
     });
-  const denied = async (command: string, fields: object, expected: RegExp) => {
+  // Raw binary body; the only application header is the one-shot document ticket.
+  const invokeRaw = <T>(
+    command: string,
+    body: Uint8Array | object,
+    headers: Record<string, string> = {}
+  ) =>
+    window.__TAURI_INTERNALS__.invoke<T>(command, body, {
+      headers: { 'x-affine-ticket': ticket, ...headers },
+    });
+  const readRaw = async (docId: string, headers: Record<string, string> = {}) =>
+    decodeRecord(
+      docId,
+      await invokeRaw<unknown>('storage_read', encoder.encode(docId), headers)
+    );
+  const denied = async (
+    operation: () => Promise<unknown>,
+    expected: RegExp
+  ) => {
     try {
-      await invoke(command, fields);
+      await operation();
     } catch (error) {
       assert(
         expected.test(String(error)),
@@ -117,24 +172,16 @@ async function run(ticket: string, generation: number): Promise<boolean> {
       getDoc(docId, signal) {
         if (signal.aborted)
           return Promise.reject(new StorageBridgeError('CANCELLED'));
-        return track(async () => {
-          // Diagnostic transport only: production must use raw IPC bytes, not JSON number arrays.
-          const value = await invoke<
-            (Omit<DocRecord, 'data'> & { data: number[] }) | null
-          >('storage_read', { docId });
-          return value === null
-            ? null
-            : { ...value, data: new Uint8Array(value.data) };
-        });
+        return track(() => readRaw(docId));
       },
       pushUpdate(docId, data, signal) {
         if (signal.aborted)
           return Promise.reject(new StorageBridgeError('CANCELLED'));
         return track(async () => {
-          const value = await invoke<DocClock>('storage_write', {
-            docId,
-            data: Array.from(data),
-          });
+          const value = await invokeRaw<DocClock>(
+            'storage_write',
+            encodeWrite(docId, data)
+          );
           if (gated) {
             observed?.();
             await gate;
@@ -151,14 +198,14 @@ async function run(ticket: string, generation: number): Promise<boolean> {
       },
     };
   };
-  function start(phase: string, gated = false) {
+  function start(phase: string, gated = false, timeoutMs = 20000) {
     const worker = new Worker('/storage-worker.js');
     const channel = new MessageChannel();
     const host = bindStoragePort(channel.port1, makeSession(gated));
     const outcome = new Promise<Record<string, unknown>>((resolve, reject) => {
       const timer = setTimeout(
         () => reject(new Error('Worker fixture timed out: ' + phase)),
-        20000
+        timeoutMs
       );
       worker.onmessage = event => {
         clearTimeout(timer);
@@ -175,8 +222,13 @@ async function run(ticket: string, generation: number): Promise<boolean> {
     return { worker, host, outcome };
   }
   // Each Worker phase ends by terminating the Worker and awaiting trusted native disposal.
-  const phase = async (name: string, check: string, gated = false) => {
-    const active = start(name, gated);
+  const phase = async (
+    name: string,
+    check: string,
+    gated = false,
+    timeoutMs = 20000
+  ) => {
+    const active = start(name, gated, timeoutMs);
     try {
       record(check, await active.outcome);
     } finally {
@@ -201,14 +253,12 @@ async function run(ticket: string, generation: number): Promise<boolean> {
       'Native generation did not advance'
     );
     const stale = await denied(
-      'storage_read',
-      { ticket: previous.ticket, docId: 'roundtrip' },
+      () => readRaw('roundtrip', { 'x-affine-ticket': previous.ticket }),
       /^UNAUTHORIZED$/
     );
     // A valid new ticket still cannot use the session that belongs to the previous document.
     const unclaimed = await denied(
-      'storage_read',
-      { docId: 'roundtrip' },
+      () => readRaw('roundtrip'),
       /^UNAUTHORIZED$/
     );
     record('real-reload-revokes-previous-document-storage', {
@@ -236,7 +286,20 @@ async function run(ticket: string, generation: number): Promise<boolean> {
     await phase('reopen', 'persisted-data-after-real-reload');
     await invoke('storage_reopen');
     await phase('reconcile', 'persisted-cancelled-write-after-real-reload');
+    await invoke('storage_reopen');
+    await phase(
+      'large-persisted',
+      'large-document-persisted-after-real-reload',
+      false,
+      60000
+    );
     assert(result.violations.length === 0, 'Unexpected enforced CSP violation');
+    assert(
+      !result.warnings.some(warning =>
+        warning.includes('IPC custom protocol failed')
+      ),
+      'Native IPC fell back from the custom protocol'
+    );
     result.stage = 'complete';
     return false;
   }
@@ -244,26 +307,68 @@ async function run(ticket: string, generation: number): Promise<boolean> {
   record('native-document-ticket', { generation });
   record('forged-native-ticket-denied', {
     denial: await denied(
-      'storage_read',
-      { ticket: '00000000-0000-4000-8000-000000000000', docId: 'roundtrip' },
+      () =>
+        readRaw('roundtrip', {
+          'x-affine-ticket': '00000000-0000-4000-8000-000000000000',
+        }),
       /^UNAUTHORIZED$/
     ),
   });
-  for (const key of ['owner', 'path', 'handle', 'windowLabel', 'space'])
+  const fields = ['owner', 'path', 'handle', 'window', 'space'];
+  for (const key of fields) {
+    // Raw commands refuse any other application header; JSON commands refuse unknown fields.
     await denied(
-      'storage_read',
-      { docId: 'roundtrip', [key]: 'forged' },
+      () => readRaw('roundtrip', { ['x-affine-' + key]: 'forged' }),
+      /^INVALID_INPUT$/
+    );
+    await denied(
+      () =>
+        invokeRaw(
+          'storage_write',
+          encodeWrite('roundtrip', new Uint8Array([0])),
+          { ['x-affine-' + key]: 'forged' }
+        ),
+      /^INVALID_INPUT$/
+    );
+    await denied(
+      () => invoke('storage_close', { [key]: 'forged' }),
       /unknown field/
     );
-  record('native-authority-fields-denied');
-  await denied('authority_forbidden', {}, /not allowed/);
+  }
+  // A structured JSON body is never accepted as storage input.
+  await denied(
+    () => invokeRaw('storage_read', { docId: 'roundtrip' }),
+    /^INVALID_INPUT$/
+  );
+  record('native-authority-fields-denied', { fields });
+  await denied(() => invoke('authority_forbidden', {}), /not allowed/);
   record('ungranted-native-command-denied');
+  // Bypass the bridge on purpose: the native boundary must enforce its own bound.
+  const oversized = await denied(
+    () =>
+      invokeRaw(
+        'storage_write',
+        encodeWrite('oversized', new Uint8Array(MAX_UPDATE + 1))
+      ),
+    /^INVALID_INPUT$/
+  );
+  assert(
+    (await readRaw('roundtrip')) === null &&
+      (await readRaw('oversized')) === null,
+    'Rejected oversized update changed storage'
+  );
+  record('oversized-raw-update-rejected-without-state-change', {
+    bytes: MAX_UPDATE + 1,
+    denial: oversized,
+  });
 
   await phase('initial', 'worker-private-port-rust-sqlite-roundtrip');
-  await denied('storage_read', { docId: 'roundtrip' }, /^CLOSED$/);
+  await denied(() => readRaw('roundtrip'), /^CLOSED$/);
   record('awaited-dispose-closes-native-session');
   await invoke('storage_reopen');
   await phase('reopen', 'sqlite-session-reopen');
+  await invoke('storage_reopen');
+  await phase('large', 'large-document-raw-ipc-roundtrip', false, 60000);
   await invoke('storage_reopen');
   const active = start('cancel', true);
   try {
