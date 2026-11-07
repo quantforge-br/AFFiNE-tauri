@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-authority-ping"
+description = "Enables the authority_ping command without any pre-configured scope."
+commands.allow = ["authority_ping"]
+
+[[permission]]
+identifier = "deny-authority-ping"
+description = "Denies the authority_ping command without any pre-configured scope."
+commands.deny = ["authority_ping"]

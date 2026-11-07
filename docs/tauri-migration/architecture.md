@@ -24,6 +24,8 @@ Use tauri-build AppManifest command registration and explicit capabilities; app 
 
 Use targeted events for view-owned changes; subscriptions must register before snapshots, use monotonic revisions and deduplicate source echoes. Binary document/blob data must round-trip losslessly. Use bounded IPC payloads or binary channels where appropriate, and test serialization/ownership/error propagation. No refresh token or raw BYOK secret should be broadcast to frontend listeners.
 
+An isolated debug-only [document-authority diagnostic](native-authority-probe.md) now passes its Linux ping/ACL/forged-ticket/reload checks, with [source-hashed evidence](evidence/linux-native-authority.json). It is not a production ownership design: same-origin code can access the parent realm, Worker raw IPC is not tested, Linux load-start timing is actually document commit, and navigation/drain/crash/close races remain open. No storage commands or production editor permissions are introduced. Windows/macOS results are pending.
+
 ## Window and workbench model
 
 Native window decorations are always disabled per window-decoration-policy.md. The existing tabs/header/editor remain, with accessible in-app controls, drag regions and resize behavior. Close-to-tray semantics stay centralized in Rust. No decoration autohide timer or hover reveal is desired.
@@ -34,7 +36,7 @@ Popups and onboarding/theme-editor windows can be separate explicitly registered
 
 ## Workers and local services
 
-A trusted UI bridge brokers Web Worker requests to Rust. Ordinary Web Workers do not have Tauri IPC access. Shared storage/nbstore workers must survive tab switches, report errors and dispose ports/tasks safely. Preserve the existing StoreManager/CRDT operation semantics; do not replace native SQLite with IndexedDB as a final fallback.
+A trusted UI bridge brokers Web Worker requests to Rust. Ordinary Web Workers do not receive the Tauri bootstrap; absence of globals alone is not proof against constructed raw IPC traffic. Shared storage/nbstore workers must survive tab switches, report errors and dispose ports/tasks safely. Preserve StoreManager/CRDT operation semantics; native SQLite must not become IndexedDB as a final fallback.
 
 The Rust storage pool uses the existing v2 schema/migrations and native indexer. The standalone use-as-lib path now uses owned Vec<u8> and optional N-API dependencies, with a dependency audit proving no N-API crates in the standalone/mobile graphs. Linux checks cover 31 library tests, a byte/CRDT SQLite reopen integration test, 33 binding-mode tests, eight mobile tests and the 122-test Electron reference suite after rebuilding its actual binding. See evidence/linux-rust-storage.json. Explicit wire DTOs, host authorization, cold-process restart and production migration tests remain prerequisites for Tauri integration.
 

@@ -2,27 +2,47 @@
 
 #[cfg(all(feature = "e2e", not(debug_assertions)))]
 compile_error!("the WebDriver automation feature must not be enabled in release builds");
+#[cfg(all(
+  feature = "authority-probe",
+  any(feature = "protocol-probe", feature = "bundled-frontend")
+))]
+compile_error!("authority diagnostic must run separately from frontend/protocol modes");
+#[cfg(all(feature = "authority-probe", not(debug_assertions)))]
+compile_error!("the authority diagnostic must not be included in release builds");
+#[cfg(feature = "authority-probe")]
+mod authority;
 use tauri::{WebviewUrl, WebviewWindowBuilder};
 
 fn main() {
   // This executable is an engine-compatibility probe, not a desktop release.
-  // It loads only the locally built reference frontend and registers no app commands.
+  // Existing frontend/protocol modes register no app commands. Authority mode is a separate diagnostic.
   let builder = tauri::Builder::default();
   #[cfg(feature = "e2e")]
   let builder = builder.plugin(tauri_wd::init());
+  #[cfg(feature = "authority-probe")]
+  let builder = builder
+    .manage(authority::Authority::default())
+    .invoke_handler(tauri::generate_handler![
+      authority::authority_ping,
+      authority::authority_forbidden
+    ]);
 
   builder
     .setup(|app| {
-      #[cfg(not(any(feature = "bundled-frontend", feature = "protocol-probe")))]
+      #[cfg(not(any(feature = "bundled-frontend", feature = "protocol-probe", feature = "authority-probe")))]
       let url = WebviewUrl::External("http://localhost:8080/".parse()?);
       #[cfg(all(feature = "bundled-frontend", not(feature = "protocol-probe")))]
       let url = WebviewUrl::App("index.html".into());
       #[cfg(feature = "protocol-probe")]
       let url = WebviewUrl::App("protocol.html".into());
+      #[cfg(feature = "authority-probe")]
+      let url = WebviewUrl::App("authority.html".into());
       let window = WebviewWindowBuilder::new(app, "probe", url)
         .title("AFFiNE WebView Compatibility Probe")
         .decorations(false)
         .inner_size(1280.0, 900.0);
+      #[cfg(feature = "authority-probe")]
+      let window = window.on_page_load(authority::on_page_load);
       #[cfg(feature = "e2e")]
       let window = if let Some(_profile) = tauri_wd::automation_profile_dir() {
         #[cfg(target_os = "macos")]
@@ -37,7 +57,7 @@ fn main() {
       } else {
         window
       };
-      #[cfg(not(feature = "protocol-probe"))]
+      #[cfg(not(any(feature = "protocol-probe", feature = "authority-probe")))]
       let window = window.initialization_script(
         // Probe only: the production adapter must choose its transport explicitly.
         "localStorage.setItem('disableSharedWorker', 'true');",
@@ -98,7 +118,11 @@ fn main() {
       "#);
       let window = window
         .on_navigation(|url| {
-          if cfg!(any(feature = "bundled-frontend", feature = "protocol-probe")) {
+          #[cfg(feature = "authority-probe")]
+          if url.scheme() == "http" && url.host_str() == Some("127.0.0.1") && url.port() == Some(8080) && url.path() == "/frame.html" {
+            return true;
+          }
+          if cfg!(any(feature = "bundled-frontend", feature = "protocol-probe", feature = "authority-probe")) {
             (url.scheme() == "tauri" && url.host_str() == Some("localhost"))
               || (url.scheme() == "http" && url.host_str() == Some("tauri.localhost"))
           } else {
@@ -118,6 +142,21 @@ fn main() {
           }
         }
       });
+      #[cfg(feature = "authority-probe")]
+      {
+        // This second local WebView deliberately has no command capability or document ticket.
+        let blocked = WebviewWindowBuilder::new(app, "authority-blocked", WebviewUrl::App("authority-blocked.html".into()))
+          .decorations(false)
+          .visible(false);
+        #[cfg(feature = "e2e")]
+        let blocked = if let Some(_profile) = tauri_wd::automation_profile_dir() {
+          #[cfg(target_os = "macos")]
+          { blocked.incognito(true) }
+          #[cfg(not(target_os = "macos"))]
+          { blocked.data_directory(_profile.join("webview")) }
+        } else { blocked };
+        let _blocked = blocked.build()?;
+      }
       Ok(())
     })
     .run(tauri::generate_context!())

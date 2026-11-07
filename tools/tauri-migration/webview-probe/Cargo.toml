@@ -10,10 +10,14 @@ publish = false
 e2e = ["dep:tauri-wd"]
 bundled-frontend = ["tauri/custom-protocol"]
 protocol-probe = ["tauri/custom-protocol"]
+authority-probe = ["tauri/custom-protocol", "dep:serde", "dep:serde_json", "dep:uuid"]
 
 [dependencies]
 tauri = { version = "=2.11.5" }
 tauri-wd = { version = "=0.1.11", optional = true }
+serde = { version = "=1.0.229", features = ["derive"], optional = true }
+serde_json = { version = "=1.0.154", optional = true }
+uuid = { version = "=1.29.1", features = ["v4"], optional = true }
 
 [build-dependencies]
 tauri-build = { version = "=2.6.3" }

@@ -94,7 +94,7 @@ try {
   await requireFreePort(4460);
   if (
     process.env.PROBE_BUNDLED_FRONTEND !== '1' &&
-    process.env.PROBE_MODE !== 'protocol'
+    !['protocol', 'authority'].includes(process.env.PROBE_MODE)
   ) {
     const frontend = await start(
       process.execPath,
@@ -107,6 +107,20 @@ try {
       frontend,
       'reference frontend',
       async response => (await response.text()).includes('<html')
+    );
+  }
+  if (process.env.PROBE_MODE === 'authority') {
+    const fixture = await start(
+      process.execPath,
+      ['tools/tauri-migration/webview-probe/authority-fixture.mjs'],
+      'fixture.log'
+    );
+    await waitFor(
+      'http://127.0.0.1:8080/frame.html',
+      fixture,
+      'untrusted frame fixture',
+      async response =>
+        (await response.text()).includes('Untrusted frame fixture')
     );
   }
   const driver = await start(
@@ -123,9 +137,11 @@ try {
   const smoke = await start(
     process.execPath,
     [
-      process.env.PROBE_MODE === 'protocol'
-        ? 'tools/tauri-migration/webview-probe/protocol-smoke.mjs'
-        : 'tools/tauri-migration/webview-probe/smoke.mjs',
+      process.env.PROBE_MODE === 'authority'
+        ? 'tools/tauri-migration/webview-probe/authority-smoke.mjs'
+        : process.env.PROBE_MODE === 'protocol'
+          ? 'tools/tauri-migration/webview-probe/protocol-smoke.mjs'
+          : 'tools/tauri-migration/webview-probe/smoke.mjs',
     ],
     'smoke.log',
     {
@@ -142,12 +158,12 @@ try {
       smoke.once('error', reject);
     }),
     delay(240_000, undefined, { ref: false }).then(() => {
-      throw new Error('native editor smoke timed out');
+      throw new Error('native WebView smoke timed out');
     }),
   ]);
   if (status !== 0)
-    throw new Error('native editor smoke failed; see ' + output);
-  console.log('Native editor smoke passed; evidence: ' + output);
+    throw new Error('native WebView smoke failed; see ' + output);
+  console.log('Native WebView smoke passed; evidence: ' + output);
 } catch (error) {
   console.error(error);
   process.exitCode = 1;
