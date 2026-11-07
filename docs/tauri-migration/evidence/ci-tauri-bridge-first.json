@@ -1,0 +1,262 @@
+{
+  "run": "https://github.com/quantforge-br/AFFiNE-tauri/actions/runs/42392848133",
+  "sourceRevision": "bbacaf7e2028e44e274444b9e5cce98b77150514",
+  "conclusion": "success",
+  "scope": "Transport-only suite on actual Linux/Windows/macOS Node runners: 27 real MessageChannel cases and one real Node Worker case per platform. All TrustedStorageSession methods are intentional test doubles.",
+  "results": [
+    {
+      "artifact": "Linux-X64",
+      "sourceRevision": "bbacaf7e2028e44e274444b9e5cce98b77150514",
+      "node": "v22.23.4",
+      "actualCompiler": "Version 6.0.3",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-node@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Record source and runtime",
+          "conclusion": "success"
+        },
+        {
+          "name": "Immutable install without lifecycle scripts",
+          "conclusion": "success"
+        },
+        {
+          "name": "Check actual TypeScript compiler",
+          "conclusion": "success"
+        },
+        {
+          "name": "Enforce lint and formatting",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test MessageChannels and a real Node Worker with simulated sessions",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve transport evidence",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-node@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ],
+      "tests": {
+        "success": true,
+        "passed": 28,
+        "failed": 0,
+        "files": [
+          {
+            "file": "frontend/tauri-bridge/test/bridge.spec.ts",
+            "cases": 27,
+            "status": "passed"
+          },
+          {
+            "file": "frontend/tauri-bridge/test/worker.spec.ts",
+            "cases": 1,
+            "status": "passed"
+          }
+        ]
+      },
+      "install": {
+        "completed": [
+          "\u001b[94m➤\u001b[39m \u001b[90mYN0000\u001b[39m: │ /tmp/xfs-22d0ba1b \u001b[32mSTDOUT\u001b[39m \u001b[94m➤\u001b[39m YN0000: Done in 0s 528ms",
+          "\u001b[94m➤\u001b[39m \u001b[90mYN0000\u001b[39m: │ /tmp/xfs-e2f32f3c \u001b[32mSTDOUT\u001b[39m \u001b[94m➤\u001b[39m YN0000: Done in 0s 38ms",
+          "\u001b[93m➤\u001b[39m YN0000: · Done with warnings in 1m 8s"
+        ],
+        "bridgeWarnings": [],
+        "peerWarnings": 195
+      }
+    },
+    {
+      "artifact": "Windows-X64",
+      "sourceRevision": "bbacaf7e2028e44e274444b9e5cce98b77150514",
+      "node": "v22.23.4",
+      "actualCompiler": "Version 6.0.3",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-node@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Record source and runtime",
+          "conclusion": "success"
+        },
+        {
+          "name": "Immutable install without lifecycle scripts",
+          "conclusion": "success"
+        },
+        {
+          "name": "Check actual TypeScript compiler",
+          "conclusion": "success"
+        },
+        {
+          "name": "Enforce lint and formatting",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test MessageChannels and a real Node Worker with simulated sessions",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve transport evidence",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-node@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ],
+      "tests": {
+        "success": true,
+        "passed": 28,
+        "failed": 0,
+        "files": [
+          {
+            "file": "frontend/tauri-bridge/test/bridge.spec.ts",
+            "cases": 27,
+            "status": "passed"
+          },
+          {
+            "file": "frontend/tauri-bridge/test/worker.spec.ts",
+            "cases": 1,
+            "status": "passed"
+          }
+        ]
+      },
+      "install": {
+        "completed": [
+          "\u001b[94m➤\u001b[39m \u001b[90mYN0000\u001b[39m: │ C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\xfs-b2e65678 \u001b[32mSTDOUT\u001b[39m \u001b[94m➤\u001b[39m YN0000: Done in 3s 74ms",
+          "\u001b[94m➤\u001b[39m \u001b[90mYN0000\u001b[39m: │ C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\xfs-c746cbbe \u001b[32mSTDOUT\u001b[39m \u001b[94m➤\u001b[39m YN0000: Done in 0s 440ms",
+          "\u001b[93m➤\u001b[39m YN0000: · Done with warnings in 1m 13s"
+        ],
+        "bridgeWarnings": [],
+        "peerWarnings": 195
+      }
+    },
+    {
+      "artifact": "macOS-ARM64",
+      "sourceRevision": "bbacaf7e2028e44e274444b9e5cce98b77150514",
+      "node": "v22.23.4",
+      "actualCompiler": "Version 6.0.3",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-node@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Record source and runtime",
+          "conclusion": "success"
+        },
+        {
+          "name": "Immutable install without lifecycle scripts",
+          "conclusion": "success"
+        },
+        {
+          "name": "Check actual TypeScript compiler",
+          "conclusion": "success"
+        },
+        {
+          "name": "Enforce lint and formatting",
+          "conclusion": "success"
+        },
+        {
+          "name": "Test MessageChannels and a real Node Worker with simulated sessions",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve transport evidence",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-node@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ],
+      "tests": {
+        "success": true,
+        "passed": 28,
+        "failed": 0,
+        "files": [
+          {
+            "file": "frontend/tauri-bridge/test/bridge.spec.ts",
+            "cases": 27,
+            "status": "passed"
+          },
+          {
+            "file": "frontend/tauri-bridge/test/worker.spec.ts",
+            "cases": 1,
+            "status": "passed"
+          }
+        ]
+      },
+      "install": {
+        "completed": [
+          "\u001b[94m➤\u001b[39m \u001b[90mYN0000\u001b[39m: │ /private/var/folders/h5/t85nd63d71x27_8gl5gw3l_w0000gn/T/xfs-c05c2b96 \u001b[32mSTDOUT\u001b[39m \u001b[94m➤\u001b[39m YN0000: Done in 0s 322ms",
+          "\u001b[94m➤\u001b[39m \u001b[90mYN0000\u001b[39m: │ /private/var/folders/h5/t85nd63d71x27_8gl5gw3l_w0000gn/T/xfs-591ceb34 \u001b[32mSTDOUT\u001b[39m \u001b[94m➤\u001b[39m YN0000: Done in 0s 51ms",
+          "\u001b[93m➤\u001b[39m YN0000: · Done with warnings in 1m 38s"
+        ],
+        "bridgeWarnings": [],
+        "peerWarnings": 195
+      }
+    }
+  ],
+  "limitations": [
+    "Passing Node transport cases are not browser Worker isolation, Tauri permissions, Rust session persistence or editor integration evidence.",
+    "No snapshot/events, full nbstore API, native lifecycle/shutdown, migration/backup/recovery, cloud, installable package or desktop parity is established.",
+    "Resource caps constrain accepted calls/backing bytes, not total browser queues, structured-clone deserialization, reads or aggregate host memory."
+  ]
+}

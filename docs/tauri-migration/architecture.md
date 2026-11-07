@@ -44,6 +44,8 @@ The complete native library workflow passes on Linux x86_64, Windows x86_64 and 
 
 A separate private-port transport foundation now exists at packages/frontend/tauri-bridge. A trusted, pre-scoped session supplies getDoc/pushUpdate; messages cannot select owner, handle, window or path. Its 28 Linux tests use real MessageChannels and one Node Worker but deliberately simulated sessions, not Rust persistence. Cancellation accounting, binary ownership, malformed messages and explicit disposal are covered; see [evidence/linux-tauri-bridge.json](evidence/linux-tauri-bridge.json). Native ownership/capabilities, main-frame isolation, session binding, browser Worker execution, snapshot/events and full storage semantics remain required before editor adoption.
 
+The transport-only suite also passes all 28 cases, real TypeScript checking, lint, formatting and immutable installation on Linux x86_64, Windows x86_64 and macOS ARM64 in [run 42392848133](evidence/ci-tauri-bridge-first.json). Its sessions remain simulated on every platform; native/browser integration remains unverified.
+
 Workspace data belongs in a new app-owned location by default. Import from the reference only after consistent backup and validation, including WAL/SHM handling and restart/interruption recovery. Never write to the original profile merely because an app ID matches.
 
 ## Network, authentication and remote content
