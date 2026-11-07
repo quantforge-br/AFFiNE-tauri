@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "runId": 42396830194,
+  "url": "https://github.com/quantforge-br/AFFiNE-tauri/actions/runs/42396830194",
+  "sourceRevision": "6b2b1c28ded92997477bd252bc091f9e226ced8d",
+  "status": "completed",
+  "conclusion": "failure",
+  "scope": "Native diagnostic workflow preparation; no native authority smoke ran",
+  "jobs": [
+    {
+      "name": "Native editor smoke (ubuntu-24.04)",
+      "conclusion": "failure",
+      "failedSteps": ["Test native document authority schema"]
+    },
+    {
+      "name": "Native editor smoke (macos-latest)",
+      "conclusion": "failure",
+      "failedSteps": ["Test native document authority schema"]
+    },
+    {
+      "name": "Native editor smoke (windows-latest)",
+      "conclusion": "failure",
+      "failedSteps": ["Test native document authority schema"]
+    }
+  ],
+  "observations": {
+    "unitTestsPerPlatform": 2,
+    "unitTestResults": "passed on Linux x86_64, Windows x86_64 and macOS ARM64",
+    "failure": "cargo-fmt is not installed for toolchain 1.97.1 on all three systems",
+    "nativeSmoke": "not executed; do not interpret skipped steps as passing",
+    "actionWarning": "Pinned dtolnay toolchain release action accepts components/targets, not toolchain; runtime artifact confirms rustc 1.97.1"
+  },
+  "correction": "Explicit rustfmt, clippy components on the same pinned action revision; remove unsupported toolchain input. Keep cargo fmt, tests and strict Clippy required.",
+  "artifacts": "/tmp/affine-tauri-build/ci-42396830194",
+  "limitations": [
+    "No Windows/macOS native command-authority result established.",
+    "No production ownership or storage integration result.",
+    "Existing successful fifth frontend and third core evidence are unchanged."
+  ]
+}
