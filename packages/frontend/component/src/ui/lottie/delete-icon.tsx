@@ -3,7 +3,7 @@ import type { LottieRef } from 'lottie-react';
 import Lottie from 'lottie-react';
 import { useEffect, useRef } from 'react';
 
-import animationData from './delete-icon.json';
+import animationData from './delete-icon.keyframes.json';
 import * as styles from './styles.css';
 
 export interface DeleteIconProps {

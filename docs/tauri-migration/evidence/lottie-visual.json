@@ -1,0 +1,38 @@
+{
+  "scope": "Chromium SVG authoring comparison, not native platform animation acceptance",
+  "frames": [0, 12, 24, 29.875, 42, 60],
+  "assets": ["collections-icon", "delete-icon"],
+  "candidateCsp": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; object-src 'none'; base-uri 'none'",
+  "candidateScriptViolations": [],
+  "candidateSvgCount": 12,
+  "tool": "screenshot-master/1.1.1",
+  "capture": {
+    "selector": "#gallery",
+    "viewport": [960, 500],
+    "iconPixels": [150, 150]
+  },
+  "diff": {
+    "baseline": "screenshot.png",
+    "candidate": "screenshot.png",
+    "baseline_size": [900, 340],
+    "candidate_size": [900, 340],
+    "canvas_size": [900, 340],
+    "fuzz_percent": 0,
+    "changed_pixels": 0,
+    "total_pixels": 306000,
+    "changed_ratio": 0,
+    "rmse": 0,
+    "identical": true,
+    "method": "max-channel-difference-over-fuzz"
+  },
+  "imageHashes": {
+    "baseline_name": "screenshot.png",
+    "baseline_sha256": "03c77dff25741a5aa7bf6e0d2388ed0ff5ff4778b7664292a3252d7d830004bc",
+    "candidate_name": "screenshot.png",
+    "candidate_sha256": "03c77dff25741a5aa7bf6e0d2388ed0ff5ff4778b7664292a3252d7d830004bc"
+  },
+  "limitations": [
+    "Selected visual frames only; numerical forward/reverse validation is recorded separately.",
+    "No global disabling of Lottie expressions; original sources remain available for authoring."
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "scope": "Authoring-time numerical validation, not native visual parity",
+  "playerVersion": "5.13.0",
+  "sourceSampleStep": 0.03125,
+  "results": [
+    {
+      "name": "collections-icon",
+      "sourceSha256": "acd0beb1eb4542f1818517f8d7861e1114136292ae21cc8d045ffad9381a4598",
+      "outputSha256": "420df36d686791ef5b719b51a728ca219159f35a54b91973f58458ac6fdf9b0a",
+      "directions": ["forward", "reverse"],
+      "frameChecksPerDirection": 4864,
+      "keyframes": [
+        { "count": 1265, "layerIndex": 0 },
+        { "count": 1252, "layerIndex": 1 }
+      ],
+      "maxDesignPixelError": 0.00456298828125,
+      "maxPropertyError": 0.0003662109375,
+      "sampleStep": 0.03125,
+      "validationStep": 0.015625
+    },
+    {
+      "name": "delete-icon",
+      "sourceSha256": "c1470ca2673d7a9ba050cec3f12bf50a5b86397d281269aacbce46c7a62b4ad8",
+      "outputSha256": "18ffeec1793a3651c7fb776aa01e156b884b2b7d21b10a7832f2b8ce91ed3320",
+      "directions": ["forward", "reverse"],
+      "frameChecksPerDirection": 4608,
+      "keyframes": [],
+      "maxDesignPixelError": 0,
+      "maxPropertyError": 0,
+      "sampleStep": 0.03125,
+      "validationStep": 0.015625
+    }
+  ]
+}
