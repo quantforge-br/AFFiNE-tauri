@@ -1,0 +1,274 @@
+{
+  "run": "https://github.com/quantforge-br/AFFiNE-tauri/actions/runs/42391980349",
+  "sourceRevision": "7c2a7dcde417428c45b0128b749b062845935c58",
+  "conclusion": "success",
+  "scope": "Actual native Rust library execution: host-owned storage authority plus all required standalone storage regressions. Not a Tauri IPC/editor integration or desktop parity claim.",
+  "results": [
+    {
+      "artifact": "Linux-X64",
+      "sourceRevision": "7c2a7dcde417428c45b0128b749b062845935c58",
+      "conclusion": "success",
+      "toolchain": [
+        "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+        "binary: rustc",
+        "commit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+        "commit-date: 2026-07-14",
+        "host: x86_64-unknown-linux-gnu",
+        "release: 1.97.1",
+        "LLVM version: 22.1.6"
+      ],
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run dtolnay/rust-toolchain@59a558e8c538bf4a23bbffa19e5a278b703f2920",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run Swatinem/rust-cache@e9d7b9f1e587218970671bac74e5511ed9506e6a",
+          "conclusion": "success"
+        },
+        {
+          "name": "Record native environment",
+          "conclusion": "success"
+        },
+        {
+          "name": "Check Rust formatting",
+          "conclusion": "success"
+        },
+        {
+          "name": "Audit standalone dependency graph",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run real SQLite authority tests",
+          "conclusion": "success"
+        },
+        {
+          "name": "Lint the storage authority",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve standalone storage regressions",
+          "conclusion": "success"
+        },
+        {
+          "name": "Upload native storage evidence",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run Swatinem/rust-cache@e9d7b9f1e587218970671bac74e5511ed9506e6a",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ],
+      "coreTestSummary": [
+        "test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.11s",
+        "test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.22s",
+        "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+      ],
+      "standaloneTestSummary": [
+        "test storage::tests::close_waits_for_a_connection_already_being_returned ... ok",
+        "test storage::tests::temporary_readonly_operations_release_files_on_success_and_error ... ok",
+        "test result: ok. 33 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.34s",
+        "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.03s",
+        "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+      ]
+    },
+    {
+      "artifact": "Windows-X64",
+      "sourceRevision": "7c2a7dcde417428c45b0128b749b062845935c58",
+      "conclusion": "success",
+      "toolchain": [
+        "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+        "binary: rustc",
+        "commit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+        "commit-date: 2026-07-14",
+        "host: x86_64-pc-windows-msvc",
+        "release: 1.97.1",
+        "LLVM version: 22.1.6"
+      ],
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run dtolnay/rust-toolchain@59a558e8c538bf4a23bbffa19e5a278b703f2920",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run Swatinem/rust-cache@e9d7b9f1e587218970671bac74e5511ed9506e6a",
+          "conclusion": "success"
+        },
+        {
+          "name": "Record native environment",
+          "conclusion": "success"
+        },
+        {
+          "name": "Check Rust formatting",
+          "conclusion": "success"
+        },
+        {
+          "name": "Audit standalone dependency graph",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run real SQLite authority tests",
+          "conclusion": "success"
+        },
+        {
+          "name": "Lint the storage authority",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve standalone storage regressions",
+          "conclusion": "success"
+        },
+        {
+          "name": "Upload native storage evidence",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run Swatinem/rust-cache@e9d7b9f1e587218970671bac74e5511ed9506e6a",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ],
+      "coreTestSummary": [
+        "test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.98s",
+        "test result: ok. 16 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.91s",
+        "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+      ],
+      "standaloneTestSummary": [
+        "test storage::tests::close_waits_for_a_connection_already_being_returned ... ok",
+        "test storage::tests::temporary_readonly_operations_release_files_on_success_and_error ... ok",
+        "test result: ok. 33 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.85s",
+        "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.37s",
+        "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+      ]
+    },
+    {
+      "artifact": "macOS-ARM64",
+      "sourceRevision": "7c2a7dcde417428c45b0128b749b062845935c58",
+      "conclusion": "success",
+      "toolchain": [
+        "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+        "binary: rustc",
+        "commit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+        "commit-date: 2026-07-14",
+        "host: aarch64-apple-darwin",
+        "release: 1.97.1",
+        "LLVM version: 22.1.6"
+      ],
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run dtolnay/rust-toolchain@59a558e8c538bf4a23bbffa19e5a278b703f2920",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run Swatinem/rust-cache@e9d7b9f1e587218970671bac74e5511ed9506e6a",
+          "conclusion": "success"
+        },
+        {
+          "name": "Record native environment",
+          "conclusion": "success"
+        },
+        {
+          "name": "Check Rust formatting",
+          "conclusion": "success"
+        },
+        {
+          "name": "Audit standalone dependency graph",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run real SQLite authority tests",
+          "conclusion": "success"
+        },
+        {
+          "name": "Lint the storage authority",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve standalone storage regressions",
+          "conclusion": "success"
+        },
+        {
+          "name": "Upload native storage evidence",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run Swatinem/rust-cache@e9d7b9f1e587218970671bac74e5511ed9506e6a",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ],
+      "coreTestSummary": [
+        "test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.08s",
+        "test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.17s",
+        "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+      ],
+      "standaloneTestSummary": [
+        "test storage::tests::close_waits_for_a_connection_already_being_returned ... ok",
+        "test storage::tests::temporary_readonly_operations_release_files_on_success_and_error ... ok",
+        "test result: ok. 33 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.77s",
+        "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s",
+        "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+      ]
+    }
+  ],
+  "resolvedFailures": {
+    "literalPaths": "Windows canonical paths open through filename-configured SQLite options without migration URL parsing.",
+    "shutdown": "Complete pool draining fixes late-returned connections; temporary pools are awaited on success and query error. Immediate deletion and all Windows assertions remain enabled.",
+    "preservedEvidence": [
+      "ci-tauri-core-first.json",
+      "ci-tauri-core-second.json"
+    ]
+  },
+  "limitations": [
+    "Windows runs 4 unit plus 16 applicable integration harness cases; two Unix-only path/permission cases remain platform-specific. Linux/macOS run 4 plus 18.",
+    "All runners pass 33 standalone unit and 2 standalone integration tests, dependency graph audit and strict core Clippy. This is library evidence only.",
+    "No native Tauri command, frontend Rust session binding, browser Worker bridge, application restart, migration/backup/recovery, cloud or package-install acceptance is inferred.",
+    "Windows ACL/reparse/hardlink policy, descriptor-relative filesystem confinement, read/merge resources, snapshot pagination and large-document compatibility remain open."
+  ]
+}
