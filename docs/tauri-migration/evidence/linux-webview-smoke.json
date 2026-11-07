@@ -1,0 +1,59 @@
+{
+  "referenceRevision": "ef401b20cb2a5960278a8e7ab2c0e96d8f759aeb",
+  "kind": "architecture-compatibility-probe",
+  "scope": "reference frontend in isolated Tauri WebView; not desktop parity",
+  "capturedAt": "2026-11-07T12:02:32.464Z",
+  "platform": "linux",
+  "architecture": "x64",
+  "checks": [
+    {
+      "name": "create-document",
+      "passed": true
+    },
+    {
+      "name": "native-text-input",
+      "passed": true,
+      "marker": "Tauri WebView persistence 1794052917067"
+    },
+    {
+      "name": "switch-edgeless",
+      "passed": true
+    },
+    {
+      "name": "reload-persistence",
+      "passed": true,
+      "url": "http://localhost:8080/workspace/n2dUEuaSjq8jH2LyVkJYB/03Do-6VwB_EiIT9D3zNe2"
+    },
+    {
+      "name": "required-web-platform-apis",
+      "passed": true
+    }
+  ],
+  "runtime": {
+    "canvas": true,
+    "indexedDB": "object",
+    "secureContext": true,
+    "url": "http://localhost:8080/workspace/n2dUEuaSjq8jH2LyVkJYB/03Do-6VwB_EiIT9D3zNe2?mode=edgeless",
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/60.5 Safari/605.1.15",
+    "worker": "function"
+  },
+  "host": {
+    "system": "Linux x86_64",
+    "gtk": "3.24.52",
+    "webkitgtk": "2.54.2",
+    "rust": "1.97.1",
+    "node": "22.23.4"
+  },
+  "nativeDecorationCheck": {
+    "scope": "construction only; no control transitions tested",
+    "expected": false,
+    "observed": false,
+    "mechanism": "Rust is_decorated() assertion and AFFINE_PROBE_WINDOW decorations=false startup log"
+  },
+  "limitations": [
+    "Reference web frontend served on localhost, not a production desktop build",
+    "Browser IndexedDB persistence across reload only, not a Rust/SQLite adapter or cold restart",
+    "No authenticated cloud, native IPC parity, custom window controls, packaging or update tests",
+    "Windows and macOS runtime evidence pending"
+  ]
+}

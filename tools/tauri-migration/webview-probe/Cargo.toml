@@ -1,0 +1,17 @@
+[package]
+name = "affine-webview-probe"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[workspace]
+
+[features]
+e2e = ["dep:tauri-wd"]
+
+[dependencies]
+tauri = { version = "=2.11.5" }
+tauri-wd = { version = "=0.1.11", optional = true }
+
+[build-dependencies]
+tauri-build = { version = "=2.6.3" }
