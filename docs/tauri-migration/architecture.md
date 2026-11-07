@@ -1,6 +1,6 @@
 # Tauri desktop architecture proposal
 
-Status: **provisional**. The nine-check editor smoke with dedicated Workers and the minimal native-origin protocol/storage diagnostic pass on Linux, Windows and macOS in [CI run 42382266355](evidence/ci-webview-probe-third.json). Linux additionally passes the full embedded static frontend smoke under enforced CSP after validated animation keyframe conversion; see [lottie-csp.md](lottie-csp.md) and [native evidence](evidence/linux-bundled-csp.json). Windows/macOS embedded execution, production broker/native integrations and the workbench lifecycle still gate architecture acceptance.
+Status: **provisional**. All three native WebViews pass the development editor smoke, native-origin protocol/storage diagnostic and ten-check embedded static frontend smoke under enforced CSP in [CI run 42387377066](evidence/ci-webview-probe-fifth.json). The page-script negative test receives EvalError on Linux, Windows and macOS without weakening CSP. See [lottie-csp.md](lottie-csp.md). Production broker/native integrations, cloud/media/embed policy and the full workbench lifecycle still gate architecture acceptance.
 
 ## Runtime model
 

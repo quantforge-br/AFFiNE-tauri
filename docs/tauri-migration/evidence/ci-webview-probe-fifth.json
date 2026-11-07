@@ -1,0 +1,801 @@
+{
+  "run": "https://github.com/quantforge-br/AFFiNE-tauri/actions/runs/42387377066",
+  "sourceRevision": "07577885f3e09220c68d158a35791d44185ee21c",
+  "scope": "Isolated native probes with the embedded reference frontend under enforced CSP, not production desktop parity",
+  "results": [
+    {
+      "artifact": "Linux-X64",
+      "development": {
+        "scope": "reference frontend in isolated Tauri WebView; not desktop parity",
+        "capturedAt": "2026-11-07T15:43:08.311Z",
+        "platform": "linux",
+        "architecture": "x64",
+        "checks": [
+          {
+            "name": "create-document",
+            "passed": true
+          },
+          {
+            "name": "native-text-input",
+            "passed": true,
+            "marker": "Tauri WebView persistence 1794066174466"
+          },
+          {
+            "name": "switch-edgeless",
+            "passed": true
+          },
+          {
+            "name": "local-storage-write-completed",
+            "passed": true
+          },
+          {
+            "name": "reload-persistence",
+            "passed": true,
+            "url": "http://localhost:8080/workspace/CWXGGeFC956qZrlX3zkNg/bhj7hEabuKaNAUzaHJqSt"
+          },
+          {
+            "name": "required-web-platform-apis",
+            "passed": true
+          },
+          {
+            "name": "worker-message-port-binary-transfer",
+            "passed": true,
+            "workerTransport": {
+              "bytes": [0, 1, 127, 128, 255],
+              "detached": true,
+              "workerNativeIPC": false
+            }
+          },
+          {
+            "name": "remote-native-command-denied",
+            "passed": true,
+            "reason": "window.set_title not allowed. Permissions associated with this command: core:window:allow-set-title"
+          },
+          {
+            "name": "multi-view-routing-feasibility",
+            "passed": true,
+            "scope": "public workbench API; no tabs, focus changes or drag/drop",
+            "routes": [
+              {
+                "id": "jOn6u7BTwfli1pYY-Lu4l",
+                "path": "/bhj7hEabuKaNAUzaHJqSt"
+              },
+              {
+                "id": "Bc8lQk1_pxohoTK3QPGfN",
+                "path": "/all"
+              }
+            ]
+          }
+        ],
+        "runtime": {
+          "canvas": true,
+          "indexedDB": "object",
+          "secureContext": true,
+          "url": "http://localhost:8080/workspace/CWXGGeFC956qZrlX3zkNg/bhj7hEabuKaNAUzaHJqSt?mode=edgeless",
+          "userAgent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/60.5 Safari/605.1.15",
+          "worker": "function",
+          "workers": [
+            {
+              "kind": "Worker",
+              "url": "/js/nbstore-0.27.5.worker.js"
+            },
+            {
+              "kind": "Worker",
+              "url": "/js/workspace-profile-0.27.5.worker.js"
+            }
+          ]
+        }
+      },
+      "protocol": {
+        "scope": "Minimal native-scheme reproduction, not AFFiNE or desktop parity",
+        "capturedAt": "2026-11-07T15:41:39.023Z",
+        "platform": "linux",
+        "architecture": "x64",
+        "checks": [
+          {
+            "name": "fetch-worker-asset",
+            "passed": true,
+            "status": 200,
+            "type": "text/javascript"
+          },
+          {
+            "bytes": [0, 127, 255],
+            "name": "indexeddb-roundtrip",
+            "passed": true
+          },
+          {
+            "databasePassed": true,
+            "name": "dedicated-native-url",
+            "passed": true,
+            "response": {
+              "crypto": "function",
+              "database": true,
+              "databaseBytes": [0, 127, 255],
+              "indexedDB": "object",
+              "message": "protocol-test",
+              "nativeIPC": false,
+              "origin": "tauri://localhost",
+              "secureContext": true
+            }
+          },
+          {
+            "databasePassed": true,
+            "name": "dedicated-fetched-blob",
+            "passed": true,
+            "response": {
+              "crypto": "function",
+              "database": true,
+              "databaseBytes": [0, 127, 255],
+              "indexedDB": "object",
+              "message": "protocol-test",
+              "nativeIPC": false,
+              "origin": "tauri://localhost",
+              "secureContext": true
+            }
+          },
+          {
+            "databasePassed": false,
+            "name": "shared-native-url",
+            "passed": true,
+            "response": {
+              "crypto": "function",
+              "databaseError": "SecurityError: IDBFactory.open() called in an invalid security context",
+              "indexedDB": "object",
+              "message": "protocol-test",
+              "nativeIPC": false,
+              "origin": "null",
+              "secureContext": true
+            }
+          },
+          {
+            "databasePassed": false,
+            "name": "shared-fetched-blob",
+            "passed": true,
+            "response": {
+              "crypto": "function",
+              "databaseError": "SecurityError: IDBFactory.open() called in an invalid security context",
+              "indexedDB": "object",
+              "message": "protocol-test",
+              "nativeIPC": false,
+              "origin": "null",
+              "secureContext": true
+            }
+          },
+          {
+            "name": "native-history-roundtrip",
+            "passed": true
+          }
+        ],
+        "done": true,
+        "origin": "tauri://localhost",
+        "secureContext": true,
+        "sharedWorkerStorageSupported": false,
+        "acceptance": "Dedicated Worker transport and storage required; SharedWorker results are diagnostic only"
+      },
+      "bundled": {
+        "scope": "reference frontend in isolated Tauri WebView; not desktop parity",
+        "capturedAt": "2026-11-07T15:45:22.131Z",
+        "platform": "linux",
+        "architecture": "x64",
+        "checks": [
+          {
+            "name": "create-document",
+            "passed": true
+          },
+          {
+            "name": "native-text-input",
+            "passed": true,
+            "marker": "Tauri WebView persistence 1794066313451"
+          },
+          {
+            "name": "switch-edgeless",
+            "passed": true
+          },
+          {
+            "name": "local-storage-write-completed",
+            "passed": true
+          },
+          {
+            "name": "reload-persistence",
+            "passed": true,
+            "url": "tauri://localhost/workspace/R-AvUOw-2czSlrFDB-xdS/j6xNRV-YSfGXBASTKcHde"
+          },
+          {
+            "name": "required-web-platform-apis",
+            "passed": true
+          },
+          {
+            "name": "worker-message-port-binary-transfer",
+            "passed": true,
+            "workerTransport": {
+              "bytes": [0, 1, 127, 128, 255],
+              "detached": true,
+              "workerNativeIPC": false
+            }
+          },
+          {
+            "name": "remote-native-command-denied",
+            "passed": true,
+            "reason": "window.set_title not allowed. Permissions associated with this command: core:window:allow-set-title"
+          },
+          {
+            "name": "multi-view-routing-feasibility",
+            "passed": true,
+            "scope": "public workbench API; no tabs, focus changes or drag/drop",
+            "routes": [
+              {
+                "id": "R41nEdqWsFcMv2yICVLLm",
+                "path": "/j6xNRV-YSfGXBASTKcHde"
+              },
+              {
+                "id": "fpLjyxO3oIsdY_buTYc5p",
+                "path": "/all"
+              }
+            ]
+          },
+          {
+            "name": "native-origin-script-csp",
+            "passed": true,
+            "csp": [],
+            "origin": "tauri://localhost",
+            "dynamicScript": {
+              "blocked": true,
+              "context": "page-script",
+              "name": "EvalError"
+            }
+          }
+        ],
+        "runtime": {
+          "canvas": true,
+          "indexedDB": "object",
+          "secureContext": true,
+          "url": "tauri://localhost/workspace/R-AvUOw-2czSlrFDB-xdS/j6xNRV-YSfGXBASTKcHde?mode=edgeless",
+          "userAgent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/60.5 Safari/605.1.15",
+          "worker": "function",
+          "workers": [
+            {
+              "kind": "Worker",
+              "url": "/js/nbstore-0.27.5.worker.js"
+            },
+            {
+              "kind": "Worker",
+              "url": "/js/workspace-profile-0.27.5.worker.js"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "artifact": "Windows-X64",
+      "development": {
+        "scope": "reference frontend in isolated Tauri WebView; not desktop parity",
+        "capturedAt": "2026-11-07T15:42:53.737Z",
+        "platform": "win32",
+        "architecture": "x64",
+        "checks": [
+          {
+            "name": "create-document",
+            "passed": true
+          },
+          {
+            "name": "native-text-input",
+            "passed": true,
+            "marker": "Tauri WebView persistence 1794066166452"
+          },
+          {
+            "name": "switch-edgeless",
+            "passed": true
+          },
+          {
+            "name": "local-storage-write-completed",
+            "passed": true
+          },
+          {
+            "name": "reload-persistence",
+            "passed": true,
+            "url": "http://localhost:8080/workspace/mjMAIVZYoioEHvqLG_cGw/0M5PDmNVdcRzgD59UFVGU"
+          },
+          {
+            "name": "required-web-platform-apis",
+            "passed": true
+          },
+          {
+            "name": "worker-message-port-binary-transfer",
+            "passed": true,
+            "workerTransport": {
+              "bytes": [0, 1, 127, 128, 255],
+              "detached": true,
+              "workerNativeIPC": false
+            }
+          },
+          {
+            "name": "remote-native-command-denied",
+            "passed": true,
+            "reason": "window.set_title not allowed. Permissions associated with this command: core:window:allow-set-title"
+          },
+          {
+            "name": "multi-view-routing-feasibility",
+            "passed": true,
+            "scope": "public workbench API; no tabs, focus changes or drag/drop",
+            "routes": [
+              {
+                "id": "VXPh2OrdqOq-cpdjX1iFp",
+                "path": "/0M5PDmNVdcRzgD59UFVGU"
+              },
+              {
+                "id": "GGC9IDKLzLFvuFWskGvoo",
+                "path": "/all"
+              }
+            ]
+          }
+        ],
+        "runtime": {
+          "canvas": true,
+          "indexedDB": "object",
+          "secureContext": true,
+          "url": "http://localhost:8080/workspace/mjMAIVZYoioEHvqLG_cGw/0M5PDmNVdcRzgD59UFVGU?mode=edgeless",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36 Edg/156.0.0.0",
+          "worker": "function",
+          "workers": [
+            {
+              "kind": "Worker",
+              "url": "/js/nbstore-0.27.5.worker.js"
+            },
+            {
+              "kind": "Worker",
+              "url": "/js/workspace-profile-0.27.5.worker.js"
+            }
+          ]
+        }
+      },
+      "protocol": {
+        "scope": "Minimal native-scheme reproduction, not AFFiNE or desktop parity",
+        "capturedAt": "2026-11-07T15:42:00.236Z",
+        "platform": "win32",
+        "architecture": "x64",
+        "checks": [
+          {
+            "name": "fetch-worker-asset",
+            "passed": true,
+            "status": 200,
+            "type": "text/javascript"
+          },
+          {
+            "bytes": [0, 127, 255],
+            "name": "indexeddb-roundtrip",
+            "passed": true
+          },
+          {
+            "databasePassed": true,
+            "name": "dedicated-native-url",
+            "passed": true,
+            "response": {
+              "crypto": "function",
+              "database": true,
+              "databaseBytes": [0, 127, 255],
+              "indexedDB": "object",
+              "message": "protocol-test",
+              "nativeIPC": false,
+              "origin": "http://tauri.localhost",
+              "secureContext": true
+            }
+          },
+          {
+            "databasePassed": true,
+            "name": "dedicated-fetched-blob",
+            "passed": true,
+            "response": {
+              "crypto": "function",
+              "database": true,
+              "databaseBytes": [0, 127, 255],
+              "indexedDB": "object",
+              "message": "protocol-test",
+              "nativeIPC": false,
+              "origin": "http://tauri.localhost",
+              "secureContext": true
+            }
+          },
+          {
+            "databasePassed": true,
+            "name": "shared-native-url",
+            "passed": true,
+            "response": {
+              "crypto": "function",
+              "database": true,
+              "databaseBytes": [0, 127, 255],
+              "indexedDB": "object",
+              "message": "protocol-test",
+              "nativeIPC": false,
+              "origin": "http://tauri.localhost",
+              "secureContext": true
+            }
+          },
+          {
+            "databasePassed": true,
+            "name": "shared-fetched-blob",
+            "passed": true,
+            "response": {
+              "crypto": "function",
+              "database": true,
+              "databaseBytes": [0, 127, 255],
+              "indexedDB": "object",
+              "message": "protocol-test",
+              "nativeIPC": false,
+              "origin": "http://tauri.localhost",
+              "secureContext": true
+            }
+          },
+          {
+            "name": "native-history-roundtrip",
+            "passed": true
+          }
+        ],
+        "done": true,
+        "origin": "http://tauri.localhost",
+        "secureContext": true,
+        "sharedWorkerStorageSupported": true,
+        "acceptance": "Dedicated Worker transport and storage required; SharedWorker results are diagnostic only"
+      },
+      "bundled": {
+        "scope": "reference frontend in isolated Tauri WebView; not desktop parity",
+        "capturedAt": "2026-11-07T15:44:38.397Z",
+        "platform": "win32",
+        "architecture": "x64",
+        "checks": [
+          {
+            "name": "create-document",
+            "passed": true
+          },
+          {
+            "name": "native-text-input",
+            "passed": true,
+            "marker": "Tauri WebView persistence 1794066271823"
+          },
+          {
+            "name": "switch-edgeless",
+            "passed": true
+          },
+          {
+            "name": "local-storage-write-completed",
+            "passed": true
+          },
+          {
+            "name": "reload-persistence",
+            "passed": true,
+            "url": "http://tauri.localhost/workspace/zt49Ntog-E_YCLunqFwXo/UVLdupPBBIH5gj_j5Xjpa"
+          },
+          {
+            "name": "required-web-platform-apis",
+            "passed": true
+          },
+          {
+            "name": "worker-message-port-binary-transfer",
+            "passed": true,
+            "workerTransport": {
+              "bytes": [0, 1, 127, 128, 255],
+              "detached": true,
+              "workerNativeIPC": false
+            }
+          },
+          {
+            "name": "remote-native-command-denied",
+            "passed": true,
+            "reason": "window.set_title not allowed. Permissions associated with this command: core:window:allow-set-title"
+          },
+          {
+            "name": "multi-view-routing-feasibility",
+            "passed": true,
+            "scope": "public workbench API; no tabs, focus changes or drag/drop",
+            "routes": [
+              {
+                "id": "IfdnDbhsjvW-jZ9AazfG3",
+                "path": "/UVLdupPBBIH5gj_j5Xjpa"
+              },
+              {
+                "id": "WaHn99PpZLPtiQgMY7w9z",
+                "path": "/all"
+              }
+            ]
+          },
+          {
+            "name": "native-origin-script-csp",
+            "passed": true,
+            "csp": [],
+            "origin": "http://tauri.localhost",
+            "dynamicScript": {
+              "blocked": true,
+              "context": "page-script",
+              "name": "EvalError"
+            }
+          }
+        ],
+        "runtime": {
+          "canvas": true,
+          "indexedDB": "object",
+          "secureContext": true,
+          "url": "http://tauri.localhost/workspace/zt49Ntog-E_YCLunqFwXo/UVLdupPBBIH5gj_j5Xjpa?mode=edgeless",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36 Edg/156.0.0.0",
+          "worker": "function",
+          "workers": [
+            {
+              "kind": "Worker",
+              "url": "/js/nbstore-0.27.5.worker.js"
+            },
+            {
+              "kind": "Worker",
+              "url": "/js/workspace-profile-0.27.5.worker.js"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "artifact": "macOS-ARM64",
+      "development": {
+        "scope": "reference frontend in isolated Tauri WebView; not desktop parity",
+        "capturedAt": "2026-11-07T15:41:43.411Z",
+        "platform": "darwin",
+        "architecture": "arm64",
+        "checks": [
+          {
+            "name": "create-document",
+            "passed": true
+          },
+          {
+            "name": "native-text-input",
+            "passed": true,
+            "marker": "Tauri WebView persistence 1794066092790"
+          },
+          {
+            "name": "switch-edgeless",
+            "passed": true
+          },
+          {
+            "name": "local-storage-write-completed",
+            "passed": true
+          },
+          {
+            "name": "reload-persistence",
+            "passed": true,
+            "url": "http://localhost:8080/workspace/LBOg78f2XS2uKLVtEnfcn/BNHJ--uYUOeyGKfaj_eNr"
+          },
+          {
+            "name": "required-web-platform-apis",
+            "passed": true
+          },
+          {
+            "name": "worker-message-port-binary-transfer",
+            "passed": true,
+            "workerTransport": {
+              "bytes": [0, 1, 127, 128, 255],
+              "detached": true,
+              "workerNativeIPC": false
+            }
+          },
+          {
+            "name": "remote-native-command-denied",
+            "passed": true,
+            "reason": "window.set_title not allowed. Permissions associated with this command: core:window:allow-set-title"
+          },
+          {
+            "name": "multi-view-routing-feasibility",
+            "passed": true,
+            "scope": "public workbench API; no tabs, focus changes or drag/drop",
+            "routes": [
+              {
+                "id": "zVaXXQYywyjB76CaSqz1Z",
+                "path": "/BNHJ--uYUOeyGKfaj_eNr"
+              },
+              {
+                "id": "9BheK9MM6WDJs_5emDPii",
+                "path": "/all"
+              }
+            ]
+          }
+        ],
+        "runtime": {
+          "canvas": true,
+          "indexedDB": "object",
+          "secureContext": true,
+          "url": "http://localhost:8080/workspace/LBOg78f2XS2uKLVtEnfcn/BNHJ--uYUOeyGKfaj_eNr?mode=edgeless",
+          "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko)",
+          "worker": "function",
+          "workers": [
+            {
+              "kind": "Worker",
+              "url": "/js/nbstore-0.27.5.worker.js"
+            },
+            {
+              "kind": "Worker",
+              "url": "/js/workspace-profile-0.27.5.worker.js"
+            }
+          ]
+        }
+      },
+      "protocol": {
+        "scope": "Minimal native-scheme reproduction, not AFFiNE or desktop parity",
+        "capturedAt": "2026-11-07T15:40:52.681Z",
+        "platform": "darwin",
+        "architecture": "arm64",
+        "checks": [
+          {
+            "name": "fetch-worker-asset",
+            "passed": true,
+            "status": 200,
+            "type": "text/javascript"
+          },
+          {
+            "bytes": [0, 127, 255],
+            "name": "indexeddb-roundtrip",
+            "passed": true
+          },
+          {
+            "databasePassed": true,
+            "name": "dedicated-native-url",
+            "passed": true,
+            "response": {
+              "crypto": "function",
+              "database": true,
+              "databaseBytes": [0, 127, 255],
+              "indexedDB": "object",
+              "message": "protocol-test",
+              "nativeIPC": false,
+              "origin": "tauri://localhost",
+              "secureContext": true
+            }
+          },
+          {
+            "databasePassed": true,
+            "name": "dedicated-fetched-blob",
+            "passed": true,
+            "response": {
+              "crypto": "function",
+              "database": true,
+              "databaseBytes": [0, 127, 255],
+              "indexedDB": "object",
+              "message": "protocol-test",
+              "nativeIPC": false,
+              "origin": "tauri://localhost",
+              "secureContext": true
+            }
+          },
+          {
+            "databasePassed": false,
+            "name": "shared-native-url",
+            "passed": true,
+            "response": {
+              "crypto": "function",
+              "databaseError": "SecurityError: IDBFactory.open() called in an invalid security context",
+              "indexedDB": "object",
+              "message": "protocol-test",
+              "nativeIPC": false,
+              "origin": "null",
+              "secureContext": true
+            }
+          },
+          {
+            "databasePassed": false,
+            "name": "shared-fetched-blob",
+            "passed": true,
+            "response": {
+              "crypto": "function",
+              "databaseError": "SecurityError: IDBFactory.open() called in an invalid security context",
+              "indexedDB": "object",
+              "message": "protocol-test",
+              "nativeIPC": false,
+              "origin": "null",
+              "secureContext": true
+            }
+          },
+          {
+            "name": "native-history-roundtrip",
+            "passed": true
+          }
+        ],
+        "done": true,
+        "origin": "tauri://localhost",
+        "secureContext": true,
+        "sharedWorkerStorageSupported": false,
+        "acceptance": "Dedicated Worker transport and storage required; SharedWorker results are diagnostic only"
+      },
+      "bundled": {
+        "scope": "reference frontend in isolated Tauri WebView; not desktop parity",
+        "capturedAt": "2026-11-07T15:43:19.226Z",
+        "platform": "darwin",
+        "architecture": "arm64",
+        "checks": [
+          {
+            "name": "create-document",
+            "passed": true
+          },
+          {
+            "name": "native-text-input",
+            "passed": true,
+            "marker": "Tauri WebView persistence 1794066192390"
+          },
+          {
+            "name": "switch-edgeless",
+            "passed": true
+          },
+          {
+            "name": "local-storage-write-completed",
+            "passed": true
+          },
+          {
+            "name": "reload-persistence",
+            "passed": true,
+            "url": "tauri://localhost/workspace/UY-G4oEDPnQZHOG_zsKzu/d0dbn5Bm1dwlNOFP_f3zV"
+          },
+          {
+            "name": "required-web-platform-apis",
+            "passed": true
+          },
+          {
+            "name": "worker-message-port-binary-transfer",
+            "passed": true,
+            "workerTransport": {
+              "bytes": [0, 1, 127, 128, 255],
+              "detached": true,
+              "workerNativeIPC": false
+            }
+          },
+          {
+            "name": "remote-native-command-denied",
+            "passed": true,
+            "reason": "window.set_title not allowed. Permissions associated with this command: core:window:allow-set-title"
+          },
+          {
+            "name": "multi-view-routing-feasibility",
+            "passed": true,
+            "scope": "public workbench API; no tabs, focus changes or drag/drop",
+            "routes": [
+              {
+                "id": "mABDd4hthqjhh0I23rsc6",
+                "path": "/d0dbn5Bm1dwlNOFP_f3zV"
+              },
+              {
+                "id": "liXz2SuoBWpDBJv4j5eSb",
+                "path": "/all"
+              }
+            ]
+          },
+          {
+            "name": "native-origin-script-csp",
+            "passed": true,
+            "csp": [],
+            "origin": "tauri://localhost",
+            "dynamicScript": {
+              "blocked": true,
+              "context": "page-script",
+              "name": "EvalError"
+            }
+          }
+        ],
+        "runtime": {
+          "canvas": true,
+          "indexedDB": "object",
+          "secureContext": true,
+          "url": "tauri://localhost/workspace/UY-G4oEDPnQZHOG_zsKzu/d0dbn5Bm1dwlNOFP_f3zV?mode=edgeless",
+          "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko)",
+          "worker": "function",
+          "workers": [
+            {
+              "kind": "Worker",
+              "url": "/js/nbstore-0.27.5.worker.js"
+            },
+            {
+              "kind": "Worker",
+              "url": "/js/workspace-profile-0.27.5.worker.js"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "Reference dedicated Worker/IndexedDB storage, not the Rust host broker.",
+    "CSP negative test loads a fixed same-origin page script; no automation-context or platform exception.",
+    "No cloud, native integrations, full workbench lifecycle, data migration, application restart or packaging acceptance.",
+    "The fourth failed run remains preserved in ci-webview-probe-fourth.json."
+  ]
+}
