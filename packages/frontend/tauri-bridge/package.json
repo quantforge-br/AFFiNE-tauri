@@ -1,0 +1,17 @@
+{
+  "name": "@affine/tauri-bridge",
+  "version": "0.27.5",
+  "private": true,
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./src/index.ts",
+    "./worker": "./src/worker.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "esbuild": "^0.28.1",
+    "typescript": "npm:@typescript/typescript6@6.0.2",
+    "vitest": "^4.1.11"
+  }
+}

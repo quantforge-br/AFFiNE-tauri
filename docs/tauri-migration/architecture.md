@@ -40,6 +40,8 @@ The Rust storage pool uses the existing v2 schema/migrations and native indexer.
 
 A host-owned storage foundation now exists at packages/frontend/tauri-core. It adds non-deserializable host owners, scoped leases, shared-space serialization, native exclusive root locking, bounded CRDT validation, cancellation-safe accepted writes and revisioned snapshot/event streams. Linux passes four unit tests and eighteen integration harness cases, including separate-process reopen and root-lock denial; see [evidence/linux-tauri-core.json](evidence/linux-tauri-core.json) and the crate README for limits. This library has no Tauri commands or frontend adapter. Read/merge resources, Windows path policy, legacy migration and the full nbstore API still gate renderer exposure.
 
+A separate private-port transport foundation now exists at packages/frontend/tauri-bridge. A trusted, pre-scoped session supplies getDoc/pushUpdate; messages cannot select owner, handle, window or path. Its 28 Linux tests use real MessageChannels and one Node Worker but deliberately simulated sessions, not Rust persistence. Cancellation accounting, binary ownership, malformed messages and explicit disposal are covered; see [evidence/linux-tauri-bridge.json](evidence/linux-tauri-bridge.json). Native ownership/capabilities, main-frame isolation, session binding, browser Worker execution, snapshot/events and full storage semantics remain required before editor adoption.
+
 Workspace data belongs in a new app-owned location by default. Import from the reference only after consistent backup and validation, including WAL/SHM handling and restart/interruption recovery. Never write to the original profile merely because an app ID matches.
 
 ## Network, authentication and remote content

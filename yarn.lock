@@ -1040,6 +1040,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@affine/tauri-bridge@workspace:packages/frontend/tauri-bridge":
+  version: 0.0.0-use.local
+  resolution: "@affine/tauri-bridge@workspace:packages/frontend/tauri-bridge"
+  dependencies:
+    "@types/node": "npm:^22.0.0"
+    esbuild: "npm:^0.28.1"
+    typescript: "npm:@typescript/typescript6@6.0.2"
+    vitest: "npm:^4.1.11"
+  languageName: unknown
+  linkType: soft
+
 "@affine/templates@workspace:*, @affine/templates@workspace:packages/frontend/templates":
   version: 0.0.0-use.local
   resolution: "@affine/templates@workspace:packages/frontend/templates"

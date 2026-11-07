@@ -1,0 +1,62 @@
+name: Tauri private Worker transport
+
+on:
+  push:
+    branches: [feat/tauri-desktop]
+    paths:
+      - .github/workflows/tauri-bridge.yml
+      - packages/frontend/tauri-bridge/**
+      - package.json
+      - yarn.lock
+      - tsconfig*.json
+      - .oxlintrc.json
+      - .oxfmtrc.json
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  transport:
+    name: Transport only (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    defaults:
+      run:
+        shell: bash
+    env:
+      YARN_ENABLE_SCRIPTS: 'false'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - name: Record source and runtime
+        run: |
+          mkdir -p .coverage/tauri-bridge
+          git rev-parse HEAD | tee .coverage/tauri-bridge/source-revision.log
+          node --version | tee .coverage/tauri-bridge/node.log
+      - name: Immutable install without lifecycle scripts
+        run: node .yarn/releases/yarn-4.18.0.cjs install --immutable --mode=skip-build 2>&1 | tee .coverage/tauri-bridge/install.log
+      - name: Check actual TypeScript compiler
+        run: |
+          node node_modules/typescript/bin/tsc6 --version | tee .coverage/tauri-bridge/compiler.log
+          node node_modules/typescript/bin/tsc6 -p packages/frontend/tauri-bridge/tsconfig.json --pretty false 2>&1 | tee .coverage/tauri-bridge/typecheck.log
+      - name: Enforce lint and formatting
+        run: |
+          node node_modules/oxlint/bin/oxlint --deny-warnings packages/frontend/tauri-bridge 2>&1 | tee .coverage/tauri-bridge/lint.log
+          node node_modules/oxfmt/bin/oxfmt --check packages/frontend/tauri-bridge 2>&1 | tee .coverage/tauri-bridge/format.log
+      - name: Test MessageChannels and a real Node Worker with simulated sessions
+        working-directory: packages/frontend/tauri-bridge
+        run: node ../../../node_modules/vitest/vitest.mjs run --reporter=default --reporter=json --outputFile.json=../../../.coverage/tauri-bridge/tests.json 2>&1 | tee ../../../.coverage/tauri-bridge/tests.log
+      - name: Preserve transport evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tauri-bridge-${{ runner.os }}-${{ runner.arch }}
+          path: .coverage/tauri-bridge
+          if-no-files-found: error

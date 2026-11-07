@@ -1,0 +1,75 @@
+{
+  "scope": "Transport-only verification: real Node MessageChannels and one Node Worker, with deliberately simulated TrustedStorageSession methods. No Rust persistence, native WebView isolation or desktop parity is established.",
+  "sourceParentRevision": "7c2a7dcde417428c45b0128b749b062845935c58",
+  "platform": "Linux x86_64",
+  "runtime": {
+    "node": "22.23.4",
+    "yarn": "4.18.0",
+    "typescriptAliasWrapper": "@typescript/typescript6@6.0.2",
+    "actualCompiler": "TypeScript 6.0.3 via node_modules/typescript/bin/tsc6",
+    "vitest": "4.1.12"
+  },
+  "sourceHashes": {
+    "packages/frontend/tauri-bridge/src/index.ts": "dd886d83dc611b644dc047b6e0dc57efdec9325515d0a6f2f57d36562077c18b",
+    "packages/frontend/tauri-bridge/src/main.ts": "12194022fe5b16076c56bbe914e51e1836aa4632811bedddc05eeecc2f04d4d2",
+    "packages/frontend/tauri-bridge/src/protocol.ts": "e6472efb9f59c7a814c74600d98105636a88764d2d55e7d083cf53e9a1d60517",
+    "packages/frontend/tauri-bridge/src/worker.ts": "a3c472404f5a5f8b50ab2447933de560b0273e92739a83782824439dd90f7403",
+    "packages/frontend/tauri-bridge/test/bridge.spec.ts": "ce59d131f3be4beef22ab27364801de82b08e0239186315ef6ff6e1c8abf9a0b",
+    "packages/frontend/tauri-bridge/test/worker.spec.ts": "4a877a8b49c76534f6d62877a7d06fdd607e763c9d2871fde9f7a9b1f3b51980",
+    "packages/frontend/tauri-bridge/test/fixtures/storage-worker.ts": "77e7e8e1d5b80440a6e1d34989ca781c03a648e8a914103174de2d4b94b96b92",
+    ".github/workflows/tauri-bridge.yml": "791e63406ea39d4072235fe316e50e3994860a00a90358e864493c1530ec2322"
+  },
+  "results": {
+    "immutableInstall": {
+      "passed": true,
+      "mode": "--immutable --mode=skip-build",
+      "lifecycleScripts": false,
+      "peerWarnings": "Existing monorepo peer warnings remain visible in install output; no new tauri-bridge missing peer is reported."
+    },
+    "typecheck": {
+      "passed": true,
+      "command": "node node_modules/typescript/bin/tsc6 -p packages/frontend/tauri-bridge/tsconfig.json --pretty false"
+    },
+    "lint": {
+      "passed": true,
+      "denyWarnings": true
+    },
+    "format": {
+      "passed": true
+    },
+    "actionlint": {
+      "passed": true
+    },
+    "tests": {
+      "files": 2,
+      "passed": 28,
+      "failed": 0,
+      "cases": [
+        {
+          "file": "frontend/tauri-bridge/test/bridge.spec.ts",
+          "passed": 27,
+          "status": "passed"
+        },
+        {
+          "file": "frontend/tauri-bridge/test/worker.spec.ts",
+          "passed": 1,
+          "status": "passed"
+        }
+      ]
+    }
+  },
+  "coverage": [
+    "All 256 byte values and retained input/cache buffers, including Buffer subclasses.",
+    "Exact request schemas, forbidden owner/handle/path/window fields, reused IDs, unexpected ports and safe errors.",
+    "Cancellation/timeout/disposal settlement, close idempotency and close-error visibility to the trusted caller.",
+    "Host operation/backing-buffer limits, retained cancellation accounting and capacity recovery after settlement.",
+    "The unchanged client executes in a real Node Worker; trusted host explicitly disposes authority after Worker termination."
+  ],
+  "limitations": [
+    "Every session method is simulated. No native command or Rust binding is present.",
+    "Node Worker absence of Tauri globals does not prove native-browser privilege isolation.",
+    "Message queue/deserialization, aggregate owners/ports, read/response memory and native resource accounting are not fully bounded.",
+    "No snapshot/event streams, full nbstore API, editor storage switch, large-document compatibility, cloud or migration acceptance.",
+    "The new three-platform transport CI is configured but has not yet supplied native runner results for this source."
+  ]
+}
