@@ -58,18 +58,28 @@ try {
   await request('POST', '/session/' + sessionId + '/timeouts', {
     script: 5_000,
   });
-  const handles = await request(
-    'GET',
-    '/session/' + sessionId + '/window/handles'
-  );
+  // Both WebViews are created by the application, and the second one may not have navigated yet
+  // when the session starts, so discovery waits (bounded) for the two expected documents.
   let main;
   let blocked;
-  for (const handle of handles) {
-    await request('POST', '/session/' + sessionId + '/window', { handle });
-    const path = await execute('return location.pathname');
-    if (path === '/authority.html') main = handle;
-    if (path === '/authority-blocked.html') blocked = handle;
-  }
+  const discoveryDeadline = Date.now() + 45_000;
+  let discoveryRounds = 0;
+  do {
+    discoveryRounds += 1;
+    const handles = await request(
+      'GET',
+      '/session/' + sessionId + '/window/handles'
+    );
+    for (const handle of handles) {
+      await request('POST', '/session/' + sessionId + '/window', { handle });
+      const path = await poll('return location.pathname');
+      if (path === '/authority.html') main = handle;
+      if (path === '/authority-blocked.html') blocked = handle;
+    }
+    if (main && blocked) break;
+    await delay(250);
+  } while (Date.now() < discoveryDeadline);
+  evidence.windowDiscoveryRounds = discoveryRounds;
   assert.ok(main, 'main diagnostic WebView missing');
   assert.ok(blocked, 'capability-denied WebView missing');
   await request('POST', '/session/' + sessionId + '/window', {
@@ -78,7 +88,7 @@ try {
   let denied;
   const deadline = Date.now() + 45_000;
   do {
-    denied = await execute('return window.__blockedAuthority');
+    denied = await poll('return window.__blockedAuthority');
     if (denied?.done) break;
     await delay(250);
   } while (Date.now() < deadline);
@@ -113,8 +123,11 @@ try {
       name
     );
   assert.deepEqual(result.violations, []);
-  await execute(
-    "setTimeout(() => { location.href = 'http://127.0.0.1:8080/frame.html?tag=remote-navigation'; }, 0); return true;"
+  // The page replaces its document right after this script returns, and WebView2 can lose the
+  // callback of a script whose document is replaced. The navigation itself is proven by the page
+  // evidence polled below, so only that exact timeout is tolerated here, and it is recorded.
+  await poll(
+    "setTimeout(() => { location.href = 'http://127.0.0.1:8080/frame.html?tag=remote-navigation'; }, 250); return true;"
   );
   let remote;
   const remoteDeadline = Date.now() + 45_000;
