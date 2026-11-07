@@ -53,3 +53,27 @@ async fn rust_library_preserves_binary_blobs_and_document_updates_after_reopen()
   drop(storage);
   std::fs::remove_dir_all(directory).unwrap();
 }
+
+#[tokio::test]
+async fn literal_canonical_paths_do_not_parse_url_query_or_percent_escapes() {
+  let directory = std::env::temp_dir().join(format!("affine-literal-path-{}", Uuid::new_v4()));
+  std::fs::create_dir_all(&directory).unwrap();
+  let directory = std::fs::canonicalize(directory).unwrap();
+  // Windows canonical paths include a verbatim prefix containing '?'. Unix also permits '?' in filenames.
+  let filename = if cfg!(windows) {
+    "storage %2F café.db"
+  } else {
+    "storage ?mode=ro %2F café.db"
+  };
+  let database = directory.join(filename);
+  let storage = SqliteDocStorage::new(database.to_str().unwrap().to_owned());
+  storage.connect().await.unwrap();
+  storage.set_space_id("literal-path".into()).await.unwrap();
+  storage.close().await;
+  assert!(database.is_file());
+  let reopened = SqliteDocStorage::new(database.to_str().unwrap().to_owned());
+  reopened.connect().await.unwrap();
+  assert!(reopened.validate().await.unwrap());
+  reopened.close().await;
+  std::fs::remove_dir_all(directory).unwrap();
+}

@@ -1,0 +1,86 @@
+{
+  "run": "https://github.com/quantforge-br/AFFiNE-tauri/actions/runs/42389199337",
+  "sourceRevision": "8e412199eb8c5f891faf3cf0e24d137341eef374",
+  "scope": "Native host-only Rust storage authority, not editor integration or desktop parity",
+  "conclusion": "failure",
+  "results": [
+    {
+      "artifact": "Linux-X64",
+      "sourceRevision": "8e412199eb8c5f891faf3cf0e24d137341eef374",
+      "toolchain": [
+        "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+        "binary: rustc",
+        "commit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+        "commit-date: 2026-07-14",
+        "host: x86_64-unknown-linux-gnu",
+        "release: 1.97.1",
+        "LLVM version: 22.1.6"
+      ],
+      "passed": true,
+      "testSummary": [
+        "test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.72s",
+        "test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.21s",
+        "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+      ]
+    },
+    {
+      "artifact": "Windows-X64",
+      "sourceRevision": "8e412199eb8c5f891faf3cf0e24d137341eef374",
+      "toolchain": [
+        "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+        "binary: rustc",
+        "commit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+        "commit-date: 2026-07-14",
+        "host: x86_64-pc-windows-msvc",
+        "release: 1.97.1",
+        "LLVM version: 22.1.6"
+      ],
+      "passed": false,
+      "testSummary": [
+        "thread 'tests::queued_write_budget_is_bounded_even_when_callers_cancel' (7156) panicked at packages\\frontend\\tauri-core\\src\\tests.rs:76:48:",
+        "called `Result::unwrap()` on an `Err` value: Storage",
+        "thread 'tests::in_flight_byte_budget_prevents_large_queued_requests_from_exceeding_64_mib' (8716) panicked at packages\\frontend\\tauri-core\\src\\tests.rs:153:48:",
+        "called `Result::unwrap()` on an `Err` value: Storage",
+        "thread 'tests::owner_revocation_waits_for_inflight_writes_then_denies_further_access' (6788) panicked at packages\\frontend\\tauri-core\\src\\tests.rs:115:48:",
+        "called `Result::unwrap()` on an `Err` value: Storage",
+        "thread 'tests::accepted_write_finishes_and_publishes_when_the_awaiting_caller_is_cancelled' (3456) panicked at packages\\frontend\\tauri-core\\src\\tests.rs:47:48:",
+        "called `Result::unwrap()` on an `Err` value: Storage",
+        "test result: FAILED. 0 passed; 4 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.09s"
+      ]
+    },
+    {
+      "artifact": "macOS-ARM64",
+      "sourceRevision": "8e412199eb8c5f891faf3cf0e24d137341eef374",
+      "toolchain": [
+        "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+        "binary: rustc",
+        "commit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+        "commit-date: 2026-07-14",
+        "host: aarch64-apple-darwin",
+        "release: 1.97.1",
+        "LLVM version: 22.1.6"
+      ],
+      "passed": true,
+      "testSummary": [
+        "test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.10s",
+        "test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.22s",
+        "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+      ]
+    }
+  ],
+  "diagnosis": {
+    "observed": "All four Windows core unit tests fail opening a new space with sanitized STORAGE; Linux/macOS native tests pass.",
+    "cause": "The core canonicalizes its root. Windows canonical paths contain a verbatim \\? prefix; SQLx MigrateDatabase helpers parse the literal path as a URL and split at ?. Percent escapes and Unix query characters are also incorrectly interpreted.",
+    "reproduction": "literal_canonical_paths_do_not_parse_url_query_or_percent_escapes fails on Linux before the fix with a real SQLite path containing ?mode=ro and %2F.",
+    "before": [
+      "called `Result::unwrap()` on an `Err` value: SqlxError(Configuration(\"unknown value \\\"ro / café.db\\\" for `mode`\"))",
+      "test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s"
+    ],
+    "candidateFix": "Use filename(...).create_if_missing(true) on the existing connection pool; do not parse filesystem paths as migration URLs.",
+    "status": "Candidate passes local standalone storage tests. Actual Windows rerun required; no tests or assertions waived."
+  },
+  "limitations": [
+    "Windows failure is preserved, not treated as successful compilation.",
+    "Cloud, native IPC, app lifecycle, migration/backup/recovery and packaging are outside this library evidence."
+  ]
+}

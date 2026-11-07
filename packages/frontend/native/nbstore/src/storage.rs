@@ -6,7 +6,7 @@ use affine_schema::{
 };
 use sqlx::{
   Pool, Row,
-  migrate::{MigrateDatabase, Migration, Migrator},
+  migrate::{Migration, Migrator},
   sqlite::{Sqlite, SqliteConnectOptions, SqlitePoolOptions},
 };
 
@@ -20,7 +20,10 @@ pub struct SqliteDocStorage {
 
 impl SqliteDocStorage {
   pub fn new(path: String) -> Self {
-    let sqlite_options = SqliteConnectOptions::new().filename(&path).foreign_keys(false);
+    let sqlite_options = SqliteConnectOptions::new()
+      .filename(&path)
+      .create_if_missing(true)
+      .foreign_keys(false);
 
     let mut pool_options = SqlitePoolOptions::new();
 
@@ -74,9 +77,8 @@ impl SqliteDocStorage {
   }
 
   pub async fn connect(&self) -> Result<()> {
-    if !Sqlite::database_exists(&self.path).await? {
-      Sqlite::create_database(&self.path).await?;
-    };
+    // The pool opens literal filesystem paths. URL helpers misparse Windows verbatim prefixes,
+    // query characters and percent escapes; the configured pool creates missing files instead.
 
     self.migrate().await?;
     self.init_index().await?;
