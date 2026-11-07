@@ -16,6 +16,135 @@ const text = 'Native session café 東京 🦀';
 const expected = Uint8Array.from({ length: 256 }, (_, index) => index);
 const LARGE_ID = 'large café 東京';
 const LARGE_BYTES = 8 * 1024 * 1024;
+const ATTEMPT_TIMEOUT_MS = 4000;
+const ATTACK_ID = 'worker-raw-attack';
+interface RawIpcOptions {
+  ticket: string;
+  ipc: string;
+}
+interface Attempt {
+  label: string;
+  outcome: string;
+  tauriResponse?: string | null;
+  body?: string;
+}
+
+function writeFrame(docId: string, data: Uint8Array) {
+  const id = new TextEncoder().encode(docId);
+  const frame = new Uint8Array(4 + id.length + data.length);
+  new DataView(frame.buffer).setUint32(0, id.length, true);
+  frame.set(id, 4);
+  frame.set(data, 4 + id.length);
+  return frame;
+}
+// A request built by hand, as a hostile Worker would, without any helper Tauri injects into a page.
+async function attempt(
+  label: string,
+  url: string,
+  init: {
+    headers: Record<string, string>;
+    body: Uint8Array<ArrayBuffer> | string;
+  }
+): Promise<Attempt> {
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: init.headers,
+      body: init.body,
+      signal: AbortSignal.timeout(ATTEMPT_TIMEOUT_MS),
+    });
+    return {
+      label,
+      outcome: 'status:' + response.status,
+      tauriResponse: response.headers.get('Tauri-Response'),
+      body: (await response.text()).slice(0, 100),
+    };
+  } catch (error) {
+    const name = (error as { name?: string }).name ?? 'Error';
+    return {
+      label,
+      // The timeout signal is the only abort source, so an AbortError means no reply arrived in time.
+      outcome:
+        name === 'TimeoutError' || name === 'AbortError'
+          ? 'no-response'
+          : 'rejected:' + name,
+    };
+  }
+}
+async function rawIpcAttack({ ticket, ipc }: RawIpcOptions) {
+  const doc = new Y.Doc();
+  doc.getText('text').insert(0, 'written by a hostile Worker');
+  const update = Y.encodeStateAsUpdate(doc);
+  doc.destroy();
+  const frame = writeFrame(ATTACK_ID, update);
+  const octet = { 'content-type': 'application/octet-stream' };
+  const full = {
+    ...octet,
+    'tauri-callback': '1',
+    'tauri-error': '2',
+    'x-affine-ticket': ticket,
+  };
+  const guesses = [
+    '',
+    'undefined',
+    'null',
+    '0',
+    'tauri',
+    '__TAURI_INVOKE_KEY__',
+  ];
+  const json = JSON.stringify({
+    request: { ticket, challenge: 'worker-raw-ipc' },
+  });
+  // The ticket is deliberately handed to this Worker to model a leak, so the remaining barrier is
+  // the per-process invoke key that only the page-side Tauri script holds.
+  const results = await Promise.all([
+    attempt('no-credentials', ipc + 'storage_write', {
+      headers: octet,
+      body: frame,
+    }),
+    attempt('leaked-ticket-without-invoke-key', ipc + 'storage_write', {
+      headers: full,
+      body: frame,
+    }),
+    ...guesses.map(guess =>
+      attempt(
+        'leaked-ticket-guessed-key:' + (guess || 'empty'),
+        ipc + 'storage_write',
+        {
+          headers: { ...full, 'tauri-invoke-key': guess },
+          body: frame,
+        }
+      )
+    ),
+    attempt('leaked-ticket-ping', ipc + 'authority_ping', {
+      headers: {
+        'content-type': 'application/json',
+        'tauri-callback': '1',
+        'tauri-error': '2',
+        'tauri-invoke-key': 'guess',
+      },
+      body: json,
+    }),
+    attempt('ungranted-command', ipc + 'authority_forbidden', {
+      headers: {
+        'content-type': 'application/json',
+        'tauri-callback': '1',
+        'tauri-error': '2',
+        'tauri-invoke-key': 'guess',
+      },
+      body: '{}',
+    }),
+  ]);
+  const succeeded = results.filter(
+    item => item.outcome === 'status:200' || item.tauriResponse === 'ok'
+  );
+  assert(succeeded.length === 0, 'A hand-built Worker request succeeded');
+  const names = Object.getOwnPropertyNames(self).filter(name =>
+    /tauri|ipc/i.test(name)
+  );
+  assert(names.length === 0, 'Worker exposes Tauri globals: ' + names.join());
+  return { results, tauriGlobals: names, attackId: ATTACK_ID };
+}
 
 function assert(condition: unknown, message: string): asserts condition {
   if (!condition) throw new Error(message);
@@ -58,7 +187,7 @@ function inspectLarge(data: Uint8Array) {
   doc.destroy();
 }
 
-async function run(port: MessagePort, phase: string) {
+async function run(port: MessagePort, phase: string, extra: unknown) {
   const client = new WorkerStorageClient(port);
   const nativeGlobals = '__TAURI_INTERNALS__' in self || '__TAURI__' in self;
   assert(!nativeGlobals, 'Worker received native bootstrap');
@@ -166,6 +295,12 @@ async function run(port: MessagePort, phase: string) {
     assert(stored, 'Large document was not persisted');
     inspectLarge(stored.data);
     scope.postMessage({ phase, passed: true, storedBytes: stored.data.length });
+  } else if (phase === 'raw-ipc') {
+    scope.postMessage({
+      phase,
+      passed: true,
+      ...(await rawIpcAttack(extra as RawIpcOptions)),
+    });
   } else if (phase === 'reconcile') {
     const stored = await client.getDoc('uncertain');
     assert(stored, 'Accepted cancelled write was not persisted');
@@ -186,9 +321,10 @@ scope.addEventListener(
   'message',
   event => {
     const data = event.data as { port?: unknown; phase?: string };
+    const extra = event.data;
     if (data.port instanceof MessagePort && typeof data.phase === 'string') {
       const phase = data.phase;
-      run(data.port, phase).catch((error: unknown) =>
+      run(data.port, phase, extra).catch((error: unknown) =>
         scope.postMessage({ phase, passed: false, failure: String(error) })
       );
     }

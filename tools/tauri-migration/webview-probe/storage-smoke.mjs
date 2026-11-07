@@ -68,6 +68,7 @@ try {
     'forged-native-ticket-denied',
     'native-authority-fields-denied',
     'ungranted-native-command-denied',
+    'worker-constructed-raw-ipc-denied',
     'worker-private-port-rust-sqlite-roundtrip',
     'awaited-dispose-closes-native-session',
     'sqlite-session-reopen',
@@ -103,6 +104,16 @@ try {
     )?.drainedPrevious,
     true
   );
+  const hostile = evidence.checks.find(
+    check => check.name === 'worker-constructed-raw-ipc-denied'
+  );
+  assert.equal(hostile.sequenceAfter, hostile.sequenceBefore + 1);
+  assert.deepEqual(hostile.tauriGlobals, []);
+  assert.ok(hostile.results.length >= 9, 'Too few hand-built Worker requests');
+  for (const attempt of hostile.results) {
+    assert.notEqual(attempt.outcome, 'status:200', attempt.label);
+    assert.notEqual(attempt.tauriResponse, 'ok', attempt.label);
+  }
   const large = evidence.checks.find(
     check => check.name === 'large-document-raw-ipc-roundtrip'
   );

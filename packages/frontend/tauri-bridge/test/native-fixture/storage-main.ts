@@ -116,7 +116,7 @@ async function run(ticket: string, generation: number): Promise<boolean> {
     window.__TAURI_INTERNALS__.invoke<T>(command, {
       request: { ticket, ...fields },
     });
-  // Raw binary body; the only application header is the one-shot document ticket.
+  // Raw binary body; the only application header is the per-document ticket.
   const invokeRaw = <T>(
     command: string,
     body: Uint8Array | object,
@@ -198,7 +198,12 @@ async function run(ticket: string, generation: number): Promise<boolean> {
       },
     };
   };
-  function start(phase: string, gated = false, timeoutMs = 20000) {
+  function start(
+    phase: string,
+    gated = false,
+    timeoutMs = 20000,
+    extra: object = {}
+  ) {
     const worker = new Worker('/storage-worker.js');
     const channel = new MessageChannel();
     const host = bindStoragePort(channel.port1, makeSession(gated));
@@ -218,7 +223,9 @@ async function run(ticket: string, generation: number): Promise<boolean> {
         reject(new Error(event.message));
       };
     });
-    worker.postMessage({ port: channel.port2, phase }, [channel.port2]);
+    worker.postMessage({ port: channel.port2, phase, ...extra }, [
+      channel.port2,
+    ]);
     return { worker, host, outcome };
   }
   // Each Worker phase ends by terminating the Worker and awaiting trusted native disposal.
@@ -343,6 +350,42 @@ async function run(ticket: string, generation: number): Promise<boolean> {
   record('native-authority-fields-denied', { fields });
   await denied(() => invoke('authority_forbidden', {}), /not allowed/);
   record('ungranted-native-command-denied');
+
+  // A Worker builds raw IPC requests by hand, holding even a leaked ticket. The native ping counter
+  // proves whether any such request reached a command, and storage must be unchanged.
+  const before = await invoke<{ sequence: number }>('authority_ping', {
+    challenge: 'before-worker-raw-ipc',
+  });
+  const hostile = start('raw-ipc', false, 30000, {
+    ticket,
+    ipc:
+      location.protocol === 'http:'
+        ? 'http://ipc.localhost/'
+        : 'ipc://localhost/',
+  });
+  try {
+    const attack = await hostile.outcome;
+    const after = await invoke<{ sequence: number }>('authority_ping', {
+      challenge: 'after-worker-raw-ipc',
+    });
+    assert(
+      after.sequence === before.sequence + 1,
+      'A Worker-built request reached a native command'
+    );
+    assert(
+      (await readRaw(String(attack.attackId))) === null,
+      'A Worker-built write changed storage'
+    );
+    record('worker-constructed-raw-ipc-denied', {
+      ...attack,
+      sequenceBefore: before.sequence,
+      sequenceAfter: after.sequence,
+    });
+  } finally {
+    hostile.worker.terminate();
+    await hostile.host.dispose();
+  }
+  await invoke('storage_reopen');
   // Bypass the bridge on purpose: the native boundary must enforce its own bound.
   const oversized = await denied(
     () =>
