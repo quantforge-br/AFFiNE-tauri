@@ -3,7 +3,7 @@
   "sourceBaseRevision": "a43a166ac3b509192c0c80194005d37ea09dcba1",
   "sourceChanges": [
     "Generated expression-free collections/delete animation assets and component imports",
-    "E2E-only CSP capture, native-origin assertion and dynamic JavaScript compilation denial"
+    "E2E-only CSP capture, native-origin assertion and same-origin page-script dynamic compilation denial"
   ],
   "mode": "e2e,bundled-frontend",
   "build": {
@@ -28,7 +28,7 @@
   "storage": "Reference dedicated Worker and IndexedDB; production Rust broker not implemented",
   "result": {
     "scope": "reference frontend in isolated Tauri WebView; not desktop parity",
-    "capturedAt": "2026-11-07T15:20:26.273Z",
+    "capturedAt": "2026-11-07T15:37:45.898Z",
     "platform": "linux",
     "architecture": "x64",
     "checks": [
@@ -39,7 +39,7 @@
       {
         "name": "native-text-input",
         "passed": true,
-        "marker": "Tauri WebView persistence 1794064820674"
+        "marker": "Tauri WebView persistence 1794065860334"
       },
       {
         "name": "switch-edgeless",
@@ -52,7 +52,7 @@
       {
         "name": "reload-persistence",
         "passed": true,
-        "url": "tauri://localhost/workspace/sOvzt8CnlYQ302z91V1hI/FBNtZRUhTH3-UHDqWNkUB"
+        "url": "tauri://localhost/workspace/lU0inmvCklqchFRj6diT4/3F3ECLjUic4rfMYIGAJEj"
       },
       {
         "name": "required-web-platform-apis",
@@ -78,11 +78,11 @@
         "scope": "public workbench API; no tabs, focus changes or drag/drop",
         "routes": [
           {
-            "id": "INZJiWWr6X_QMvYHpFNDY",
-            "path": "/FBNtZRUhTH3-UHDqWNkUB"
+            "id": "qtBwLoP-JFwOnCThWty2S",
+            "path": "/3F3ECLjUic4rfMYIGAJEj"
           },
           {
-            "id": "2xnFxaanGaMerIi6H2rzu",
+            "id": "y7UdBpYOVKvDkzF2SFkH-",
             "path": "/all"
           }
         ]
@@ -94,6 +94,7 @@
         "origin": "tauri://localhost",
         "dynamicScript": {
           "blocked": true,
+          "context": "page-script",
           "name": "EvalError"
         }
       }
@@ -102,7 +103,7 @@
       "canvas": true,
       "indexedDB": "object",
       "secureContext": true,
-      "url": "tauri://localhost/workspace/sOvzt8CnlYQ302z91V1hI/FBNtZRUhTH3-UHDqWNkUB?mode=edgeless",
+      "url": "tauri://localhost/workspace/lU0inmvCklqchFRj6diT4/3F3ECLjUic4rfMYIGAJEj?mode=edgeless",
       "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/60.5 Safari/605.1.15",
       "worker": "function",
       "workers": [

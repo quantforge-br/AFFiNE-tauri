@@ -1,0 +1,294 @@
+{
+  "run": "https://github.com/quantforge-br/AFFiNE-tauri/actions/runs/42386159524",
+  "sourceRevision": "ff4a0f3846a70eb565a509fe6dcfa6f6beaf551c",
+  "scope": "Full embedded reference frontend under enforced CSP in isolated native probes, not production desktop parity",
+  "results": [
+    {
+      "artifact": "Linux-X64",
+      "bundled": {
+        "scope": "reference frontend in isolated Tauri WebView; not desktop parity",
+        "capturedAt": "2026-11-07T15:30:06.107Z",
+        "platform": "linux",
+        "architecture": "x64",
+        "checks": [
+          {
+            "name": "create-document",
+            "passed": true
+          },
+          {
+            "name": "native-text-input",
+            "passed": true,
+            "marker": "Tauri WebView persistence 1794065397891"
+          },
+          {
+            "name": "switch-edgeless",
+            "passed": true
+          },
+          {
+            "name": "local-storage-write-completed",
+            "passed": true
+          },
+          {
+            "name": "reload-persistence",
+            "passed": true,
+            "url": "tauri://localhost/workspace/3XPTkqSYrio9kEsia4Fta/q2BnSN11N2-vqFXPK95Rz"
+          },
+          {
+            "name": "required-web-platform-apis",
+            "passed": true
+          },
+          {
+            "name": "worker-message-port-binary-transfer",
+            "passed": true,
+            "workerTransport": {
+              "bytes": [0, 1, 127, 128, 255],
+              "detached": true,
+              "workerNativeIPC": false
+            }
+          },
+          {
+            "name": "remote-native-command-denied",
+            "passed": true,
+            "reason": "window.set_title not allowed. Permissions associated with this command: core:window:allow-set-title"
+          },
+          {
+            "name": "multi-view-routing-feasibility",
+            "passed": true,
+            "scope": "public workbench API; no tabs, focus changes or drag/drop",
+            "routes": [
+              {
+                "id": "6aUSI_NPmingbjtW-niLy",
+                "path": "/q2BnSN11N2-vqFXPK95Rz"
+              },
+              {
+                "id": "fwwja--Fe3rJ3hlsPu1mg",
+                "path": "/all"
+              }
+            ]
+          },
+          {
+            "name": "native-origin-script-csp",
+            "passed": true,
+            "csp": [],
+            "origin": "tauri://localhost",
+            "dynamicScript": {
+              "blocked": true,
+              "name": "EvalError"
+            }
+          }
+        ],
+        "runtime": {
+          "canvas": true,
+          "indexedDB": "object",
+          "secureContext": true,
+          "url": "tauri://localhost/workspace/3XPTkqSYrio9kEsia4Fta/q2BnSN11N2-vqFXPK95Rz?mode=edgeless",
+          "userAgent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/60.5 Safari/605.1.15",
+          "worker": "function",
+          "workers": [
+            {
+              "kind": "Worker",
+              "url": "/js/nbstore-0.27.5.worker.js"
+            },
+            {
+              "kind": "Worker",
+              "url": "/js/workspace-profile-0.27.5.worker.js"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "artifact": "Windows-X64",
+      "bundled": {
+        "checks": [
+          {
+            "name": "create-document",
+            "passed": true
+          },
+          {
+            "name": "native-text-input",
+            "passed": true,
+            "marker": "Tauri WebView persistence 1794065419593"
+          },
+          {
+            "name": "switch-edgeless",
+            "passed": true
+          },
+          {
+            "name": "local-storage-write-completed",
+            "passed": true
+          },
+          {
+            "name": "reload-persistence",
+            "passed": true,
+            "url": "http://tauri.localhost/workspace/7oZdBjKdDe3FaxIt0mKOb/guFk0dlzUK9DWasXvxnDz"
+          },
+          {
+            "name": "required-web-platform-apis",
+            "passed": true
+          },
+          {
+            "name": "worker-message-port-binary-transfer",
+            "passed": true,
+            "workerTransport": {
+              "bytes": [0, 1, 127, 128, 255],
+              "detached": true,
+              "workerNativeIPC": false
+            }
+          },
+          {
+            "name": "remote-native-command-denied",
+            "passed": true,
+            "reason": "window.set_title not allowed. Permissions associated with this command: core:window:allow-set-title"
+          },
+          {
+            "name": "multi-view-routing-feasibility",
+            "passed": true,
+            "scope": "public workbench API; no tabs, focus changes or drag/drop",
+            "routes": [
+              {
+                "id": "r2RicrP-MRB5t8dk1Z6bh",
+                "path": "/guFk0dlzUK9DWasXvxnDz"
+              },
+              {
+                "id": "iDHG1BsMfi-2RWKx-8nJy",
+                "path": "/all"
+              }
+            ]
+          }
+        ],
+        "failure": "AssertionError [ERR_ASSERTION]: enforced CSP must reject dynamic JavaScript compilation\n\nfalse !== true\n",
+        "diagnostic": {
+          "edgeless": true,
+          "editor": false,
+          "errors": ["Error: Network error", "Error"],
+          "focused": true,
+          "text": "Open this doc in AFFiNE app\nDon't have the app? Click to download.\nRemember choice\nDismiss\nOpen in app\nDemo Workspace\nSyncing...\nSearch\nAll docs\nJournals\nIntelligence\nSettings\nFavorites\nOrganize\nFirst Folder\nTags\nCollections\nOthers\nTrash\nImport\nTemplate\nLearn more\nDownload App\nTauri WebView persistence 1794065419593\nShare\nYour workspace is saved in this browser. When disk space is low, the browser may remove it automatically. Enable AFFiNE Sync to keep it safer.\nSign in and enable\nTauri WebView persistence 1794065419593\n​",
+          "title": "Tauri WebView persistence 1794065419593",
+          "url": "http://tauri.localhost/workspace/7oZdBjKdDe3FaxIt0mKOb/guFk0dlzUK9DWasXvxnDz?mode=edgeless",
+          "viewport": [1028, 779],
+          "visibility": "visible",
+          "workers": [
+            {
+              "kind": "Worker",
+              "url": "/js/nbstore-0.27.5.worker.js"
+            },
+            {
+              "kind": "Worker",
+              "url": "/js/workspace-profile-0.27.5.worker.js"
+            },
+            {
+              "kind": "Worker",
+              "url": "blob:http://tauri.localhost/b7d07ef8-c4f5-4038-b947-4076730ef6fa"
+            }
+          ],
+          "workspace": {
+            "flavour": "local",
+            "id": "7oZdBjKdDe3FaxIt0mKOb"
+          }
+        },
+        "sessionId": "e2288031-0311-49b4-9d0f-6cd737645a27"
+      }
+    },
+    {
+      "artifact": "macOS-ARM64",
+      "bundled": {
+        "scope": "reference frontend in isolated Tauri WebView; not desktop parity",
+        "capturedAt": "2026-11-07T15:29:09.566Z",
+        "platform": "darwin",
+        "architecture": "arm64",
+        "checks": [
+          {
+            "name": "create-document",
+            "passed": true
+          },
+          {
+            "name": "native-text-input",
+            "passed": true,
+            "marker": "Tauri WebView persistence 1794065341762"
+          },
+          {
+            "name": "switch-edgeless",
+            "passed": true
+          },
+          {
+            "name": "local-storage-write-completed",
+            "passed": true
+          },
+          {
+            "name": "reload-persistence",
+            "passed": true,
+            "url": "tauri://localhost/workspace/u553fXHR69KzIEF-dgI1r/MnBd6p2Fa9P6-1xqNxlKj"
+          },
+          {
+            "name": "required-web-platform-apis",
+            "passed": true
+          },
+          {
+            "name": "worker-message-port-binary-transfer",
+            "passed": true,
+            "workerTransport": {
+              "bytes": [0, 1, 127, 128, 255],
+              "detached": true,
+              "workerNativeIPC": false
+            }
+          },
+          {
+            "name": "remote-native-command-denied",
+            "passed": true,
+            "reason": "window.set_title not allowed. Permissions associated with this command: core:window:allow-set-title"
+          },
+          {
+            "name": "multi-view-routing-feasibility",
+            "passed": true,
+            "scope": "public workbench API; no tabs, focus changes or drag/drop",
+            "routes": [
+              {
+                "id": "jWOyqSjwYzpxs-vaMc62L",
+                "path": "/MnBd6p2Fa9P6-1xqNxlKj"
+              },
+              {
+                "id": "_YfXGDuNDJ87A3NN-l5ew",
+                "path": "/all"
+              }
+            ]
+          },
+          {
+            "name": "native-origin-script-csp",
+            "passed": true,
+            "csp": [],
+            "origin": "tauri://localhost",
+            "dynamicScript": {
+              "blocked": true,
+              "name": "EvalError"
+            }
+          }
+        ],
+        "runtime": {
+          "canvas": true,
+          "indexedDB": "object",
+          "secureContext": true,
+          "url": "tauri://localhost/workspace/u553fXHR69KzIEF-dgI1r/MnBd6p2Fa9P6-1xqNxlKj?mode=edgeless",
+          "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko)",
+          "worker": "function",
+          "workers": [
+            {
+              "kind": "Worker",
+              "url": "/js/nbstore-0.27.5.worker.js"
+            },
+            {
+              "kind": "Worker",
+              "url": "/js/workspace-profile-0.27.5.worker.js"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "analysis": {
+    "linux": "All ten embedded checks passed, including dynamic compilation denial.",
+    "macos": "All ten embedded checks passed, including dynamic compilation denial.",
+    "windows": "Original nine embedded checks passed. The extra negative CSP test failed: new Function executed through the WebDriver Windows executor. This run is failed, not waived.",
+    "next": "Execute the same negative attempt in a normally loaded same-origin page script, not WebView2 ExecuteScriptWithResult. Retain enforced policy and require an actual blocked result on every platform before accepting."
+  }
+}

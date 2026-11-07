@@ -299,14 +299,19 @@ try {
       [],
       'bundled scripts must not violate enforced CSP'
     );
-    const dynamicScript = await evaluate(
-      'try { new Function("return 42")(); return {blocked:false}; } catch(error) { return {blocked:true,name:error.name}; }'
+    await evaluate(
+      'const script = document.createElement("script"); script.src = "/__probe-csp.js"; document.head.append(script); return true;'
+    );
+    const dynamicScript = await until(
+      'return window.__probePageCsp',
+      'page-context CSP negative check'
     );
     assert.equal(
       dynamicScript.blocked,
       true,
       'enforced CSP must reject dynamic JavaScript compilation'
     );
+    assert.equal(dynamicScript.context, 'page-script');
     policy.dynamicScript = dynamicScript;
     checks.push({ name: 'native-origin-script-csp', passed: true, ...policy });
   }

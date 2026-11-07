@@ -44,6 +44,21 @@ fn main() {
       );
       #[cfg(feature = "e2e")]
       let window = window.on_web_resource_request(|request, response| {
+        #[cfg(feature = "bundled-frontend")]
+        if request.uri().path() == "/__probe-csp.js" {
+          // A normal same-origin page script: WebDriver's Windows executor can bypass CSP.
+          let script = r#"try {
+            new Function('return 42')();
+            window.__probePageCsp = {blocked:false, context:'page-script'};
+          } catch(error) {
+            window.__probePageCsp = {blocked:true, name:error.name, context:'page-script'};
+          }"#;
+          *response.status_mut() = 200.try_into().expect("valid status");
+          response.headers_mut().insert("content-type", "text/javascript".parse().expect("valid content type"));
+          response.headers_mut().remove("content-length");
+          *response.body_mut() = std::borrow::Cow::Borrowed(script.as_bytes());
+          return;
+        }
         eprintln!("AFFINE_PROBE_RESOURCE {} {} {}", request.uri(), response.status(), response.body().len());
       });
       #[cfg(feature = "e2e")]
