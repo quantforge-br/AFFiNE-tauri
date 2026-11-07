@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "runId": 42398098152,
+  "url": "https://github.com/quantforge-br/AFFiNE-tauri/actions/runs/42398098152",
+  "sourceRevision": "350a56db00595cef2bc2ad3bf7f6e99efe326672",
+  "conclusion": "success",
+  "scope": "Actual native Rust library execution of the fixed-scope StorageSession on real SQLite on three platforms, plus the standalone storage regressions. Library-level evidence only: no Tauri command, TypeScript binding, application restart or editor.",
+  "results": [
+    {
+      "artifact": "Linux-X64",
+      "sourceRevision": "350a56db00595cef2bc2ad3bf7f6e99efe326672",
+      "coreHarnessCases": {
+        "unit": 12,
+        "sessionIntegration": 3,
+        "storageIntegration": 18,
+        "total": 33
+      },
+      "standaloneNbstore": {
+        "unit": 33,
+        "integration": 2,
+        "total": 35
+      },
+      "allPassed": true,
+      "clippy": "Finished `dev` profile [unoptimized] target(s) in 1.39s",
+      "napiCratesInDependencyGraph": 0
+    },
+    {
+      "artifact": "Windows-X64",
+      "sourceRevision": "350a56db00595cef2bc2ad3bf7f6e99efe326672",
+      "coreHarnessCases": {
+        "unit": 12,
+        "sessionIntegration": 3,
+        "storageIntegration": 16,
+        "total": 31
+      },
+      "standaloneNbstore": {
+        "unit": 33,
+        "integration": 2,
+        "total": 35
+      },
+      "allPassed": true,
+      "clippy": "Finished `dev` profile [unoptimized] target(s) in 2.46s",
+      "napiCratesInDependencyGraph": 0
+    },
+    {
+      "artifact": "macOS-ARM64",
+      "sourceRevision": "350a56db00595cef2bc2ad3bf7f6e99efe326672",
+      "coreHarnessCases": {
+        "unit": 12,
+        "sessionIntegration": 3,
+        "storageIntegration": 18,
+        "total": 33
+      },
+      "standaloneNbstore": {
+        "unit": 33,
+        "integration": 2,
+        "total": 35
+      },
+      "allPassed": true,
+      "clippy": "Finished `dev` profile [unoptimized] target(s) in 3.10s",
+      "napiCratesInDependencyGraph": 0
+    }
+  ],
+  "observations": [
+    "Linux and macOS run 33 core harness cases (12 unit + 3 session integration + 18 storage integration); Windows runs 31 (16 storage integration) because two Unix-specific permission/path cases are not applicable there.",
+    "The Unix-only cases are not a Windows waiver: Windows ACL, reparse-point and hard-link policy remain open gates.",
+    "The eight session unit cases include cancelled accepted writes, shared idempotent close, capacity retention until completion and final-reference drop; none uses test doubles.",
+    "Immediate temporary-directory removal after awaited close passes on Windows, confirming the complete SQLite pool shutdown fix also covers the session path."
+  ],
+  "limitations": [
+    "External revocation gives a stable UNAUTHORIZED close result; disk or flush failure injection is not covered because the lower-level close returns no error.",
+    "Read, merge and output budgets, aggregate sessions, snapshot transport and runtime shutdown are still open.",
+    "Async Drop is best effort and needs a live runtime."
+  ],
+  "artifacts": "/tmp/affine-tauri-build/ci-42398098152"
+}

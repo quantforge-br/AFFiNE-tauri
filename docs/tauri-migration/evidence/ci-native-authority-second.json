@@ -1,0 +1,210 @@
+{
+  "schemaVersion": 1,
+  "runId": 42397826185,
+  "url": "https://github.com/quantforge-br/AFFiNE-tauri/actions/runs/42397826185",
+  "sourceRevision": "e1e86894ab6b50fd3c3f1155415e0158cd66d86e",
+  "status": "completed",
+  "conclusion": "success",
+  "scope": "Disposable native document-ticket and command-authorization diagnostic on real native WebViews. Compatibility evidence only; not production calling-frame identity, storage ownership, navigation lifecycle or desktop parity.",
+  "correctsFailedRun": "ci-native-authority-first.json (42396830194): missing rustfmt/clippy components; this run installs them on the same pinned action and executes every native smoke.",
+  "jobs": [
+    {
+      "name": "Native editor smoke (macos-latest)",
+      "conclusion": "success",
+      "skippedSteps": [
+        "Install Linux system dependencies",
+        "Run native authority diagnostic (Linux)",
+        "Run native protocol diagnostic (Linux)",
+        "Run native editor probe (Linux)",
+        "Run embedded editor probe (Linux)"
+      ]
+    },
+    {
+      "name": "Native editor smoke (windows-latest)",
+      "conclusion": "success",
+      "skippedSteps": [
+        "Install Linux system dependencies",
+        "Run native authority diagnostic (Linux)",
+        "Run native protocol diagnostic (Linux)",
+        "Run native editor probe (Linux)",
+        "Run embedded editor probe (Linux)"
+      ]
+    },
+    {
+      "name": "Native editor smoke (ubuntu-24.04)",
+      "conclusion": "success",
+      "skippedSteps": [
+        "Run native authority diagnostic (Windows/macOS)",
+        "Run native protocol diagnostic (Windows/macOS)",
+        "Run native editor probe (Windows/macOS)",
+        "Run embedded editor probe (Windows/macOS)"
+      ]
+    }
+  ],
+  "results": [
+    {
+      "artifact": "Linux-X64",
+      "sourceRevision": "e1e86894ab6b50fd3c3f1155415e0158cd66d86e",
+      "toolchain": "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+      "rustUnitTests": 2,
+      "clippy": "Finished `dev` profile [unoptimized] target(s) in 27.73s",
+      "origin": "tauri://localhost",
+      "checksPassed": "10/10",
+      "cspViolations": 0,
+      "blockedWebview": {
+        "authorized": false,
+        "denied": true
+      },
+      "remoteNavigation": {
+        "invokeSource": "frame",
+        "authorized": false,
+        "aclDenied": true
+      },
+      "frames": {
+        "sameOrigin": {
+          "nativeGlobals": false,
+          "parentAccessible": true,
+          "invokeSource": "parent",
+          "messageOrigin": "tauri://localhost",
+          "authorized": false,
+          "denial": "UNAUTHORIZED"
+        },
+        "crossOrigin": {
+          "nativeGlobals": false,
+          "parentAccessible": false,
+          "invokeSource": "none",
+          "messageOrigin": "http://127.0.0.1:8080",
+          "authorized": false,
+          "denial": "native-invoke-unavailable"
+        },
+        "opaqueSandbox": {
+          "nativeGlobals": false,
+          "parentAccessible": false,
+          "invokeSource": "none",
+          "messageOrigin": "null",
+          "authorized": false,
+          "denial": "native-invoke-unavailable"
+        }
+      },
+      "realReload": {
+        "generation": 2,
+        "denial": "UNAUTHORIZED",
+        "timeOriginChanged": true
+      }
+    },
+    {
+      "artifact": "Windows-X64",
+      "sourceRevision": "e1e86894ab6b50fd3c3f1155415e0158cd66d86e",
+      "toolchain": "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+      "rustUnitTests": 2,
+      "clippy": "Finished `dev` profile [unoptimized] target(s) in 41.81s",
+      "origin": "http://tauri.localhost",
+      "checksPassed": "10/10",
+      "cspViolations": 0,
+      "blockedWebview": {
+        "authorized": false,
+        "denied": true
+      },
+      "remoteNavigation": {
+        "invokeSource": "frame",
+        "authorized": false,
+        "aclDenied": true
+      },
+      "frames": {
+        "sameOrigin": {
+          "nativeGlobals": true,
+          "parentAccessible": true,
+          "invokeSource": "frame",
+          "messageOrigin": "http://tauri.localhost",
+          "authorized": false,
+          "denial": "UNAUTHORIZED"
+        },
+        "crossOrigin": {
+          "nativeGlobals": true,
+          "parentAccessible": false,
+          "invokeSource": "frame",
+          "messageOrigin": "http://127.0.0.1:8080",
+          "authorized": false,
+          "denial": "authority_ping not allowed on window \"probe\", webview \"probe\", URL: http://127.0.0.1:8080/"
+        },
+        "opaqueSandbox": {
+          "nativeGlobals": true,
+          "parentAccessible": false,
+          "invokeSource": "frame",
+          "messageOrigin": "null",
+          "authorized": false,
+          "denial": "Origin header is not a valid URL"
+        }
+      },
+      "realReload": {
+        "generation": 2,
+        "denial": "UNAUTHORIZED",
+        "timeOriginChanged": true
+      }
+    },
+    {
+      "artifact": "macOS-ARM64",
+      "sourceRevision": "e1e86894ab6b50fd3c3f1155415e0158cd66d86e",
+      "toolchain": "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+      "rustUnitTests": 2,
+      "clippy": "Finished `dev` profile [unoptimized] target(s) in 50.22s",
+      "origin": "tauri://localhost",
+      "checksPassed": "10/10",
+      "cspViolations": 0,
+      "blockedWebview": {
+        "authorized": false,
+        "denied": true
+      },
+      "remoteNavigation": {
+        "invokeSource": "frame",
+        "authorized": false,
+        "aclDenied": true
+      },
+      "frames": {
+        "sameOrigin": {
+          "nativeGlobals": false,
+          "parentAccessible": true,
+          "invokeSource": "parent",
+          "messageOrigin": "tauri://localhost",
+          "authorized": false,
+          "denial": "UNAUTHORIZED"
+        },
+        "crossOrigin": {
+          "nativeGlobals": false,
+          "parentAccessible": false,
+          "invokeSource": "none",
+          "messageOrigin": "http://127.0.0.1:8080",
+          "authorized": false,
+          "denial": "native-invoke-unavailable"
+        },
+        "opaqueSandbox": {
+          "nativeGlobals": false,
+          "parentAccessible": false,
+          "invokeSource": "none",
+          "messageOrigin": "null",
+          "authorized": false,
+          "denial": "native-invoke-unavailable"
+        }
+      },
+      "realReload": {
+        "generation": 2,
+        "denial": "UNAUTHORIZED",
+        "timeOriginChanged": true
+      }
+    }
+  ],
+  "observations": [
+    "All three platforms pass the ten authority checks, the separate denied WebView and the remote top-level navigation denial, with empty CSP violation lists.",
+    "Linux and macOS: cross-origin and opaque frames have no native bootstrap (native-invoke-unavailable). That proves bootstrap absence, not a raw IPC denial.",
+    "Windows: subframes receive the native bootstrap (documented Wry/Tauri behaviour). Cross-origin and opaque frames really attempt IPC and are denied by the ACL or origin check; the same-origin frame invokes from the frame itself. Windows therefore exercises a stronger denial path than Linux/macOS, and also confirms why ticket delivery uses main-document evaluation rather than initialization scripts.",
+    "Same-origin frames access the parent realm on every platform; only forged-ticket rejection is proven. A bearer ticket is not frame identity.",
+    "A real reload advances the document generation and rejects the previous ticket on all three platforms."
+  ],
+  "limitations": [
+    "Raw IPC from a Worker or constructed requests is still untested.",
+    "Linux Started corresponds to WebKit Committed in Wry 0.55.1; attempted or failed navigation, redirects, BFCache, crashes and window close are not shown to revoke.",
+    "No storage or editor permission is established by ping and ACL results.",
+    "Platform results come from the hosted runners listed here only."
+  ],
+  "artifacts": "/tmp/affine-tauri-build/ci-42397826185"
+}

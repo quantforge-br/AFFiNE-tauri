@@ -1,6 +1,6 @@
 # Native document-authority diagnostic
 
-Status: isolated Linux compatibility evidence; three-platform results pending. No production storage surface is authorized by these results.
+Status: isolated compatibility evidence on Linux x86_64, Windows x86_64 and macOS ARM64 ([run 42397826185](evidence/ci-native-authority-second.json), after the failed [first run](evidence/ci-native-authority-first.json)). Windows differs: subframes receive the native bootstrap, so cross-origin and opaque frames are actually denied by the ACL or origin check, while Linux/macOS frames merely lack the bootstrap. No production storage surface is authorized by these results.
 
 ## Mechanism
 
