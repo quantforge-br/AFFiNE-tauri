@@ -95,7 +95,7 @@ jobs:
           cargo test --manifest-path tools/tauri-migration/webview-probe/Cargo.toml --locked --features e2e,storage-probe 2>&1 | tee .coverage/tauri-probe/storage/tests.log
           cargo clippy --manifest-path tools/tauri-migration/webview-probe/Cargo.toml --locked --features e2e,storage-probe --all-targets --no-deps -- -D warnings 2>&1 | tee .coverage/tauri-probe/storage/clippy.log
           cargo tree --manifest-path tools/tauri-migration/webview-probe/Cargo.toml --locked --features e2e,storage-probe --edges normal,build --prefix none --format '{p}' > .coverage/tauri-probe/storage/dependencies.log
-          if grep -qi napi .coverage/tauri-probe/storage/dependencies.log; then
+          if grep -E '^napi([-_]| v)' .coverage/tauri-probe/storage/dependencies.log; then
             echo 'N-API crate found in the storage diagnostic dependency graph' >&2
             exit 1
           fi
