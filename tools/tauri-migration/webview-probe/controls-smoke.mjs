@@ -205,6 +205,9 @@ async function win32() {
         '  [DllImport("user32.dll")] public static extern bool IsIconic(IntPtr h);',
         '  [DllImport("user32.dll")] public static extern bool IsZoomed(IntPtr h);',
         '  [DllImport("user32.dll")] public static extern bool GetWindowRect(IntPtr h, out RECT r);',
+        '  [DllImport("user32.dll")] public static extern bool GetClientRect(IntPtr h, out RECT r);',
+        '  [StructLayout(LayoutKind.Sequential)] public struct POINT { public int X, Y; }',
+        '  [DllImport("user32.dll")] public static extern bool ClientToScreen(IntPtr h, ref POINT p);',
         '  [DllImport("user32.dll")] public static extern IntPtr SendMessageW(IntPtr h, uint m, IntPtr w, IntPtr l);',
         '  public static long Hit(IntPtr h, int x, int y) {',
         '    long lparam = ((long)(ushort)y << 16) | (long)(ushort)x;',
@@ -218,6 +221,10 @@ async function win32() {
         '$h = $process.MainWindowHandle',
         '$r = New-Object NativeWindow+RECT',
         '[void][NativeWindow]::GetWindowRect($h, [ref]$r)',
+        '$c = New-Object NativeWindow+RECT',
+        '[void][NativeWindow]::GetClientRect($h, [ref]$c)',
+        '$o = New-Object NativeWindow+POINT',
+        '[void][NativeWindow]::ClientToScreen($h, [ref]$o)',
         '$w = $r.Right - $r.Left; $t = $r.Bottom - $r.Top',
         '$midX = $r.Left + [int]($w / 2); $midY = $r.Top + [int]($t / 2)',
         '$hits = [ordered]@{',
@@ -235,6 +242,7 @@ async function win32() {
         '  iconic = [NativeWindow]::IsIconic($h)',
         '  zoomed = [NativeWindow]::IsZoomed($h)',
         '  rect = [pscustomobject]@{ left = $r.Left; top = $r.Top; right = $r.Right; bottom = $r.Bottom }',
+        '  frame = [pscustomobject]@{ left = $o.X - $r.Left; top = $o.Y - $r.Top; right = $r.Right - ($o.X + $c.Right); bottom = $r.Bottom - ($o.Y + $c.Bottom) }',
         '  hits = $hits',
         '} | ConvertTo-Json -Compress -Depth 4',
       ].join('\r\n') + '\r\n'
@@ -335,7 +343,14 @@ try {
       const native = await win32();
       details.win32 = { style: native.style, exStyle: native.exStyle };
       assert.ok(native.style, 'Win32 window not found by title');
-      assert.equal(native.style & 0x00c00000, 0, 'WS_CAPTION is set');
+      // tao keeps WS_CAPTION on undecorated windows and removes the non-client area in WM_NCCALCSIZE, so
+      // the style bit proves nothing. What the user sees is the measured non-client frame, which is zero.
+      details.win32.frame = native.frame;
+      assert.deepEqual(
+        native.frame,
+        { left: 0, top: 0, right: 0, bottom: 0 },
+        'Windows draws a non-client frame (title bar or border)'
+      );
     } else {
       evidence.notRun.push({
         name: 'window-system-decoration-query',
@@ -467,18 +482,26 @@ try {
       pageState,
       state => state?.maximized === true
     );
+    // The initial window can be larger than a small runner screen, so maximization is judged against the
+    // available screen area, not against the previous size: the native rectangle must change (unless it
+    // already fitted) and must now fill most of the available area without exceeding it.
+    const fitted =
+      before.width <= screen[0] + 2 && before.height <= screen[1] + 2;
     const rect = await until(
       'maximized window rectangle',
       nativeRect,
-      value => value.width >= before.width && value.height >= before.height
+      value =>
+        value.width <= screen[0] + 2 &&
+        value.height <= screen[1] + 2 &&
+        value.width >= screen[0] * 0.8 &&
+        value.height >= screen[1] * 0.8 &&
+        (!fitted ||
+          Math.abs(value.width - before.width) > 2 ||
+          Math.abs(value.height - before.height) > 2)
     );
-    const alreadyFull =
-      before.width >= screen[0] - 2 && before.height >= screen[1] - 2;
-    if (!alreadyFull)
-      assert.ok(
-        rect.width > before.width || rect.height > before.height,
-        'native window did not grow'
-      );
+    const alreadyFull = !fitted
+      ? false
+      : before.width >= screen[0] - 2 && before.height >= screen[1] - 2;
     assert.equal(
       await until(
         'restore label',
